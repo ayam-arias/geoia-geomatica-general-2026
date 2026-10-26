@@ -1,0 +1,64 @@
+# Aplicaciones de la teledetección en Chile {#sec-sr-aplicaciones}
+
+Chile ofrece casos de estudio de clase mundial. Este capítulo resume aplicaciones con los sensores, los índices y las fuentes de datos recomendadas.
+
+## Incendios forestales
+
+- **Detección activa:** focos de calor VIIRS (375 m) y GOES (cada 10 minutos) vía NASA FIRMS.
+- **Severidad:** dNBR con Sentinel-2 o Landsat (ver @eq-dnbr).
+- **Recuperación:** series de NDVI post-incendio.
+- **Casos de estudio:** temporada 2017 (Maule–Biobío), incendios de Valparaíso y Viña del Mar en 2024.
+- **Fuentes oficiales:** CONAF (estadísticas y perímetros), SENAPRED.
+
+## Recursos hídricos y sequía
+
+- Superficie de embalses y lagunas con NDWI o con SAR (Sentinel-1) en condiciones nubosas.
+- Cobertura de nieve con MODIS/VIIRS (NDSI diario) y Sentinel-2.
+- Monitoreo de salares y humedales altoandinos.
+- **Fuentes:** DGA (red hidrométrica, inventario de glaciares).
+
+## Glaciares y criósfera
+
+- Retroceso de frentes glaciares en Campos de Hielo Norte y Sur (Landsat desde 1984).
+- Velocidad de flujo por correlación de imágenes (*feature tracking*) con Sentinel-1/2.
+- Balance de masa con MDE multitemporales.
+
+## Minería
+
+- Mapeo de alteración hidrotermal con SWIR (ASTER, Sentinel-2, hiperespectral).
+- Deformación de rajos, botaderos y tranques de relaves con InSAR (ver @sec-sar).
+- Seguimiento de compromisos ambientales en el SEIA (vegetación, polvo, agua).
+
+## Agricultura y silvicultura
+
+- Catastros frutícolas (CIREN), estimación de superficies cultivadas.
+- Estrés hídrico con NDVI, NDMI y temperatura superficial (Landsat térmico).
+- Plantaciones forestales: cosecha, sanidad y biomasa (SAR banda L de NISAR).
+
+## Gestión del riesgo de desastres
+
+| Amenaza | Datos satelitales clave |
+|---|---|
+| Terremotos | InSAR cosísmico, imágenes de alta resolución para daños |
+| Tsunamis | MDE costeros, ocupación del borde costero |
+| Volcanes | InSAR (inflación), térmico (anomalías), SO₂ (Sentinel-5P) |
+| Remociones en masa | Cambios en NDVI, InSAR, MDE de drones |
+| Inundaciones | Sentinel-1 (agua en oscuro), HLS, OPERA DSWx |
+
+: Teledetección para la gestión del riesgo {#tbl-riesgo}
+
+## Ciudades
+
+- Crecimiento urbano con NDBI y clasificaciones multitemporales.
+- Islas de calor urbanas con el térmico de Landsat (Santiago, Antofagasta).
+- Luces nocturnas (VIIRS *Day/Night Band*) como indicador de actividad.
+
+## Océano y borde costero
+
+- Clorofila y floraciones algales nocivas con Sentinel-3 OLCI.
+- Detección de embarcaciones y derrames con SAR.
+- Concesiones de acuicultura y sus efectos.
+
+## Actividad
+
+Elige una aplicación y redacta una **ficha técnica** de una página con: pregunta, área, sensor, fechas, índice o método, fuente de validación y producto esperado. Esta ficha puede convertirse en el anteproyecto del proyecto final (@sec-proyecto-final).

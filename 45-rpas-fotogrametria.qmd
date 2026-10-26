@@ -1,0 +1,101 @@
+# RPAS y fotogrametría con drones {#sec-rpas}
+
+## Fotogrametría digital
+
+La **fotogrametría** obtiene medidas y modelos 3D a partir de fotografías. La fotogrametría moderna con drones se basa en ***Structure from Motion* (SfM)**, que reconstruye la geometría de la escena y la posición de las cámaras a partir de puntos homólogos en imágenes superpuestas [@westoby2012].
+
+```{mermaid}
+flowchart LR
+  A[Plan de vuelo] --> B[Vuelo y<br>puntos de control]
+  B --> C[Alineación SfM<br>nube dispersa]
+  C --> D[Georreferenciación<br>GCP / RTK / PPK]
+  D --> E[Nube densa<br>MVS]
+  E --> F[MDS · MDT]
+  E --> G[Ortomosaico]
+  F --> H[Control de calidad<br>RMSE en checkpoints]
+  G --> H
+```
+
+## Planificación del vuelo
+
+### Distancia de muestreo en el terreno (GSD)
+
+$$
+GSD = \frac{H \cdot p}{f}
+$$ {#eq-gsd}
+
+donde $H$ es la altura de vuelo, $p$ el tamaño del píxel del sensor y $f$ la distancia focal.
+
+```python
+def gsd_cm(altura_m, pixel_um, focal_mm):
+    return altura_m * (pixel_um * 1e-6) / (focal_mm * 1e-3) * 100
+
+# Cámara de 20 MP, píxel 2,4 µm, focal 8,8 mm, vuelo a 100 m
+print(f"GSD = {gsd_cm(100, 2.4, 8.8):.2f} cm/píxel")   # ≈ 2,7 cm
+```
+
+### Parámetros recomendados
+
+| Parámetro | Ortomosaico | Modelo 3D / MDS |
+|---|---|---|
+| Traslape frontal | 75–80 % | 80–85 % |
+| Traslape lateral | 65–70 % | 70–80 % |
+| Ángulo de cámara | Nadir | Nadir + oblicuas (45°) |
+| Hora | Cercana al mediodía | Iluminación difusa |
+
+: Parámetros de vuelo {#tbl-parametros-vuelo}
+
+## Georreferenciación
+
+| Método | Exactitud típica | Requiere |
+|---|---|---|
+| GNSS autónomo del dron | 2–5 m | Nada adicional |
+| **Puntos de control (GCP)** | 2–5 cm | Medición GNSS en terreno |
+| **RTK** a bordo | 2–5 cm | Base o red NTRIP |
+| **PPK** | 2–5 cm | Base con registro y postproceso |
+
+: Métodos de georreferenciación {#tbl-georreferenciacion}
+
+::: {.callout-warning}
+## Puntos de verificación independientes
+Aunque uses RTK o PPK, mide siempre **puntos de verificación** (*checkpoints*) que no participen en el ajuste. Son la única forma honesta de reportar la exactitud (ver @sec-p06).
+:::
+
+## Software
+
+| Software | Tipo |
+|---|---|
+| Agisoft Metashape | Comercial, escritorio |
+| Pix4Dmapper / PIX4Dmatic | Comercial, escritorio y nube |
+| DJI Terra | Comercial (ecosistema DJI) |
+| OpenDroneMap / WebODM | Libre |
+
+: Software fotogramétrico {#tbl-software-foto}
+
+## Normativa RPAS en Chile
+
+::: {.callout-important}
+## Dato 2026: normativa DGAC vigente
+- **DAN 91**, numeral 91.102: reglas del aire aplicables a toda aeronave pilotada a distancia.
+- **DAN 151, Edición 3 (mayo de 2024):** operaciones sobre áreas pobladas [@dgac2024].
+- **DAN 119 y DAN 137:** operadores comerciales y trabajos aéreos.
+
+La **Edición 4 de la DAN 151** (que unificaría áreas pobladas y no pobladas y adoptaría las categorías OACI abierta, específica y certificada) estaba en consulta y **no vigente** a octubre de 2026. Verifica siempre en <https://www.dgac.gob.cl>.
+:::
+
+### Exigencias principales (DAN 151 Ed. 3)
+
+- **Registro del RPA** en la DGAC antes de operar y tarjeta de registro.
+- **Credencial de operador RPAS** con examen teórico aprobado.
+- **Seguro** vigente.
+- **Autorización** de la DGAC para operar sobre áreas pobladas.
+- Operación **VLOS** (con contacto visual), en condiciones meteorológicas visuales y de día, salvo autorización.
+- Uso máximo del 80 % de la autonomía de la batería.
+- Para fines comerciales se requiere certificado de operador (AOC).
+
+## Control de calidad del producto
+
+1. Informe de procesamiento: número de imágenes alineadas, error de reproyección, GSD.
+2. RMSE horizontal y vertical en puntos de verificación (@eq-rmsez).
+3. Inspección visual del ortomosaico (bordes, sombras, efecto *ghosting*).
+4. Metadatos: fecha de vuelo, equipo, SRC, **época** y exactitud.

@@ -1,0 +1,144 @@
+# =====================================================================
+#  Geomática General · Chile 2026 — GeoIA
+#  Autor: Ian Arias Carrasco
+#  Quarto book · publicado en GitHub Pages mediante GitHub Actions
+# =====================================================================
+project:
+  type: book
+  output-dir: _site
+  resources:
+    - "data/"
+    - "scripts/"
+
+lang: es
+
+book:
+  title: "Geomática General · Chile 2026"
+  subtitle: "Geodesia, GNSS, teledetección, cartografía y GeoIA con datos y marcos de referencia chilenos"
+  author: "Ian Arias Carrasco"
+  date: today
+  date-format: "D [de] MMMM [de] YYYY"
+  favicon: images/marca/geoia-favicon.svg
+  repo-url: https://github.com/ayam-arias/geoia-geomatica-general-2026
+  repo-actions: [edit, issue, source]
+  site-url: https://ayam-arias.github.io/geoia-geomatica-general-2026
+  search: true
+  page-navigation: true
+  sidebar:
+    style: docked
+    background: light
+    logo: images/marca/geoia-logo.svg
+  page-footer:
+    left: "© 2026 Ian Arias Carrasco · GeoIA · Contenido CC BY 4.0 · Código MIT"
+    right:
+      - icon: github
+        href: https://github.com/ayam-arias/geoia-geomatica-general-2026
+      - icon: linkedin
+        href: https://www.linkedin.com/
+      - icon: instagram
+        href: https://www.instagram.com/_geoia.n/
+
+  chapters:
+    - index.qmd
+    - 00-prefacio.qmd
+
+    - part: "Entorno de trabajo"
+      chapters:
+        - 01-entornos.qmd
+        - 02-instalacion-qgis.qmd
+        - 03-instalacion-arcgis.qmd
+        - 04-entorno-python-docker.qmd
+
+    - part: "Fundamentos de Geomática"
+      chapters:
+        - 10-geomatica-2026.qmd
+        - 11-geodesia-sirgas-chile.qmd
+        - 12-proyecciones-coordenadas.qmd
+        - 13-gnss.qmd
+
+    - part: "Sensores remotos"
+      chapters:
+        - 20-sr-fundamentos.qmd
+        - 21-sr-satelites-sensores.qmd
+        - 22-sr-microondas-sar.qmd
+        - 23-sr-procesamiento.qmd
+        - 24-sr-aplicaciones-chile.qmd
+        - 25-sr-glosario.qmd
+
+    - part: "Cartografía"
+      chapters:
+        - 30-cartografia-fundamentos.qmd
+        - 31-cartografia-tematica.qmd
+        - 32-diseno-mapas.qmd
+
+    - part: "Datos espaciales, IDE y relieve"
+      chapters:
+        - 35-ide-chile.qmd
+        - 36-mde.qmd
+
+    - part: "GeoIA y RPAS"
+      chapters:
+        - 40-geoia.qmd
+        - 45-rpas-fotogrametria.qmd
+
+    - part: "Prácticas"
+      chapters:
+        - 50-p01-geoportales-chile.qmd
+        - 51-p02-coordenadas-sirgas.qmd
+        - 52-p03-conversion-formatos.qmd
+        - 53-p04-gee-sentinel2.qmd
+        - 54-p05-mde-hidrologia.qmd
+        - 55-p06-gnss-exactitud.qmd
+        - 56-p07-qfield.qmd
+        - 57-p08-geoia-samgeo.qmd
+        - 58-p09-geoserver-ogc.qmd
+        - 59-p10-sar-nisar-sentinel1.qmd
+
+    - part: "Proyecto final"
+      chapters:
+        - 60-proyecto-final.qmd
+
+  appendices:
+    - 80-git-github.qmd
+    - 81-quarto.qmd
+    - 82-versiones-probadas.qmd
+    - 83-lecturas-recomendadas.qmd
+    - 98-errata.qmd
+    - 99-referencias.qmd
+
+bibliography: referencias.bib
+csl: apa.csl
+link-citations: true
+number-sections: true
+
+crossref:
+  fig-title: "Figura"
+  tbl-title: "Tabla"
+  sec-prefix: "Sección"
+  eq-prefix: "Ecuación"
+
+execute:
+  freeze: auto
+  echo: true
+  eval: false
+
+format:
+  html:
+    theme:
+      light: [cosmo, styles/geoia.scss]
+      dark: [cosmo, styles/geoia.scss, styles/geoia-dark.scss]
+    toc: true
+    toc-depth: 3
+    toc-title: "En esta página"
+    number-depth: 2
+    code-copy: true
+    code-overflow: wrap
+    code-link: true
+    highlight-style: github
+    mainfont: "Inter"
+    monofont: "JetBrains Mono"
+    fig-cap-location: bottom
+    callout-appearance: default
+    html-math-method:
+      method: mathjax
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml-full.js"

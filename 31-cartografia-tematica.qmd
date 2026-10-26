@@ -1,0 +1,68 @@
+# Cartografía temática {#sec-cartografia-tematica}
+
+## Tipos de mapas temáticos
+
+| Tipo | Datos | Ejemplo en Chile |
+|---|---|---|
+| **Coropletas** | Tasas o densidades por unidad de área | Porcentaje de hogares hacinados por comuna (Censo 2024) |
+| **Símbolos proporcionales** | Totales por punto o unidad | Población por ciudad |
+| **Puntos (densidad)** | Conteos distribuidos | Viviendas rurales |
+| **Isolíneas** | Variables continuas | Isoyetas, curvas de nivel |
+| **Cualitativo / categórico** | Clases nominales | Uso de suelo, geología |
+| **Flujos** | Movimientos origen–destino | Migración interregional |
+| **Mapas de calor** | Densidad de eventos | Incendios o accidentes |
+| **Bivariado** | Dos variables combinadas | Amenaza × vulnerabilidad |
+
+: Tipos de mapas temáticos {#tbl-tipos-mapas}
+
+::: {.callout-warning}
+## El error más común: coropletas con totales
+Nunca uses coropletas con valores absolutos (por ejemplo, población total por comuna): las comunas grandes dominan visualmente. Normaliza por área o por población (densidad, tasa, porcentaje).
+:::
+
+## Clasificación de datos cuantitativos
+
+| Método | Descripción | Cuándo usarlo |
+|---|---|---|
+| Intervalos iguales | Rango dividido en partes iguales | Datos con distribución uniforme |
+| Cuantiles | Igual número de unidades por clase | Comparar posiciones relativas |
+| **Cortes naturales (Jenks)** | Minimiza la varianza intraclase | Distribuciones con grupos |
+| Desviación estándar | Clases en torno a la media | Destacar valores atípicos |
+| Manual | Umbrales con sentido técnico o normativo | Normas, rangos de severidad |
+
+: Métodos de clasificación {#tbl-clasificacion-datos}
+
+```python
+import mapclassify, numpy as np
+valores = np.random.default_rng(1).lognormal(3, 0.6, 346)   # 346 comunas
+for metodo in ["EqualInterval", "Quantiles", "NaturalBreaks"]:
+    c = getattr(mapclassify, metodo)(valores, k=5)
+    print(metodo, np.round(c.bins, 1))
+```
+
+## Color
+
+- **Secuencial:** un tono de claro a oscuro para datos ordenados.
+- **Divergente:** dos tonos con un punto medio significativo (por ejemplo, variación respecto del censo anterior).
+- **Cualitativo:** tonos distintos de igual peso para categorías.
+
+Usa paletas probadas como **ColorBrewer** [@brewer2016] y verifica la legibilidad para personas con daltonismo.
+
+## Mapas de riesgo de desastres
+
+El riesgo combina amenaza, exposición y vulnerabilidad:
+
+$$
+R = f(A, E, V)
+$$ {#eq-riesgo}
+
+Para comunicarlo se recomienda:
+
+- Una **matriz de riesgo** con clases cualitativas (bajo, medio, alto, muy alto).
+- Colores semafóricos coherentes con los usados por SENAPRED.
+- Fuentes y fecha de cada componente.
+- Advertencia de escala: un mapa comunal de amenaza no reemplaza un estudio de detalle.
+
+## Actividad
+
+Con datos del Censo 2024 a nivel comunal, elabora un mapa de coropletas de una tasa (no un total) para tu región. Compara el resultado con tres métodos de clasificación y justifica cuál es más honesto con los datos.

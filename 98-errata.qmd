@@ -1,0 +1,9 @@
+# Errata {#sec-errata}
+
+Registro de correcciones. Si detectas un error, abre un *issue* en el repositorio indicando capítulo, sección y propuesta de corrección.
+
+| Fecha | Capítulo | Corrección |
+|---|---|---|
+| 2026-10-26 | — | Versión inicial publicada |
+
+: Registro de erratas {#tbl-errata}

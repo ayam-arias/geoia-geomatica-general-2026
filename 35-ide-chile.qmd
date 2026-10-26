@@ -1,0 +1,83 @@
+# Infraestructura de datos espaciales y fuentes de datos en Chile {#sec-ide}
+
+## ¿Qué es una IDE?
+
+Una **Infraestructura de Datos Espaciales (IDE)** es el conjunto de políticas, estándares, tecnologías, datos e instituciones que permite **encontrar, acceder, compartir y usar** información geoespacial de manera interoperable. Se apoya en las normas ISO 19100 y en los estándares del **Open Geospatial Consortium (OGC)** [@ogc2026].
+
+## IDE Chile y el SNIT
+
+::: {.callout-important}
+## Dato 2026
+**IDE Chile** forma parte del **Sistema Nacional de Coordinación de Información Territorial (SNIT)**, cuya Secretaría Ejecutiva depende del **Ministerio de Bienes Nacionales**. Su punto de acceso único es el **Geoportal de Chile** (<https://www.geoportal.cl>), con un catálogo de metadatos ISO/OGC que en 2026 informa **244 capas y 178 servicios de mapas** gratuitos [@idechile2026].
+:::
+
+| Componente | Dirección | Función |
+|---|---|---|
+| Geoportal de Chile | <https://www.geoportal.cl> | Acceso único a datos y servicios del Estado |
+| Catálogo | <https://www.geoportal.cl/catalog> | Búsqueda de metadatos |
+| Visor | <https://geoportal.cl/geoportal/map/4> | Superponer capas sin instalar software |
+| Geonodo | — | Servicio para que instituciones publiquen sus capas con estándares comunes |
+
+: Componentes de IDE Chile {#tbl-ide-componentes}
+
+## Estándares OGC
+
+| Estándar | Qué entrega | Uso |
+|---|---|---|
+| **WMS** | Imagen del mapa | Visualización |
+| **WMTS** | Teselas de imagen | Mapas base rápidos |
+| **WFS** | Entidades vectoriales | Descarga y consulta |
+| **WCS** | Coberturas ráster | Descarga de datos continuos |
+| **OGC API – Features / Tiles / Maps** | Nueva generación REST/JSON | Aplicaciones web modernas |
+| **CSW** | Catálogo de metadatos | Búsqueda |
+| **GeoPackage** | Formato de archivo abierto | Intercambio |
+
+: Estándares OGC principales {#tbl-ogc}
+
+## Principales proveedores de datos
+
+| Institución | Datos | Acceso |
+|---|---|---|
+| **IGM** | Red geodésica SIRGAS-Chile, cartografía base | <https://www.igm.cl>, <https://www.sirgaschile.cl> |
+| **SAF** | Aerofotogrametría, imágenes, cartas aeronáuticas | <https://www.saf.cl> |
+| **INE** | Cartografía y microdatos del Censo 2024 | <https://censo2024.ine.gob.cl> |
+| **CIREN** | Suelos, catastro frutícola, recursos naturales | <https://www.ciren.cl> |
+| **DGA (MOP)** | Hidrología, derechos de agua, glaciares | <https://dga.mop.gob.cl> |
+| **CONAF** | Catastro de vegetación, incendios | <https://www.conaf.cl> |
+| **SERNAGEOMIN** | Geología, peligros geológicos | <https://www.sernageomin.cl> |
+| **SHOA** | Cartas náuticas, batimetría, mareas | <https://www.shoa.cl> |
+| **MINVU / Observatorio Urbano** | Instrumentos de planificación territorial | <https://www.observatoriourbano.cl> |
+| **BCN** | Límites administrativos referenciales | <https://www.bcn.cl/siit> |
+| **SENAPRED** | Amenazas, vías de evacuación | <https://www.senapred.cl> |
+
+: Proveedores de datos geoespaciales en Chile (revisa la vigencia de cada enlace antes de la clase) {#tbl-proveedores}
+
+::: {.callout-note}
+## Censo 2024
+El INE publicó la base de datos del Censo de Población y Vivienda 2024 el 4 de diciembre de 2025, a nivel comuna-área, y anunció la cartografía censal asociada como entrega complementaria durante diciembre de 2025 [@ine2025].
+:::
+
+## Datos globales útiles para Chile
+
+- **OpenStreetMap:** red vial, edificaciones y puntos de interés (vía Geofabrik u Overture Maps).
+- **Copernicus DEM GLO-30**, **SRTM** y **ALOS AW3D30:** relieve (ver @sec-mde).
+- **ESA WorldCover** y **Dynamic World:** cobertura del suelo a 10 m.
+- **Google Open Buildings** y **Microsoft Building Footprints:** huellas de edificaciones.
+- **WorldPop** y **GHSL:** población en grilla.
+- **CHIRPS** y **ERA5:** precipitación y clima.
+
+## Metadatos
+
+Toda capa que produzcas debe documentarse al menos con:
+
+- Título, resumen y palabras clave.
+- Responsable y contacto.
+- Fecha de los datos y de la publicación.
+- **SRC y época de referencia.**
+- Linaje (fuentes y procesos).
+- Exactitud posicional y temática.
+- Restricciones de uso y licencia.
+
+## Política Nacional de Información Geoespacial
+
+Chile cuenta con una política de información geoespacial coordinada por el SNIT y con normas ISO 19100 adoptadas como normas chilenas (NCh). Antes de citar el número o la versión vigente de cada norma, consulta el catálogo del Instituto Nacional de Normalización (INN).

@@ -1,0 +1,39 @@
+# Lecturas recomendadas {#sec-lecturas}
+
+Este repositorio **no redistribuye** libros ni documentos protegidos por derechos de autor. Las siguientes obras se recomiendan para profundizar; consúltalas en la biblioteca de tu institución, en sus ediciones electrónicas legales o en los sitios de acceso abierto indicados.
+
+## Teledetección
+
+- Chuvieco, E. (2010). *Teledetección ambiental: La observación de la Tierra desde el espacio* (3.ª ed.). Ariel. — Texto clásico en español.
+- Chuvieco, E. (2020). *Fundamentals of satellite remote sensing: An environmental approach* (3.ª ed.). CRC Press. https://doi.org/10.1201/9780429506482
+- Lillesand, T., Kiefer, R. W., y Chipman, J. (2015). *Remote sensing and image interpretation* (7.ª ed.). Wiley.
+- Jensen, J. R. (2015). *Introductory digital image processing: A remote sensing perspective* (4.ª ed.). Pearson.
+- Campbell, J. B., y Wynne, R. H. (2011). *Introduction to remote sensing* (5.ª ed.). Guilford Press.
+
+## Geodesia y GNSS
+
+- Hofmann-Wellenhof, B., Lichtenegger, H., y Wasle, E. (2008). *GNSS – Global navigation satellite systems*. Springer.
+- Teunissen, P. J. G., y Montenbruck, O. (Eds.). (2017). *Springer handbook of global navigation satellite systems*. Springer.
+- Iliffe, J., y Lott, R. (2008). *Datums and map projections* (2.ª ed.). Whittles.
+- Snyder, J. P. (1987). *Map projections: A working manual*. USGS. https://doi.org/10.3133/pp1395 — **Acceso abierto.**
+
+## SIG y cartografía
+
+- Longley, P. A., Goodchild, M. F., Maguire, D. J., y Rhind, D. W. (2015). *Geographic information science and systems* (4.ª ed.). Wiley.
+- Olaya, V. (2020). *Sistemas de Información Geográfica*. https://volaya.github.io/libro-sig/ — **Acceso abierto, en español.**
+- Slocum, T. A., McMaster, R. B., Kessler, F. C., y Howard, H. H. (2022). *Thematic cartography and geovisualization* (4.ª ed.). CRC Press.
+- Brewer, C. A. (2016). *Designing better maps* (2.ª ed.). Esri Press.
+
+## Recursos abiertos en línea
+
+| Recurso | Tema | Enlace |
+|---|---|---|
+| NASA ARSET | Cursos gratuitos de teledetección aplicada (en español) | <https://appliedsciences.nasa.gov/arset> |
+| ESA EO College / SAR-EDU | Radar e interferometría | <https://eo-college.org> |
+| Earth Engine Guides | Documentación y tutoriales | <https://developers.google.com/earth-engine/guides> |
+| Cloud-Based Remote Sensing with GEE (libro abierto) | Earth Engine aplicado | <https://www.eefabook.org> |
+| QGIS Training Manual | Manual oficial | <https://docs.qgis.org> |
+| SIRGAS-Chile | Documentos técnicos del IGM | <https://www.sirgaschile.cl> |
+| Geoportal de Chile | Datos del Estado | <https://www.geoportal.cl> |
+
+: Recursos abiertos {#tbl-recursos}

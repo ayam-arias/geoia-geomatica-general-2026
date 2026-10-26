@@ -1,0 +1,85 @@
+# Microondas y radar de apertura sintética (SAR) {#sec-sar}
+
+## ¿Por qué radar?
+
+El radar de apertura sintética (SAR) es un sensor **activo**: emite pulsos de microondas y mide el eco que vuelve. Tiene dos ventajas decisivas para Chile:
+
+1. **Atraviesa las nubes y opera de noche:** indispensable en el sur lluvioso y en invierno.
+2. **Mide fase:** con interferometría (InSAR) detecta deformaciones milimétricas del terreno, útiles para la subsidencia, los volcanes, los terremotos y la estabilidad de taludes en minería.
+
+## Bandas de radar
+
+| Banda | Longitud de onda | Penetración | Misiones |
+|---|---|---|---|
+| X | ~3 cm | Superficial (copas, techos) | TerraSAR-X, ICEYE, Capella |
+| C | ~5,6 cm | Media | **Sentinel-1**, RADARSAT |
+| S | ~10 cm | Media | NISAR (banda S) |
+| L | ~24 cm | Alta (bajo el dosel, suelos) | **NISAR**, ALOS-4 |
+| P | ~70 cm | Muy alta (biomasa) | BIOMASS (ESA) |
+
+: Bandas SAR {#tbl-bandas-sar}
+
+## Geometría de adquisición
+
+- **Visión lateral:** el radar mira de lado, lo que produce efectos propios: *foreshortening* (escorzo), *layover* (inversión por relieve) y **sombra radar**.
+- **Órbitas ascendente y descendente:** combinarlas reduce las zonas ciegas en la cordillera.
+- **Ángulo de incidencia:** condiciona la intensidad del retorno.
+
+::: {.callout-warning}
+## Relieve andino
+En la cordillera de los Andes, las laderas orientadas hacia el sensor sufren *layover* severo. Usa siempre el MDE para generar máscaras de sombra y *layover* antes de interpretar.
+:::
+
+## Polarización
+
+El radar emite y recibe en horizontal (H) o vertical (V):
+
+- **VV:** sensible a superficies rugosas y al agua con viento.
+- **VH (cruzada):** sensible a la dispersión de volumen, como la vegetación.
+- **Cociente VH/VV:** útil para separar bosque, cultivos y zonas urbanas.
+
+## Mecanismos de retrodispersión
+
+| Mecanismo | Cubierta | Apariencia |
+|---|---|---|
+| Especular | Agua en calma, pistas | Muy oscura |
+| Superficial rugosa | Suelo arado, mar con oleaje | Gris intermedia |
+| Volumen | Bosque, cultivos densos | Clara en VH |
+| Doble rebote | Edificios, troncos inundados | Muy brillante |
+
+: Mecanismos de retrodispersión {#tbl-retrodispersion}
+
+## Productos y procesamiento
+
+1. **GRD** (*Ground Range Detected*): intensidad, para mapas de inundación, hielo y cobertura.
+2. **SLC** (*Single Look Complex*): amplitud y fase, para interferometría.
+3. **Calibración radiométrica** a σ⁰ (sigma cero) y conversión a decibeles: $\sigma^0_{dB} = 10 \log_{10}(\sigma^0)$.
+4. **Filtro de *speckle*** (ruido moteado): Lee, Refined Lee o Gamma-MAP.
+5. **Corrección del terreno** (*terrain correction*) con un MDE.
+
+## Interferometría (InSAR)
+
+La diferencia de fase entre dos adquisiciones revela el desplazamiento en la línea de vista del satélite:
+
+$$
+d_{LOS} = -\frac{\lambda}{4\pi}\,\Delta\phi
+$$ {#eq-insar}
+
+Con Sentinel-1 ($\lambda \approx 5{,}55$ cm), un ciclo completo de fase ($2\pi$) equivale a unos **2,8 cm** de desplazamiento.
+
+**Aplicaciones en Chile:** deformación cosísmica, inflación de volcanes (Laguna del Maule, Lascar), subsidencia por extracción de agua, estabilidad de rajos y tranques de relaves.
+
+## NISAR: la nueva referencia en banda L
+
+::: {.callout-important}
+## Dato 2026
+**NISAR** (NASA–ISRO) se lanzó el 30 de julio de 2025. Desde el **20 de julio de 2026** sus productos calibrados en banda L son de acceso público a través del Alaska Satellite Facility (ASF DAAC) y NASA Earthdata [@asf2026nisar].
+:::
+
+Por su longitud de onda larga, la banda L penetra el dosel de los bosques templados del sur de Chile y mantiene la coherencia interferométrica en zonas vegetadas donde la banda C la pierde.
+
+## Preguntas de repaso
+
+1. ¿Por qué un lago en calma aparece negro en una imagen SAR?
+2. Calcula el desplazamiento que representa un ciclo de fase en banda L (λ ≈ 24 cm).
+3. Propón un flujo SAR para mapear la extensión de una inundación en la Región de Ñuble.

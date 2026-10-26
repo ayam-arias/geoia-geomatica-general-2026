@@ -1,0 +1,68 @@
+# Práctica 5 · MDE, interpolación y análisis hidrológico {#sec-p05}
+
+::: {.geoia-card}
+**Duración:** 4 horas · **Software:** QGIS 4.2 (GRASS / SAGA / WhiteboxTools) o ArcGIS Pro 3.7 · **Lectura previa:** @sec-mde
+**Área sugerida:** subcuenca del estero Yerba Loca o del río Mapocho alto (Región Metropolitana).
+:::
+
+## Parte A · Obtener el MDE
+
+**Opción 1 · Earth Engine**
+
+```python
+import ee, geemap
+ee.Initialize(project="geomatica-chile-tunombre")
+aoi = ee.Geometry.Rectangle([-70.40, -33.40, -70.20, -33.20])
+dem = ee.ImageCollection("COPERNICUS/DEM/GLO30").select("DEM").mosaic().clip(aoi)
+geemap.ee_export_image(dem, "mde_glo30.tif", scale=30, region=aoi, crs="EPSG:5361")
+```
+
+**Opción 2 · QGIS:** descarga Copernicus DEM desde el Copernicus Data Space Ecosystem y recorta con *Ráster → Extracción → Cortar ráster por extensión*.
+
+## Parte B · Interpolación desde puntos
+
+Genera un MDE a partir de puntos acotados (por ejemplo, 300 puntos aleatorios extraídos del MDE) con **IDW** y **TIN**, y compáralo con el original:
+
+```python
+import numpy as np, rasterio
+from scipy.interpolate import griddata
+
+with rasterio.open("mde_glo30.tif") as src:
+    z = src.read(1).astype(float); tr = src.transform
+filas, cols = np.indices(z.shape)
+rng = np.random.default_rng(42)
+idx = rng.choice(z.size, 300, replace=False)
+x, y, v = cols.ravel()[idx], filas.ravel()[idx], z.ravel()[idx]
+z_lin = griddata((x, y), v, (cols, filas), method="linear")
+rmse = np.sqrt(np.nanmean((z_lin - z) ** 2))
+print(f"RMSE interpolación lineal (TIN) con 300 puntos: {rmse:.1f} m")
+```
+
+## Parte C · Derivados
+
+En QGIS: *Ráster → Análisis* → **Pendiente**, **Orientación**, **Sombreado** y **Rugosidad**. Clasifica la pendiente en rangos de 0–5°, 5–15°, 15–30°, 30–45° y > 45°.
+
+## Parte D · Hidrología
+
+Con WhiteboxTools (complemento de QGIS) o Python:
+
+```python
+from whitebox import WhiteboxTools
+wbt = WhiteboxTools(); wbt.set_working_dir("trabajo")
+wbt.breach_depressions_least_cost("mde_glo30.tif", "mde_relleno.tif", dist=10)
+wbt.d8_pointer("mde_relleno.tif", "d8.tif")
+wbt.d8_flow_accumulation("mde_relleno.tif", "acumulacion.tif", out_type="cells")
+wbt.extract_streams("acumulacion.tif", "drenaje.tif", threshold=1000)
+wbt.strahler_stream_order("d8.tif", "drenaje.tif", "strahler.tif")
+```
+
+Delimita la cuenca aportante a un punto de salida (*pour point*) y calcula su área, perímetro, pendiente media y la curva hipsométrica.
+
+## Preguntas
+
+1. ¿Cómo cambia la red de drenaje con umbrales de 500, 1.000 y 5.000 celdas?
+2. ¿Qué error introduce usar un MDS (Copernicus DEM) en una quebrada con vegetación densa?
+
+## Entregable
+
+Mapa de la cuenca con red de drenaje por orden de Strahler y una tabla de parámetros morfométricos.

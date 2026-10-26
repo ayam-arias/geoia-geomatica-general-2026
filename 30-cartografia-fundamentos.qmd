@@ -1,0 +1,75 @@
+# Fundamentos de cartografía {#sec-cartografia}
+
+## El mapa como modelo
+
+Un mapa es una **representación simplificada, a escala y simbolizada** del territorio. Todo mapa implica decisiones: qué mostrar, qué omitir, cómo clasificar y cómo simbolizar [@slocum2022]. Por eso la cartografía es a la vez ciencia, técnica y comunicación.
+
+## Escala
+
+$$
+E = \frac{d_{mapa}}{d_{terreno}}
+$$ {#eq-escala}
+
+| Tipo | Rango | Ejemplos en Chile |
+|---|---|---|
+| Grande | 1:500 a 1:10.000 | Planos de obra, catastro urbano, ortofotos de drones |
+| Media | 1:25.000 a 1:100.000 | Cartas topográficas regulares del IGM (1:50.000) |
+| Pequeña | < 1:250.000 | Mapas regionales y nacionales |
+
+: Tipos de escala {#tbl-escalas}
+
+::: {.callout-note}
+## Escala y exactitud
+Una regla práctica: el error gráfico es de unos 0,2 mm en el mapa. A escala 1:50.000 equivale a **10 m** en el terreno. Ningún dato debería publicarse a una escala mayor que la que su exactitud permite.
+:::
+
+## Generalización cartográfica
+
+Al reducir la escala se aplican operadores de generalización: **selección**, **simplificación** (algoritmo de Douglas-Peucker), **suavizado**, **agregación**, **desplazamiento** y **exageración**.
+
+```python
+import geopandas as gpd
+# comunas = gpd.read_file("data/comunas.gpkg").to_crs(32719)
+# comunas["geometry"] = comunas.simplify(tolerance=200, preserve_topology=True)
+```
+
+## Variables visuales
+
+Jacques Bertin propuso las variables con que se codifica la información en un mapa:
+
+| Variable | Datos cualitativos | Datos ordenados | Datos cuantitativos |
+|---|---|---|---|
+| Posición | ✓ | ✓ | ✓ |
+| Tamaño | — | ✓ | ✓ |
+| Valor (claro–oscuro) | — | ✓ | ✓ |
+| Tono (color) | ✓ | — | — |
+| Forma | ✓ | — | — |
+| Orientación | ✓ | — | — |
+| Textura | ✓ | ✓ | — |
+
+: Variables visuales y nivel de medida {#tbl-variables}
+
+## Elementos de un mapa
+
+1. **Título** claro: qué, dónde y cuándo.
+2. **Cuerpo del mapa** (frame principal).
+3. **Leyenda** con las unidades.
+4. **Escala** gráfica (siempre) y numérica (opcional).
+5. **Orientación** (norte), si no es evidente.
+6. **Sistema de referencia** y **época**: por ejemplo, "SIRGAS-Chile 2025 / UTM 19S (personalizado)".
+7. **Fuentes** de datos y fecha.
+8. **Autor**, institución y fecha de elaboración.
+9. **Mapa de ubicación** (*inset*) cuando el área no es reconocible.
+
+## Cartografía oficial en Chile
+
+- **IGM:** cartografía topográfica regular (1:25.000, 1:50.000, 1:250.000) y cartografía digital.
+- **SHOA:** cartas náuticas.
+- **SAF:** cartas aeronáuticas y cobertura aerofotogramétrica.
+- **INE:** cartografía censal.
+- **Límites administrativos:** la Biblioteca del Congreso Nacional (BCN) publica límites de regiones, provincias y comunas de uso referencial.
+
+::: {.callout-warning}
+## Límites oficiales
+Las capas de límites que circulan en internet tienen precisiones y fechas distintas. Para documentos con efectos legales, consulta la fuente oficial y declara su fecha y escala.
+:::

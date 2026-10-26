@@ -1,0 +1,55 @@
+# Quarto para informes y libros reproducibles {#sec-quarto}
+
+## ¿Qué es Quarto?
+
+**Quarto** es un sistema de publicación científica de código abierto que combina texto en Markdown con código ejecutable (Python, R, Julia) para producir documentos HTML, PDF, Word, presentaciones y libros [@posit2026quarto]. Este libro está construido con Quarto.
+
+::: {.callout-note}
+## Dato 2026
+La rama estable de Quarto en 2026 es la 1.9 y la 1.10 está disponible en PyPI; Posit anunció un Quarto 2 reescrito en Rust. Consulta <https://quarto.org/docs/download/> antes de instalar.
+:::
+
+## Estructura de un documento
+
+````markdown
+---
+title: "Informe de severidad del incendio"
+author: "Nombre Apellido"
+format: html
+bibliography: referencias.bib
+---
+
+## Resultados
+
+La superficie con severidad alta fue de 1.250 ha (@tbl-severidad).
+
+```{{python}}
+#| label: tbl-severidad
+#| tbl-cap: "Superficie por clase de severidad"
+import pandas as pd
+pd.DataFrame({"clase": ["Baja", "Media", "Alta"], "ha": [3200, 2100, 1250]})
+```
+````
+
+## Comandos principales
+
+```bash
+quarto preview            # vista previa con recarga automática
+quarto render             # genera todos los formatos
+quarto render --to docx   # informe en Word
+quarto publish gh-pages   # publica en GitHub Pages
+```
+
+## Citas en APA 7
+
+Las referencias se guardan en `referencias.bib` y se citan con `[@clave]`. El archivo `apa.csl` aplica el estilo APA 7. Ejemplo: `[@chuvieco2020]` produce una cita parentética.
+
+## Personalizar el tema
+
+Este libro usa `styles/geoia.scss` con la paleta de marca. Para tus propios informes puedes copiar ese archivo y declararlo en el YAML:
+
+```yaml
+format:
+  html:
+    theme: [cosmo, styles/geoia.scss]
+```

@@ -1,0 +1,85 @@
+# Bienvenida {.unnumbered}
+
+::: {.geoia-hero}
+<span class="geoia-tag">Edición 2026</span><span class="geoia-tag">Chile</span><span class="geoia-tag">Ciencia abierta</span>
+
+## Geomática General · Chile 2026
+
+Un libro-curso abierto para aprender a **medir, modelar, analizar y comunicar el territorio** con los marcos de referencia, los datos y las instituciones de Chile, y con las herramientas que se usan en 2026: QGIS 4.2, ArcGIS Pro 3.7, Google Earth Engine, Python y GeoIA.
+:::
+
+Este recurso acompaña una asignatura de **Geomática General** de nivel técnico-profesional y universitario. Sirve también como material de autoestudio para profesionales de topografía, geomensura, medio ambiente, minería, planificación territorial y gestión del riesgo de desastres.
+
+## Objetivos de aprendizaje {.unnumbered}
+
+Al terminar el curso, el estudiante será capaz de:
+
+::: {.geoia-grid}
+::: {.geoia-card}
+**Comprender**
+
+Explicar los fundamentos de la geodesia, los sistemas de referencia y la observación de la Tierra, con énfasis en **SIRGAS-Chile 2025.0**.
+:::
+
+::: {.geoia-card}
+**Aplicar**
+
+Adquirir, transformar, procesar y validar datos espaciales (vectoriales, ráster, GNSS, satelitales y de drones) con software libre y comercial.
+:::
+
+::: {.geoia-card}
+**Comunicar**
+
+Diseñar productos cartográficos y servicios web OGC que cumplan estándares técnicos y sean útiles para la toma de decisiones.
+:::
+
+::: {.geoia-card}
+**Innovar**
+
+Integrar GeoIA (modelos fundacionales, segmentación, *embeddings*) en flujos de trabajo reproducibles.
+:::
+:::
+
+## Estructura del libro {.unnumbered}
+
+| Parte | Contenido | Capítulos |
+|---|---|---|
+| I. Entorno de trabajo | Instalación y configuración de QGIS, ArcGIS Pro, Python, Docker y GEE | 1–4 |
+| II. Fundamentos | Geomática hoy, geodesia y SIRGAS-Chile, proyecciones, GNSS | 5–8 |
+| III. Sensores remotos | Física, satélites vigentes, SAR, procesamiento, aplicaciones, glosario | 9–14 |
+| IV. Cartografía | Fundamentos, cartografía temática y diseño | 15–17 |
+| V. Datos e IDE | IDE Chile, proveedores de datos y modelos digitales de elevación | 18–19 |
+| VI. GeoIA y RPAS | Inteligencia artificial geoespacial, fotogrametría con drones y normativa DGAC | 20–21 |
+| VII. Prácticas | Diez talleres guiados con datos chilenos | 22–31 |
+| VIII. Proyecto final | Estructura, rúbrica y entregables | 32 |
+
+: Organización del libro {#tbl-estructura}
+
+## Metodología y evaluación {.unnumbered}
+
+El curso combina clases expositivas breves, talleres prácticos guiados y un proyecto aplicado con un enfoque de **ciencia abierta**: los datos, el código y los procedimientos son públicos y reproducibles.
+
+| Componente | Ponderación |
+|---|---|
+| Talleres prácticos (10) | 60 % |
+| Proyecto final (informe + repositorio + defensa) | 40 % |
+
+: Evaluación sugerida {#tbl-evaluacion}
+
+## Herramientas {.unnumbered}
+
+- **SIG de escritorio:** QGIS 4.2 LTR (Qt6) y ArcGIS Pro 3.7.
+- **Nube:** Google Earth Engine (nivel no comercial *Community* o *Contributor*), ArcGIS Online.
+- **Programación:** Python 3 (GeoPandas, Rasterio, PyProj, geemap, samgeo), Jupyter y Quarto.
+- **Campo:** receptores GNSS multifrecuencia, QField/QFieldCloud, drones con credencial DGAC.
+
+::: {.callout-important}
+## Datos verificados a octubre de 2026
+Las versiones de software, el estado de los satélites y los marcos geodésicos cambian con rapidez. Cada capítulo indica la fecha de verificación y el [Apéndice C](82-versiones-probadas.qmd) concentra las versiones probadas. Si encuentras un dato desactualizado, abre un *issue* en el repositorio.
+:::
+
+---
+
+**Autor:** Ian Arias Carrasco · Geomático y docente · RPAS DGAC
+**Marca:** GeoIA · [Instagram \@_geoia.n](https://www.instagram.com/_geoia.n/)
+**Licencia:** contenido CC BY 4.0 · código MIT

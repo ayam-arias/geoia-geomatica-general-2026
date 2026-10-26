@@ -1,0 +1,64 @@
+# Diseño de mapas y geovisualización {#sec-diseno-mapas}
+
+## Jerarquía visual
+
+Un buen mapa guía la mirada: primero el tema, luego el contexto y al final los elementos auxiliares.
+
+1. **Figura:** el tema principal, con mayor contraste y saturación.
+2. **Fondo:** mapa base en tonos neutros y desaturados.
+3. **Elementos auxiliares:** leyenda, escala y fuentes en tamaño menor y sin competir con el tema.
+
+## Tipografía cartográfica
+
+- Usa como máximo dos familias tipográficas.
+- **Cursiva** para elementos hidrográficos (ríos, lagos, mares).
+- **MAYÚSCULAS espaciadas** para unidades de área extensas (REGIÓN DE ÑUBLE).
+- Tamaño mínimo legible: 7 pt en impresión y 11 px en pantalla.
+- Coloca las etiquetas de puntos arriba a la derecha y las de líneas siguiendo su curvatura.
+
+## Composición (*layout*)
+
+| Elemento | Recomendación |
+|---|---|
+| Márgenes | Uniformes; deja aire alrededor del mapa |
+| Leyenda | Ordenada como el lector la necesita; sin el título genérico "Leyenda" |
+| Escala | Gráfica, con números redondos (0–5–10 km) |
+| Norte | Discreto; omitirlo si la cuadrícula ya orienta |
+| Grilla | Coordenadas UTM o geográficas en el borde, con el SRC declarado |
+
+: Recomendaciones de composición {#tbl-layout}
+
+## Identidad gráfica GeoIA aplicada a mapas
+
+Este libro usa la paleta de la marca GeoIA, que también puede aplicarse a productos cartográficos:
+
+| Rol | Color | HEX |
+|---|---|---|
+| Títulos y texto principal | Azul marino | `#1B2A4A` |
+| Acento principal, elementos destacados | Naranja ámbar | `#E8772A` |
+| Acento técnico, agua y datos | Azul cian | `#21A9D8` |
+| Fondo | Gris perla | `#EEF1F5` |
+| Texto secundario | Gris azulado | `#5A6780` |
+
+: Paleta GeoIA {#tbl-paleta}
+
+## Mapas web interactivos
+
+```python
+import folium
+m = folium.Map(location=[-33.45, -70.66], zoom_start=11, tiles="CartoDB positron")
+folium.Marker([-33.4405, -70.6440], tooltip="Cerro Santa Lucía",
+              icon=folium.Icon(color="orange")).add_to(m)
+m.save("04_productos/mapa_santiago.html")
+```
+
+Plataformas para publicar: ArcGIS Online (*Map Viewer*, *Dashboards*, *StoryMaps*), qgis2web, Leaflet, MapLibre y Felt.
+
+## Lista de control antes de publicar
+
+- [ ] El título responde qué, dónde y cuándo.
+- [ ] El SRC y la época están declarados.
+- [ ] Las fuentes y sus fechas aparecen en el mapa.
+- [ ] Los colores son legibles en escala de grises y para personas con daltonismo.
+- [ ] La escala es coherente con la exactitud de los datos.
+- [ ] No hay textos superpuestos ni símbolos ambiguos.

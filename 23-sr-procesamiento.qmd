@@ -1,0 +1,117 @@
+# Procesamiento e interpretación de imágenes {#sec-sr-procesamiento}
+
+## Flujo general
+
+```{mermaid}
+flowchart LR
+  A[Búsqueda y<br>selección] --> B[Preprocesamiento<br>radiométrico y geométrico]
+  B --> C[Realce y<br>composiciones]
+  C --> D[Índices<br>espectrales]
+  D --> E[Clasificación<br>supervisada / no supervisada / IA]
+  E --> F[Validación<br>matriz de confusión]
+  F --> G[Productos<br>mapas · estadísticas]
+```
+
+## Preprocesamiento
+
+### Correcciones radiométricas
+
+- **Calibración:** de niveles digitales (ND) a radiancia y a reflectancia.
+- **Corrección atmosférica:** de reflectancia TOA a reflectancia de superficie (Sen2Cor, LaSRC, 6S). En la práctica, usa productos de nivel 2 cuando existan.
+- **Corrección topográfica:** compensa la iluminación diferencial en laderas (método C, Minnaert), crítica en los Andes.
+- **Máscara de nubes y sombras:** banda SCL de Sentinel-2, `QA_PIXEL` de Landsat o el producto Cloud Score+ en Earth Engine.
+
+### Correcciones geométricas
+
+- **Ortorrectificación:** elimina la distorsión por relieve usando un MDE.
+- **Corregistro:** alinea imágenes de distintas fechas o sensores con un error menor a medio píxel.
+
+## Composiciones en falso color
+
+| Composición (R-G-B) | Sentinel-2 | Landsat 8/9 | Resalta |
+|---|---|---|---|
+| Color natural | B4-B3-B2 | B4-B3-B2 | Visión humana |
+| Infrarrojo color | B8-B4-B3 | B5-B4-B3 | Vegetación en rojo |
+| Agricultura | B11-B8-B2 | B6-B5-B2 | Cultivos y suelo |
+| Geología / quemas | B12-B11-B4 | B7-B6-B4 | Áreas quemadas y minerales |
+| Agua / tierra | B8-B11-B4 | B5-B6-B4 | Límite agua–tierra |
+
+: Composiciones habituales {#tbl-composiciones}
+
+## Índices espectrales
+
+| Índice | Fórmula | Uso |
+|---|---|---|
+| **NDVI** | $\frac{NIR - R}{NIR + R}$ | Vigor vegetal [@rouse1974] |
+| **NDWI** (McFeeters) | $\frac{G - NIR}{G + NIR}$ | Cuerpos de agua [@mcfeeters1996] |
+| **NDBI** | $\frac{SWIR1 - NIR}{SWIR1 + NIR}$ | Áreas construidas |
+| **NBR** | $\frac{NIR - SWIR2}{NIR + SWIR2}$ | Severidad de incendios (dNBR) |
+| **NDSI** | $\frac{G - SWIR1}{G + SWIR1}$ | Nieve |
+| **EVI** | $2{,}5\frac{NIR - R}{NIR + 6R - 7{,}5B + 1}$ | Vegetación densa |
+| **SAVI** | $\frac{(NIR - R)(1 + L)}{NIR + R + L}$ | Vegetación rala (zonas áridas) |
+
+: Índices espectrales {#tbl-indices}
+
+```python
+import numpy as np
+
+def indice_normalizado(a, b):
+    """(a - b) / (a + b) con manejo de división por cero."""
+    a, b = a.astype("float32"), b.astype("float32")
+    with np.errstate(divide="ignore", invalid="ignore"):
+        return np.where((a + b) == 0, np.nan, (a - b) / (a + b))
+
+# ndvi = indice_normalizado(nir, rojo)
+# nbr  = indice_normalizado(nir, swir2)
+```
+
+### Severidad de incendios (dNBR)
+
+$$
+dNBR = NBR_{pre} - NBR_{post}
+$$ {#eq-dnbr}
+
+| dNBR | Severidad (USGS) |
+|---|---|
+| < 0,10 | No quemado |
+| 0,10–0,27 | Baja |
+| 0,27–0,44 | Moderada-baja |
+| 0,44–0,66 | Moderada-alta |
+| > 0,66 | Alta |
+
+: Umbrales de severidad dNBR {#tbl-dnbr}
+
+## Clasificación
+
+| Enfoque | Algoritmos | Cuándo usarlo |
+|---|---|---|
+| No supervisada | K-means, ISODATA | Exploración inicial sin datos de terreno |
+| Supervisada clásica | Máxima verosimilitud, SVM | Pocas clases bien separadas |
+| Aprendizaje automático | **Random Forest**, Gradient Boosting | Estándar actual en Earth Engine y QGIS |
+| Aprendizaje profundo | U-Net, transformadores | Grandes volúmenes y objetos complejos |
+| Modelos fundacionales | Prithvi, *embeddings* AlphaEarth | Pocos datos etiquetados (ver @sec-geoia) |
+| Orientada a objetos (OBIA) | Segmentación + clasificación | Alta resolución (drones) |
+
+: Enfoques de clasificación {#tbl-clasificacion}
+
+## Validación
+
+La **matriz de confusión** compara la clasificación con datos de referencia independientes:
+
+- **Exactitud global** = aciertos / total.
+- **Exactitud del productor** = error de omisión complementario.
+- **Exactitud del usuario** = error de comisión complementario.
+- **Índice Kappa** o, preferiblemente, estimadores de área ajustados (Olofsson et al.).
+
+```python
+from sklearn.metrics import confusion_matrix, classification_report
+# y_ref, y_pred = ...
+# print(confusion_matrix(y_ref, y_pred))
+# print(classification_report(y_ref, y_pred, digits=3))
+```
+
+## Preguntas de repaso
+
+1. ¿Por qué se recomienda SAVI en lugar de NDVI en el Norte Grande?
+2. Interpreta un dNBR de 0,55 en un área de plantación forestal.
+3. ¿Qué diferencia hay entre la exactitud del productor y la del usuario?

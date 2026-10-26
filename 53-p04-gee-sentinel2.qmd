@@ -1,0 +1,90 @@
+# Práctica 4 · Google Earth Engine: Sentinel-2, índices y severidad de incendios {#sec-p04}
+
+::: {.geoia-card}
+**Duración:** 3 horas · **Software:** Google Earth Engine (Python + geemap) · **Lectura previa:** @sec-python-docker, @sec-sr-procesamiento
+**Cuota estimada:** < 5 EECU-hora (cabe en el nivel *Community*)
+:::
+
+## Objetivos
+
+1. Filtrar y enmascarar nubes en una colección Sentinel-2.
+2. Calcular NDVI, NDWI y NBR.
+3. Estimar la severidad de un incendio con dNBR.
+4. Exportar resultados a GeoTIFF en un SRC chileno.
+
+## Caso de estudio
+
+Incendio de **Viña del Mar y Valparaíso (febrero de 2024)**. Ajusta las fechas y el área si trabajas otro evento de tu región.
+
+## Código
+
+```python
+import ee, geemap
+ee.Initialize(project="geomatica-chile-tunombre")
+
+aoi = ee.Geometry.Rectangle([-71.60, -33.12, -71.40, -33.00])
+
+def mascara_nubes(img):
+    scl = img.select("SCL")
+    ok = scl.neq(3).And(scl.neq(8)).And(scl.neq(9)).And(scl.neq(10))
+    return img.updateMask(ok).divide(10000).copyProperties(img, ["system:time_start"])
+
+def coleccion(inicio, fin):
+    return (ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED")
+            .filterBounds(aoi).filterDate(inicio, fin)
+            .filter(ee.Filter.lt("CLOUDY_PIXEL_PERCENTAGE", 30))
+            .map(mascara_nubes).median().clip(aoi))
+
+pre  = coleccion("2024-01-10", "2024-01-31")
+post = coleccion("2024-02-10", "2024-03-05")
+
+def nbr(img):  return img.normalizedDifference(["B8", "B12"]).rename("NBR")
+def ndvi(img): return img.normalizedDifference(["B8", "B4"]).rename("NDVI")
+
+dnbr = nbr(pre).subtract(nbr(post)).rename("dNBR")
+
+severidad = (dnbr.where(dnbr.lt(0.10), 0)
+                 .where(dnbr.gte(0.10).And(dnbr.lt(0.27)), 1)
+                 .where(dnbr.gte(0.27).And(dnbr.lt(0.44)), 2)
+                 .where(dnbr.gte(0.44).And(dnbr.lt(0.66)), 3)
+                 .where(dnbr.gte(0.66), 4)).toInt()
+
+m = geemap.Map(center=[-33.05, -71.5], zoom=12)
+m.addLayer(post, {"bands": ["B12", "B8", "B4"], "min": 0, "max": 0.35}, "Post (SWIR)")
+m.addLayer(severidad, {"min": 0, "max": 4,
+           "palette": ["#EEF1F5", "#FFE08A", "#F5A35C", "#E8772A", "#8B1E1E"]}, "Severidad")
+m
+```
+
+### Superficie por clase de severidad
+
+```python
+area = ee.Image.pixelArea().divide(10000).addBands(severidad)
+stats = area.reduceRegion(
+    reducer=ee.Reducer.sum().group(groupField=1, groupName="clase"),
+    geometry=aoi, scale=20, maxPixels=1e9)
+print(stats.getInfo())
+```
+
+### Exportar a Drive en UTM 19S (SIRGAS-Chile 2002)
+
+```python
+ee.batch.Export.image.toDrive(
+    image=dnbr, description="dNBR_Valparaiso_2024",
+    region=aoi, scale=20, crs="EPSG:5361", maxPixels=1e9).start()
+```
+
+::: {.callout-note}
+## ¿Por qué EPSG:5361 y no SIRGAS-Chile 2025?
+Earth Engine solo acepta SRC presentes en su versión de la base EPSG. A escala de 20 m, la diferencia entre épocas de SIRGAS-Chile es despreciable; documenta igualmente el SRC usado.
+:::
+
+## Preguntas
+
+1. ¿Qué superficie (ha) tiene severidad alta?
+2. ¿Por qué se usa la mediana y no una sola imagen?
+3. ¿Qué limitaciones tiene el dNBR en zonas urbanas?
+
+## Entregable
+
+Mapa de severidad diseñado según @sec-diseno-mapas, tabla de superficies y el *notebook* ejecutado.

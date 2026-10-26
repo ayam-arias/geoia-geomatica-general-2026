@@ -1,0 +1,78 @@
+# Práctica 2 · Sistemas de coordenadas y SIRGAS-Chile 2025 {#sec-p02}
+
+::: {.geoia-card}
+**Duración:** 3 horas · **Software:** QGIS 4.2, Python (PyProj) · **Lectura previa:** @sec-geodesia y @sec-proyecciones
+**Datos:** `data/puntos_control_santiago.csv`
+:::
+
+## Objetivos
+
+1. Transformar coordenadas entre PSAD56, SAD69, SIRGAS-Chile 2002 y SIRGAS-Chile 2025.
+2. Crear un SRC personalizado UTM sobre SIRGAS-Chile 2025.
+3. Cuantificar las diferencias entre datums y explicar su origen.
+
+## Parte A · Conversión de formatos de coordenadas
+
+Convierte a grados decimales y luego a UTM 19S las coordenadas de los puntos del archivo `data/puntos_control_santiago.csv`. Usa la función `gms_a_decimal` del @sec-proyecciones.
+
+## Parte B · SRC personalizado en QGIS
+
+1. *Configuración → SRC personalizado → +*.
+2. Nombre: `SIRGAS-Chile 2025 / UTM 19S (personalizado)`.
+3. Formato: **Proj String**:
+
+```text
++proj=utm +zone=19 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs
+```
+
+4. Valida y guarda. Repite para la zona 18S (`+zone=18`).
+
+::: {.callout-note}
+## ¿Por qué personalizado?
+A octubre de 2026 EPSG registra SIRGAS-Chile 2025 en coordenadas geográficas (EPSG:11473), pero aún no publica sus proyecciones UTM. Cuando existan, reemplaza este SRC por el código oficial.
+:::
+
+## Parte C · Transformaciones con PyProj
+
+Ejecuta el script `scripts/p02_transformaciones.py`:
+
+```python
+import pandas as pd
+from pyproj import Transformer
+
+df = pd.read_csv("data/puntos_control_santiago.csv")
+
+# 1) Geográficas SIRGAS-Chile 2002 -> UTM 19S SIRGAS-Chile 2002
+t1 = Transformer.from_crs("EPSG:5360", "EPSG:5361", always_xy=True)
+df["E_sirgas2002"], df["N_sirgas2002"] = t1.transform(df.lon.values, df.lat.values)
+
+# 2) UTM 19S SIRGAS-Chile 2002 -> UTM 19S PSAD56 (dato heredado)
+t2 = Transformer.from_crs("EPSG:5361", "EPSG:24879", always_xy=True)
+df["E_psad56"], df["N_psad56"] = t2.transform(df.E_sirgas2002.values, df.N_sirgas2002.values)
+
+df["dE"] = df.E_psad56 - df.E_sirgas2002
+df["dN"] = df.N_psad56 - df.N_sirgas2002
+print(df[["punto", "dE", "dN"]].round(1))
+```
+
+Observa el orden de magnitud de las diferencias entre PSAD56 y SIRGAS-Chile: en Santiago son cercanas a **180 m en Este y 370 m en Norte** (unos 415 m en total) con la transformación por defecto de PROJ.
+
+## Parte D · Transformaciones disponibles
+
+Lista las transformaciones que PROJ conoce entre dos sistemas y su precisión:
+
+```python
+from pyproj.transformer import TransformerGroup
+tg = TransformerGroup("EPSG:4248", "EPSG:5360")   # PSAD56 -> SIRGAS-Chile 2002
+for t in tg.transformers:
+    print(f"{t.description} | precisión: {t.accuracy} m")
+```
+
+## Preguntas
+
+1. ¿Por qué las diferencias PSAD56–SIRGAS son de cientos de metros y las diferencias SIRGAS-Chile 2021–2025 de centímetros a decímetros?
+2. ¿Qué transformación elegirías para migrar una carta IGM 1:50.000 en PSAD56 y por qué su precisión es suficiente para esa escala?
+
+## Entregable
+
+Tabla con las coordenadas en los cuatro sistemas, las diferencias calculadas y una respuesta argumentada a las preguntas.

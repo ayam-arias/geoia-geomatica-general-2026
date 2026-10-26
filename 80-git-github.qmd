@@ -1,0 +1,65 @@
+# Git y GitHub para proyectos geomáticos {#sec-git}
+
+## Conceptos
+
+- **Git:** sistema de control de versiones que registra los cambios de los archivos.
+- **GitHub:** plataforma para alojar repositorios, colaborar y publicar sitios con **GitHub Pages**.
+- **Commit:** fotografía del estado del proyecto con un mensaje descriptivo.
+- **Rama (*branch*):** línea paralela de trabajo.
+
+## Configuración inicial
+
+```bash
+git config --global user.name "Tu Nombre"
+git config --global user.email "tu_correo@ejemplo.com"
+git config --global init.defaultBranch main
+```
+
+## Flujo básico
+
+```bash
+git init
+git add .
+git commit -m "Estructura inicial del proyecto"
+git remote add origin https://github.com/USUARIO/mi-proyecto.git
+git push -u origin main
+```
+
+```{mermaid}
+flowchart LR
+  A[Directorio de trabajo] -->|git add| B[Área de preparación]
+  B -->|git commit| C[Repositorio local]
+  C -->|git push| D[GitHub]
+  D -->|git pull| A
+```
+
+## Publicar este libro en GitHub Pages
+
+1. Crea un repositorio vacío en GitHub llamado `geoia-geomatica-general-2026`.
+2. Si haces tu propia copia, reemplaza `ayam-arias` en `_quarto.yml`, `README.md` y `CITATION.cff` por tu usuario de GitHub.
+3. Sube el contenido:
+
+```bash
+cd geoia-geomatica-general-2026
+git init && git add . && git commit -m "Geomática General Chile 2026 - versión inicial"
+git branch -M main
+git remote add origin https://github.com/ayam-arias/geoia-geomatica-general-2026.git
+git push -u origin main
+```
+
+4. El flujo `.github/workflows/publish.yml` renderiza el libro y crea la rama `gh-pages`.
+5. En GitHub: *Settings → Pages → Source: Deploy from a branch → `gh-pages` / root*.
+
+## Archivos grandes
+
+GitHub rechaza archivos de más de **100 MB** y recomienda repositorios de menos de 1 GB. Para datos pesados:
+
+- Guárdalos fuera del repositorio y documenta el enlace de descarga.
+- Usa **Git LFS** para archivos binarios medianos (`git lfs track "*.tif"`).
+- Prefiere formatos comprimidos y nativos de la nube (COG, GeoParquet).
+
+## Buenas prácticas
+
+- Mensajes de commit en infinitivo y específicos: "Agregar práctica de dNBR".
+- Nunca subas claves, tokens ni credenciales (usa `.env` y `.gitignore`).
+- Un `README.md` que explique qué hace el proyecto y cómo reproducirlo.

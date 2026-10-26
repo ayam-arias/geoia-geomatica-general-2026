@@ -1,0 +1,88 @@
+# Instalación y configuración de QGIS 4.2 {#sec-qgis}
+
+::: {.callout-important}
+## Dato 2026
+**QGIS 4.0** se lanzó el 6 de marzo de 2026 y migró a **Qt6**. La serie **4.2** (publicada en julio de 2026) pasa a ser la versión LTR (*Long Term Release*) a fines de octubre de 2026. La última LTR de la rama 3.x es la **3.44** [@qgis2026].
+:::
+
+## ¿Qué versión instalar?
+
+| Situación | Versión recomendada |
+|---|---|
+| Curso, docencia y producción | **QGIS 4.2 LTR** |
+| Proyectos que dependen de complementos no migrados a Qt6 | QGIS 3.44 LTR, en paralelo |
+| Probar novedades | Última versión (*latest release*) |
+
+: Elección de versión de QGIS {#tbl-qgis-version}
+
+::: {.callout-warning}
+## Perfiles y complementos en QGIS 4
+QGIS 4 usa **perfiles de usuario separados** de QGIS 3. Tus complementos, atajos y conexiones no se migran solos. Los complementos escritos para Qt5 deben actualizarse por sus autores; revisa en el administrador de complementos si son compatibles con QGIS 4 antes de planificar una clase.
+:::
+
+## Instalación en Windows
+
+1. Ingresa a <https://qgis.org/download/>.
+2. Elige una de dos opciones:
+   - **Instalador independiente (MSI)** de QGIS 4.2 LTR: la opción más simple para estudiantes.
+   - **OSGeo4W Network Installer**: permite instalar versiones en paralelo y agregar bibliotecas de Python o GRASS de forma controlada.
+3. Ejecuta el instalador con permisos de administrador y acepta las opciones por defecto.
+4. Abre QGIS y verifica la versión en *Ayuda → Acerca de*.
+
+## Instalación en Linux (Ubuntu/Debian)
+
+Usa el repositorio oficial de QGIS para obtener la LTR actualizada. Las instrucciones exactas (llave GPG y archivo `.sources`) cambian con cada distribución, por lo que conviene seguir la guía de <https://qgis.org/resources/installation-guide/>. En resumen:
+
+```bash
+sudo apt install gnupg software-properties-common
+# Agregar la llave y el repositorio LTR según la guía oficial
+sudo apt update
+sudo apt install qgis qgis-plugin-grass
+```
+
+## Instalación en macOS
+
+Descarga el paquete oficial desde <https://qgis.org/download/>. En el primer arranque, macOS puede bloquear la aplicación: autorízala en *Configuración del Sistema → Privacidad y seguridad*.
+
+## Configuración inicial recomendada
+
+### Sistema de referencia
+
+1. *Configuración → Opciones → SRC y transformaciones*.
+2. En **SRC para proyectos nuevos**, elige *Usar un SRC predeterminado* y busca `11473` (SIRGAS-Chile 2025).
+3. En **Transformaciones de datum predeterminadas**, revisa que QGIS pregunte qué transformación usar cuando haya más de una disponible. Esto es crítico cuando mezclas datos en PSAD56, SAD69 o épocas anteriores de SIRGAS-Chile.
+
+### Formato e idioma
+
+- *Configuración → Opciones → General*: idioma español y configuración regional `es_CL`.
+- Verifica que el separador decimal de las tablas que importes coincida con el del archivo.
+
+### Complementos útiles para el curso
+
+| Complemento | Para qué sirve |
+|---|---|
+| QuickMapServices | Mapas base (OSM, imágenes) |
+| Google Earth Engine Plugin | Visualizar resultados de GEE en QGIS |
+| Semi-Automatic Classification Plugin (SCP) | Descarga y clasificación de imágenes |
+| QField Sync | Preparar proyectos para levantamiento en terreno |
+| Profile Tool | Perfiles topográficos |
+| Deepness / GeoAI | Inferencia de modelos de aprendizaje profundo |
+
+: Complementos sugeridos (verificar compatibilidad con QGIS 4) {#tbl-complementos}
+
+## Verificación
+
+Ejecuta lo siguiente en la **Consola de Python** de QGIS (*Complementos → Consola de Python*):
+
+```python
+from qgis.core import Qgis, QgsCoordinateReferenceSystem
+print("QGIS:", Qgis.version())
+crs = QgsCoordinateReferenceSystem("EPSG:11473")
+print("SIRGAS-Chile 2025 válido:", crs.isValid(), "-", crs.description())
+```
+
+Si `isValid()` devuelve `False`, tu base de datos de PROJ es antigua: actualiza QGIS.
+
+## Actividad
+
+Toma una captura de la ventana *Acerca de* y de la consola con la verificación del EPSG:11473, y súbelas a la carpeta `04_productos/` de tu proyecto.

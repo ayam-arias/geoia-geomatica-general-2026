@@ -1,0 +1,12 @@
+services:
+  geomatica:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: geoia/geomatica-chile:2026
+    ports:
+      - "8888:8888"
+    volumes:
+      - ..:/home/jovyan/trabajo
+    environment:
+      - JUPYTER_TOKEN=geomatica

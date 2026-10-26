@@ -1,0 +1,100 @@
+# Fundamentos de teledetección {#sec-sr-fundamentos}
+
+## ¿Qué es la teledetección?
+
+La **teledetección** (percepción remota) es la técnica que permite obtener información de la superficie terrestre sin contacto directo, a partir de la energía electromagnética reflejada o emitida por los objetos y captada por un sensor [@chuvieco2020; @lillesand2015].
+
+Sus componentes son: una **fuente de energía** (el Sol o el propio sensor), la **interacción con la atmósfera**, la **interacción con la superficie**, el **sensor**, el **sistema de recepción** en tierra y el **analista** que interpreta los datos.
+
+```{mermaid}
+flowchart LR
+  S[Fuente<br>Sol / antena radar] --> A1[Atmósfera]
+  A1 --> T[Superficie<br>vegetación · agua · suelo]
+  T --> A2[Atmósfera]
+  A2 --> SE[Sensor<br>satélite · avión · dron]
+  SE --> R[Estación terrena]
+  R --> U[Procesamiento<br>e interpretación]
+```
+
+## El espectro electromagnético
+
+$$
+c = \lambda \cdot \nu \qquad E = h \cdot \nu
+$$ {#eq-onda}
+
+| Región | Longitud de onda | Aplicaciones |
+|---|---|---|
+| Visible (azul, verde, rojo) | 0,4–0,7 µm | Color natural, agua, vegetación |
+| Infrarrojo cercano (NIR) | 0,7–1,3 µm | Vigor vegetal, biomasa |
+| Infrarrojo de onda corta (SWIR) | 1,3–3 µm | Humedad, minerales, quemas |
+| Infrarrojo térmico (TIR) | 8–14 µm | Temperatura superficial, islas de calor |
+| Microondas | 1 mm–1 m | Radar (SAR): opera de día y de noche y atraviesa nubes |
+
+: Regiones del espectro de interés en teledetección {#tbl-espectro}
+
+## Interacción con la atmósfera
+
+- **Dispersión** (Rayleigh, Mie, no selectiva): afecta sobre todo al azul y produce neblina.
+- **Absorción** por vapor de agua, CO₂ y ozono: define las **ventanas atmosféricas** donde los sensores pueden observar.
+- **Corrección atmosférica:** convierte la radiancia del sensor en **reflectancia de superficie** (productos *Level-2A* de Sentinel-2 o *Collection 2 Level-2* de Landsat).
+
+## Firmas espectrales
+
+Cada cubierta refleja la energía de forma característica:
+
+- **Vegetación sana:** baja reflectancia en rojo (absorción por clorofila) y alta en NIR (estructura celular). Esta diferencia es la base del NDVI.
+- **Agua:** muy baja reflectancia en NIR y SWIR.
+- **Suelo desnudo:** reflectancia que crece de forma gradual hacia el SWIR, modulada por la humedad y los minerales.
+- **Nieve:** muy alta en visible y baja en SWIR (índice NDSI).
+
+```python
+import matplotlib.pyplot as plt
+bandas = [0.49, 0.56, 0.665, 0.842, 1.61, 2.19]   # µm, Sentinel-2
+vegetacion = [0.04, 0.08, 0.04, 0.45, 0.25, 0.12]
+agua       = [0.07, 0.06, 0.04, 0.02, 0.01, 0.01]
+suelo      = [0.10, 0.14, 0.18, 0.24, 0.32, 0.30]
+for y, n in [(vegetacion, "Vegetación"), (agua, "Agua"), (suelo, "Suelo")]:
+    plt.plot(bandas, y, marker="o", label=n)
+plt.xlabel("Longitud de onda (µm)"); plt.ylabel("Reflectancia"); plt.legend()
+plt.title("Firmas espectrales típicas (valores ilustrativos)")
+plt.show()
+```
+
+## Las cuatro resoluciones
+
+| Resolución | Definición | Ejemplo |
+|---|---|---|
+| **Espacial** | Tamaño del píxel en el terreno | Sentinel-2: 10 m; Landsat: 30 m; drones: 1–5 cm |
+| **Espectral** | Número y ancho de bandas | Multiespectral (4–15 bandas) vs. hiperespectral (cientos) |
+| **Radiométrica** | Niveles digitales que distingue el sensor | 12 bits = 4.096 niveles |
+| **Temporal** | Frecuencia de revisita | Sentinel-2 (2A+2B+2C): 2–5 días; Landsat 8+9: 8 días |
+
+: Resoluciones de un sensor {#tbl-resoluciones}
+
+::: {.callout-note}
+## Compromiso entre resoluciones
+Ningún sensor maximiza todas las resoluciones a la vez. Un satélite con píxeles muy pequeños suele cubrir franjas angostas y revisitar con menos frecuencia. La elección depende de la pregunta: un catastro de piscinas exige resolución espacial; el monitoreo de una sequía, resolución temporal.
+:::
+
+## Sensores pasivos y activos
+
+- **Pasivos:** miden energía solar reflejada o emitida (ópticos y térmicos). Dependen de la luz del día y de la ausencia de nubes.
+- **Activos:** emiten su propia energía (radar SAR, LiDAR). Funcionan de noche y, el radar, también con nubes. Ver @sec-sar.
+
+## Niveles de procesamiento
+
+| Nivel | Contenido |
+|---|---|
+| L0 | Datos crudos del sensor |
+| L1 | Radiancia o reflectancia en el tope de la atmósfera (TOA), ortorrectificada |
+| L2 | Reflectancia de superficie (BOA), corrección atmosférica aplicada |
+| L3 | Productos derivados y compuestos (mosaicos, índices) |
+| L4 | Productos modelados (biomasa, evapotranspiración) |
+
+: Niveles de procesamiento {#tbl-niveles}
+
+## Preguntas de repaso
+
+1. ¿Por qué la vegetación sana se ve roja en una composición NIR-R-G?
+2. Explica por qué el radar puede observar el sur de Chile durante el invierno y un sensor óptico no.
+3. ¿Qué resolución priorizarías para monitorear derrames en el lago Villarrica? Justifica.

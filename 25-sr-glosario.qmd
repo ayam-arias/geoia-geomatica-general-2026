@@ -1,0 +1,38 @@
+# Glosario de teledetección y geomática {#sec-glosario}
+
+| Término | Definición |
+|---|---|
+| **Absorción atmosférica** | Pérdida de energía por gases (H₂O, CO₂, O₃) en ciertas longitudes de onda. |
+| **Ambigüedad (GNSS)** | Número entero desconocido de ciclos en la medición de fase; resolverla permite precisión centimétrica. |
+| **Banda** | Intervalo del espectro registrado por un sensor. |
+| **Coherencia (InSAR)** | Grado de similitud de fase entre dos imágenes SAR; baja con la vegetación y el tiempo. |
+| **CORS** | Estación GNSS de operación continua. |
+| **Datum** | Conjunto de parámetros que define la posición del elipsoide respecto de la Tierra. |
+| ***Embedding*** | Vector numérico que resume las características de un píxel, una imagen o un texto, aprendido por un modelo de IA. |
+| **Época** | Instante al que se refieren las coordenadas de un marco dinámico (p. ej., 2025.0). |
+| **EPSG** | Registro de parámetros geodésicos mantenido por la IOGP; asigna códigos a los SRC. |
+| **Firma espectral** | Curva de reflectancia de una cubierta en función de la longitud de onda. |
+| **Geoide** | Superficie equipotencial de la gravedad que aproxima el nivel medio del mar. |
+| **GRD / SLC** | Productos SAR de intensidad proyectada al terreno / complejos de una vista con fase. |
+| **Índice espectral** | Combinación algebraica de bandas para resaltar una propiedad (NDVI, NBR). |
+| ***Layover*** | Distorsión SAR en que la cima de una montaña aparece antes que su base. |
+| **MDE / MDT / MDS** | Modelo digital de elevación / del terreno (suelo desnudo) / de superficie (con objetos). |
+| **Modelo fundacional** | Red neuronal preentrenada con grandes volúmenes de datos que se adapta a muchas tareas con pocos ejemplos. |
+| **NTRIP** | Protocolo para transmitir correcciones GNSS por internet. |
+| **Ortofoto** | Imagen corregida geométricamente con escala uniforme. |
+| **PDOP** | Dilución de la precisión en posición; mide la calidad de la geometría satelital. |
+| **Píxel** | Unidad mínima de una imagen ráster. |
+| **PPP** | Posicionamiento puntual preciso con órbitas y relojes precisos. |
+| **Reflectancia** | Proporción de energía incidente reflejada por una superficie (0–1). |
+| **Resolución** | Capacidad de un sensor de discriminar información (espacial, espectral, radiométrica, temporal). |
+| **RINEX** | Formato estándar de intercambio de observaciones GNSS. |
+| **RTK** | Posicionamiento cinemático en tiempo real con correcciones de una base. |
+| **SfM** | *Structure from Motion*: reconstrucción 3D a partir de fotografías superpuestas. |
+| **SIRGAS-Chile** | Marco de referencia geodésico oficial de Chile, densificación de SIRGAS. |
+| ***Speckle*** | Ruido granular propio de las imágenes de radar coherente. |
+| **SRC** | Sistema de referencia de coordenadas. |
+| **TOA / BOA** | Reflectancia en el tope / en la base de la atmósfera. |
+| **UTM** | Proyección Universal Transversa de Mercator en husos de 6°. |
+| **Ventana atmosférica** | Región del espectro donde la atmósfera es transparente. |
+
+: Glosario {#tbl-glosario}

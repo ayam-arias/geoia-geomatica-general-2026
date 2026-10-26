@@ -1,0 +1,23 @@
+name: geomatica-chile
+channels: [conda-forge]
+dependencies:
+  - python=3.12
+  - gdal
+  - pyproj
+  - geopandas
+  - rasterio
+  - rioxarray
+  - shapely
+  - scipy
+  - scikit-learn
+  - matplotlib
+  - mapclassify
+  - folium
+  - owslib
+  - jupyterlab
+  - earthengine-api
+  - geemap
+  - whitebox
+  - pip
+  - pip:
+      - asf_search

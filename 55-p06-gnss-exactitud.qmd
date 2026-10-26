@@ -1,0 +1,67 @@
+# Práctica 6 · Levantamiento GNSS y exactitud posicional {#sec-p06}
+
+::: {.geoia-card}
+**Duración:** 4 horas (terreno + gabinete) · **Equipos:** receptor GNSS multifrecuencia (RTK o estático) · **Lectura previa:** @sec-gnss
+**Datos de ejemplo:** `data/checkpoints_ejemplo.csv` (valores sintéticos para practicar el cálculo)
+:::
+
+## Parte A · Terreno
+
+1. Selecciona **20 puntos de verificación** bien distribuidos y fácilmente identificables (esquinas de soleras, marcas pintadas).
+2. Mide cada punto con el método de **mayor exactitud** disponible (estático vinculado a una CORS SIRGAS-Chile o RTK con base vinculada).
+3. Registra para cada punto: identificador, hora, PDOP, número de satélites, tipo de solución (fija/flotante) y altura de antena.
+4. Fotografía cada punto.
+
+## Parte B · Postproceso estático (si aplica)
+
+1. Descarga el RINEX de la CORS más cercana desde <https://www.sirgaschile.cl> para el periodo de observación.
+2. Procesa la línea base fijando la CORS en SIRGAS-Chile 2025.0.
+3. Revisa el informe: solución fija, RMS y longitud de la línea base.
+
+## Parte C · Cálculo de exactitud (NSSDA)
+
+El estándar NSSDA [@fgdc1998] compara las coordenadas del producto evaluado con las de referencia:
+
+$$
+RMSE_r = \sqrt{RMSE_x^2 + RMSE_y^2}
+\qquad
+\text{Exactitud}_r^{95\%} = 1{,}7308 \cdot RMSE_r
+$$ {#eq-nssda-h}
+
+$$
+\text{Exactitud}_z^{95\%} = 1{,}9600 \cdot RMSE_z
+$$ {#eq-nssda-v}
+
+La fórmula horizontal supone $RMSE_x \approx RMSE_y$. Las normas ASPRS de exactitud posicional (edición 2, 2024) [@asprs2023] reportan además el RMSE por componente y exigen al menos 30 puntos de verificación para productos de gran extensión.
+
+```python
+import numpy as np, pandas as pd
+
+df = pd.read_csv("data/checkpoints_ejemplo.csv")
+dx = df.E_producto - df.E_ref
+dy = df.N_producto - df.N_ref
+dz = df.H_producto - df.H_ref
+
+rmse_x, rmse_y, rmse_z = [np.sqrt(np.mean(d**2)) for d in (dx, dy, dz)]
+rmse_r = np.hypot(rmse_x, rmse_y)
+
+print(f"n = {len(df)} puntos")
+print(f"Sesgo  E={dx.mean():+.3f}  N={dy.mean():+.3f}  H={dz.mean():+.3f} m")
+print(f"RMSEx={rmse_x:.3f}  RMSEy={rmse_y:.3f}  RMSEr={rmse_r:.3f}  RMSEz={rmse_z:.3f} m")
+print(f"Exactitud horizontal NSSDA 95 % = {1.7308*rmse_r:.3f} m")
+print(f"Exactitud vertical   NSSDA 95 % = {1.9600*rmse_z:.3f} m")
+```
+
+## Parte D · Interpretación
+
+- Si el **sesgo** es grande respecto del RMSE, sospecha un error sistemático: marco o época distintos, altura de antena mal ingresada o modelo geoidal diferente.
+- Grafica los vectores de error en un mapa para detectar patrones espaciales.
+
+## Preguntas
+
+1. ¿Qué escala cartográfica máxima soporta el producto evaluado según el error gráfico de 0,2 mm?
+2. ¿Qué pasaría si el producto se georreferenció en SIRGAS-Chile 2021 y la referencia está en 2025.0?
+
+## Entregable
+
+Informe de exactitud posicional con la tabla de residuos, los indicadores NSSDA y un mapa de vectores de error.

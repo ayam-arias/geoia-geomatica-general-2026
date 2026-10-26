@@ -1,0 +1,111 @@
+# Entorno reproducible: Python, Docker y Google Earth Engine {#sec-python-docker}
+
+::: {.callout-tip}
+## Lo que aprenderás
+- Crear un entorno de Python geoespacial aislado.
+- Levantar el mismo entorno en cualquier computador con Docker.
+- Registrar un proyecto de Google Earth Engine dentro de los niveles no comerciales vigentes en 2026.
+:::
+
+## ¿Por qué un entorno reproducible?
+
+Un análisis que solo funciona en el computador de su autor no es ciencia abierta. Las bibliotecas geoespaciales (GDAL, PROJ, GEOS) tienen dependencias en C/C++ que generan conflictos de versión. Hay dos soluciones complementarias:
+
+1. **Entornos de conda/mamba o `uv`**: aíslan las bibliotecas de cada proyecto.
+2. **Contenedores Docker**: empaquetan el sistema operativo y las bibliotecas en una imagen idéntica para todos.
+
+## Opción A: entorno con conda (mamba)
+
+El archivo `environment.yml` del repositorio define el entorno del curso:
+
+```yaml
+name: geomatica-chile
+channels: [conda-forge]
+dependencies:
+  - python=3.12
+  - gdal
+  - pyproj
+  - geopandas
+  - rasterio
+  - rioxarray
+  - shapely
+  - matplotlib
+  - folium
+  - jupyterlab
+  - earthengine-api
+  - geemap
+  - pip
+```
+
+```bash
+mamba env create -f environment.yml
+mamba activate geomatica-chile
+python -c "import pyproj; print(pyproj.__version__, pyproj.proj_version_str)"
+```
+
+## Opción B: Docker
+
+El repositorio incluye `docker/Dockerfile` y `docker/docker-compose.yml`. Con Docker Desktop instalado:
+
+```bash
+docker compose -f docker/docker-compose.yml up --build
+```
+
+Luego abre <http://localhost:8888> en el navegador. La carpeta del proyecto queda montada en `/home/jovyan/trabajo`, así que los cambios se guardan en tu disco.
+
+```{mermaid}
+flowchart LR
+  A[Dockerfile] -->|docker build| B[Imagen geomatica-chile]
+  B -->|docker run / compose| C[Contenedor JupyterLab]
+  D[(Carpeta del proyecto)] <-->|volumen| C
+```
+
+::: {.callout-note}
+## Windows y WSL 2
+Docker Desktop en Windows usa **WSL 2**. Si la instalación falla, habilita la virtualización en la BIOS y ejecuta `wsl --install` en PowerShell como administrador.
+:::
+
+## Google Earth Engine en 2026
+
+::: {.callout-important}
+## Dato 2026: niveles de cuota no comercial
+Desde el **27 de abril de 2026**, todo proyecto de Earth Engine de uso no comercial debe estar en un nivel de cuota [@google2026gee]:
+
+| Nivel | Cómputo mensual | Requisito |
+|---|---|---|
+| Community | 150 EECU-hora | Sin cuenta de facturación |
+| Contributor | 1.000 EECU-hora | Cuenta de facturación de Google Cloud (sin cobro) |
+| Partner | 100.000 EECU-hora | Acuerdo con Google |
+
+La elegibilidad no comercial se verifica anualmente.
+:::
+
+### Registro paso a paso
+
+1. Ingresa a <https://code.earthengine.google.com/register> con tu cuenta de Google.
+2. Elige **Uso no comercial** (académico, educativo o investigación sin fines de lucro).
+3. Crea o selecciona un **proyecto de Google Cloud** (por ejemplo `geomatica-chile-tunombre`).
+4. Asigna el nivel **Community** (suficiente para las prácticas) o **Contributor**.
+
+### Autenticación desde Python
+
+```python
+import ee
+ee.Authenticate()                       # abre el navegador la primera vez
+ee.Initialize(project="geomatica-chile-tunombre")
+print(ee.String("Earth Engine listo").getInfo())
+```
+
+::: {.callout-tip}
+## Cuida tus EECU-hora
+- Filtra siempre por región (`filterBounds`) y por fecha (`filterDate`) antes de procesar.
+- Usa `scale` acorde al sensor (10 m para Sentinel-2, 30 m para Landsat).
+- Prefiere `Export` a ejecutar `getInfo()` sobre colecciones grandes.
+:::
+
+## Lista de verificación
+
+- [ ] `python -c "import geopandas, rasterio, pyproj"` funciona sin errores.
+- [ ] `pyproj.CRS("EPSG:11473")` reconoce SIRGAS-Chile 2025.
+- [ ] Docker levanta JupyterLab en el puerto 8888.
+- [ ] `ee.Initialize(project=...)` se conecta a tu proyecto.

@@ -1,0 +1,92 @@
+# Sistemas Globales de Navegación por Satélite (GNSS) {#sec-gnss}
+
+## Principio de funcionamiento
+
+Un receptor GNSS calcula su posición midiendo la distancia a varios satélites cuya posición conoce gracias a las efemérides. Como el reloj del receptor no es perfecto, la incógnita del tiempo se suma a las tres de posición: se necesitan **al menos cuatro satélites** [@hofmann2008].
+
+$$
+P_i = \rho_i + c\,(\delta t_r - \delta t^{s}_i) + I_i + T_i + M_i + \varepsilon_i
+$$ {#eq-pseudodistancia}
+
+donde $P_i$ es la pseudodistancia, $\rho_i$ la distancia geométrica, $c$ la velocidad de la luz, $\delta t$ los errores de reloj, $I$ y $T$ los retardos ionosférico y troposférico, $M$ el multitrayecto y $\varepsilon$ el ruido.
+
+## Las constelaciones en 2026
+
+| Sistema | Operador | Estado (oct-2026) |
+|---|---|---|
+| **GPS** | Estados Unidos | 32 satélites operativos; GPS III SV10, último de su serie, lanzado en abril de 2026. Sigue la serie GPS IIIF. |
+| **Galileo** | Unión Europea | Constelación completa según diseño desde 2025. Servicio de Alta Precisión (**HAS**) gratuito por la señal E6-B [@euspa2023has]. |
+| **GLONASS** | Rusia | 27 satélites en constelación (22 en uso a septiembre de 2026). |
+| **BeiDou-3** | China | Cobertura global desde 2020; 50 satélites operativos informados en 2026. |
+| QZSS / NavIC | Japón / India | Regionales, sin cobertura útil en Chile. |
+
+: Constelaciones GNSS a octubre de 2026 {#tbl-constelaciones}
+
+### Señales modernas
+
+- **L1 C/A, L1C y E1:** señales civiles interoperables en la banda L1.
+- **L2C:** segunda frecuencia civil de GPS.
+- **L5 / E5a / B2a:** banda protegida para aviación; mejora la eliminación del retardo ionosférico.
+- **E6:** señal de Galileo que transmite las correcciones HAS.
+
+::: {.callout-note}
+## SBAS en Chile
+No hay un sistema de aumentación basado en satélites (SBAS) operativo para Chile. El proyecto regional SACCSA no llegó a operar. Por eso los receptores de navegación muestran precisiones métricas sin corrección diferencial.
+:::
+
+## Fuentes de error y su orden de magnitud
+
+| Fuente | Magnitud típica | Mitigación |
+|---|---|---|
+| Ionosfera | 2–10 m (mayor en máximo solar) | Doble frecuencia, modelos, diferenciación |
+| Troposfera | 2–3 m en el cenit | Modelos (Saastamoinen), estimación |
+| Relojes y órbitas | 1–2 m (navegación) | Productos precisos IGS, diferenciación |
+| Multitrayecto | 0,5–2 m en código; cm en fase | Antena *choke ring*, buen emplazamiento |
+| Geometría (DOP) | Multiplica los errores | Planificar sesiones con PDOP < 3 |
+
+: Errores GNSS {#tbl-errores-gnss}
+
+## Métodos de posicionamiento
+
+| Método | Precisión típica | Tiempo | Requiere |
+|---|---|---|---|
+| Autónomo (navegación) | 2–5 m | Instantáneo | Un receptor |
+| DGNSS | 0,3–1 m | Instantáneo | Base o servicio diferencial |
+| **Estático diferencial** | 3–5 mm + 0,5 ppm | 30 min a horas | Base (CORS SIRGAS-Chile) y postproceso |
+| **RTK** | 1–2 cm + 1 ppm | Segundos | Base o red con enlace de radio/NTRIP |
+| **PPP** | 2–10 cm (convergencia) | 20–60 min | Órbitas y relojes precisos |
+| **PPP-HAS (Galileo)** | ~20 cm H / 40 cm V | 10–30 min | Receptor compatible con E6 |
+
+: Métodos de posicionamiento GNSS {#tbl-metodos-gnss}
+
+```{mermaid}
+flowchart TD
+  A{¿Precisión requerida?} -->|metros| B[Autónomo]
+  A -->|decímetros| C[PPP / HAS / DGNSS]
+  A -->|centímetros| D{¿Tiempo real?}
+  D -->|Sí| E[RTK con base propia<br>o red comercial NTRIP]
+  D -->|No| F[Estático + postproceso<br>con CORS SIRGAS-Chile]
+  A -->|milímetros| G[Estático de larga duración<br>con efemérides precisas]
+```
+
+## Flujo de un levantamiento estático en Chile
+
+1. **Planificación:** revisar disponibilidad de satélites y PDOP; identificar las CORS SIRGAS-Chile más cercanas en <https://www.sirgaschile.cl>.
+2. **Terreno:** instalar el receptor sobre el punto, medir la altura de antena y registrar el número de serie y el tipo de antena.
+3. **Descarga:** convertir los datos a **RINEX** y descargar el RINEX de las CORS para el mismo periodo.
+4. **Postproceso:** procesar líneas base con software del fabricante o libre (RTKLIB), fijando las CORS con sus coordenadas en SIRGAS-Chile 2025.0.
+5. **Época:** si la observación se hizo en 2026.8, las coordenadas resultantes deben llevarse a la época 2025.0 o declararse en la época de observación.
+6. **Informe:** coordenadas, precisiones, ambigüedades resueltas, CORS usadas y época.
+
+## Precisión y exactitud
+
+- **Precisión:** dispersión de mediciones repetidas.
+- **Exactitud:** cercanía al valor verdadero.
+
+Un RTK puede ser muy preciso (1 cm de dispersión) y a la vez inexacto si la base tiene coordenadas en un marco o época equivocados. Este error sistemático es frecuente en Chile cuando se mezclan coordenadas de distintas épocas. En @sec-p06 se calcula la exactitud posicional con el estándar NSSDA [@fgdc1998].
+
+## Preguntas de repaso
+
+1. ¿Por qué se necesitan cuatro satélites como mínimo?
+2. ¿Qué ventaja tiene la señal L5 para eliminar el error ionosférico?
+3. Un contratista entrega puntos RTK con una base cuyas coordenadas vienen de un GPS navegador. ¿Qué tipo de error esperas y de qué magnitud?

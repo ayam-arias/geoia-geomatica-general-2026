@@ -1,0 +1,37 @@
+# Prefacio {.unnumbered}
+
+La geomática dejó de ser solo una técnica de levantamiento de datos. Hoy es una disciplina integradora que combina **geodesia, posicionamiento satelital, teledetección, sistemas de información geográfica, cartografía, ciencia de datos e inteligencia artificial** para describir y gestionar el territorio.
+
+Chile es un laboratorio natural excepcional para aprender geomática. Tiene más de 4.000 km de extensión norte–sur, una cordillera que supera los 6.000 m, uno de los márgenes de subducción más activos del planeta, desiertos, glaciares, fiordos e islas oceánicas. Todo ello obliga a pensar con cuidado en los **sistemas de referencia**, en la **deformación de la corteza** y en la **calidad posicional** de cada dato.
+
+## ¿Por qué un libro en 2026? {.unnumbered}
+
+Entre 2024 y 2026 cambiaron varias piezas fundamentales del trabajo geomático en Chile y el mundo:
+
+- El IGM puso en vigencia **SIRGAS-Chile época 2025.0**, una red íntegramente formada por estaciones de operación continua (CORS), registrada en EPSG con el código **11473** [@igm2025sirgas; @epsg2026].
+- **QGIS 4** (basado en Qt6) se lanzó en marzo de 2026 y la versión 4.2 pasa a ser la versión de largo plazo (LTR) [@qgis2026].
+- **Google Earth Engine** exige desde abril de 2026 un nivel de cuota para uso no comercial [@google2026gee].
+- **NISAR** (NASA–ISRO) libera datos de radar en banda L a todo público desde julio de 2026 [@asf2026nisar], y MODIS se acerca al fin de su vida científica [@nasa2026terra].
+- La **GeoIA** se volvió práctica gracias a los modelos fundacionales y a la segmentación automática [@szwarcman2024; @brown2025; @wu2023samgeo].
+
+## Filosofía del curso {.unnumbered}
+
+1. **Primero el concepto, luego la herramienta.** Los botones cambian con cada versión; los principios no.
+2. **Ciencia abierta y reproducibilidad.** Todo el código, los datos de ejemplo y este libro se publican en un repositorio de GitHub y se pueden ejecutar en un contenedor Docker.
+3. **Lo local importa.** Los ejemplos usan instituciones, datos y marcos de referencia chilenos: IGM, SAF, CIREN, INE, DGA, CONAF, SHOA, IDE Chile.
+4. **Calidad declarada.** Toda coordenada se acompaña de su sistema de referencia, su época y su exactitud.
+
+## Cómo usar este libro {.unnumbered}
+
+- Los capítulos teóricos se pueden leer en orden o como referencia.
+- Las prácticas están numeradas y referencian los capítulos que conviene leer antes.
+- Los bloques marcados como **Dato 2026** resumen información verificada a octubre de 2026.
+- Las referencias siguen el formato **APA 7.ª edición**.
+
+::: {.callout-note}
+## Sobre las obras de referencia
+Este libro no reproduce textos de terceros. Las obras clásicas, como *Teledetección ambiental* de Chuvieco [-@chuvieco2010] o *Remote Sensing and Image Interpretation* de Lillesand et al. [-@lillesand2015], se citan y recomiendan en el [Apéndice D](83-lecturas-recomendadas.qmd) para que el estudiante las consulte en la biblioteca o adquiera una copia legal.
+:::
+
+*Ian Arias Carrasco*
+*Santiago de Chile, octubre de 2026*

@@ -1,0 +1,95 @@
+# Proyecciones cartográficas y sistemas de coordenadas {#sec-proyecciones}
+
+## De la superficie curva al plano
+
+Toda proyección cartográfica transforma coordenadas geodésicas $(\varphi, \lambda)$ en coordenadas planas $(E, N)$ y, al hacerlo, **deforma** alguna propiedad: ángulos, áreas, distancias o direcciones [@snyder1987]. Elegir una proyección es elegir qué deformación aceptar.
+
+| Propiedad conservada | Nombre | Ejemplo | Uso típico |
+|---|---|---|---|
+| Ángulos y formas locales | Conforme | Transversa de Mercator (UTM) | Topografía, ingeniería, catastro |
+| Áreas | Equivalente | Albers, Lambert acimutal equivalente | Estadística territorial, coberturas |
+| Distancias desde un punto | Equidistante | Acimutal equidistante | Radios de cobertura, aviación |
+| Ninguna (compromiso) | Afiláctica | Robinson, Winkel tripel | Mapas mundiales divulgativos |
+
+: Clasificación de proyecciones por propiedad {#tbl-proyecciones}
+
+## Coordenadas geográficas
+
+- **Latitud** $\varphi$: ángulo respecto del ecuador (negativa en el hemisferio sur).
+- **Longitud** $\lambda$: ángulo respecto del meridiano de Greenwich (negativa al oeste).
+- **Formatos:** grados decimales (−33,4405°) o grados, minutos y segundos (33° 26′ 25,8″ S).
+
+```python
+def gms_a_decimal(g, m, s, hemisferio):
+    signo = -1 if hemisferio in ("S", "O", "W") else 1
+    return signo * (abs(g) + m / 60 + s / 3600)
+
+print(gms_a_decimal(33, 26, 25.8, "S"))   # -33.44050
+```
+
+## Sistema UTM
+
+La proyección **Universal Transversa de Mercator** divide la Tierra en 60 husos de 6° de longitud. Sus parámetros son:
+
+| Parámetro | Valor |
+|---|---|
+| Factor de escala en el meridiano central $k_0$ | 0,9996 |
+| Falso Este | 500.000 m |
+| Falso Norte (hemisferio sur) | 10.000.000 m |
+| Límites de latitud | 80° S a 84° N |
+
+: Parámetros UTM {#tbl-utm}
+
+### Husos en Chile
+
+| Huso | Meridiano central | Cobertura aproximada en Chile |
+|---|---|---|
+| **19S** | 69° O | Al este de 72° O: la mayor parte del territorio continental, desde Arica hasta Magallanes oriental |
+| **18S** | 75° O | Al oeste de 72° O: costa de Biobío y La Araucanía, Chiloé, gran parte de Aysén y Magallanes occidental |
+| **17S** | 81° O | Archipiélago Juan Fernández (Robinson Crusoe, ~78,8° O) |
+| **12S** | 111° O | Isla de Pascua (Rapa Nui) |
+
+: Husos UTM en Chile {#tbl-husos-chile}
+
+::: {.callout-warning}
+## Proyectos que cruzan el meridiano 72° O
+Si tu área de estudio cruza dos husos (por ejemplo, la Región del Biobío), **no mezcles coordenadas de husos distintos**. Elige el huso que contiene la mayor parte del área y reproyecta todo a ese huso, aceptando una deformación mayor en el borde, o usa una proyección transversa de Mercator local con meridiano central en el centro del proyecto.
+:::
+
+### Factor de escala y reducción de distancias
+
+En UTM, la distancia en la cuadrícula difiere de la distancia en el terreno. El factor de escala puntual es aproximadamente:
+
+$$
+k \approx k_0 \left(1 + \frac{(E - 500\,000)^2}{2R^2}\right)
+$$ {#eq-factor-escala}
+
+Además, las distancias medidas en terreno a gran altura (por ejemplo, en faenas mineras a 4.000 m) deben reducirse al elipsoide. Para trabajos de ingeniería es común definir un **sistema local de bajas distorsiones** (LDP).
+
+## Sistemas de coordenadas en la práctica
+
+- **Proyección "al vuelo":** QGIS y ArcGIS reproyectan capas en pantalla, pero los análisis (áreas, distancias, *buffers*) deben hacerse con las capas **reproyectadas físicamente** a un SRC métrico.
+- **Web Mercator (EPSG:3857):** útil para mapas web, pero **no sirve para medir**: en la latitud de Punta Arenas (53° S) las distancias se exageran cerca de 1,66 veces.
+
+```python
+import math
+for ciudad, lat in [("Arica", -18.48), ("Santiago", -33.44), ("Punta Arenas", -53.16)]:
+    print(f"{ciudad:13s} factor Web Mercator = {1/math.cos(math.radians(lat)):.2f}")
+```
+
+## Proyecciones recomendadas para mapas de Chile
+
+| Escala del mapa | Proyección sugerida |
+|---|---|
+| Nacional completo (incluido el territorio insular) | Geográficas SIRGAS-Chile 2025 o transversa de Mercator con meridiano central 71° O |
+| Estadística nacional (áreas comparables) | Albers equivalente con paralelos estándar adaptados a Chile |
+| Regional y comunal | UTM 19S o 18S |
+| Obra de ingeniería | Sistema local de bajas distorsiones vinculado a SIRGAS-Chile |
+
+: Recomendaciones de proyección {#tbl-recomendacion-proy}
+
+## Preguntas de repaso
+
+1. ¿Por qué el falso Norte es 10.000.000 m en el hemisferio sur?
+2. Calcula el factor Web Mercator para Valdivia (39,8° S) e interpreta el resultado.
+3. ¿Qué proyección usarías para comparar la superficie de bosque nativo entre regiones? Justifica.

@@ -1,0 +1,86 @@
+# Modelos digitales de elevación {#sec-mde}
+
+## Definiciones
+
+- **MDE (modelo digital de elevación):** término general para la representación digital del relieve.
+- **MDT (modelo digital del terreno):** superficie del suelo desnudo.
+- **MDS (modelo digital de superficie):** incluye vegetación, edificios y otros objetos.
+
+$$
+\text{Altura de objetos (nMDS)} = \text{MDS} - \text{MDT}
+$$ {#eq-nmds}
+
+## Estructuras de datos
+
+| Estructura | Descripción | Ventajas |
+|---|---|---|
+| Ráster (grilla) | Celdas regulares con un valor de altura | Simple, eficiente para análisis |
+| TIN | Red de triángulos irregulares | Se adapta a la complejidad del terreno |
+| Curvas de nivel | Isolíneas de igual altura | Lectura tradicional |
+| Nube de puntos | Puntos LiDAR o fotogramétricos | Máximo detalle |
+
+: Estructuras de MDE {#tbl-estructuras-mde}
+
+## MDE globales disponibles para Chile
+
+| Producto | Resolución | Tipo | Año base | Acceso |
+|---|---|---|---|---|
+| **Copernicus DEM GLO-30** | 30 m | MDS | 2011–2015 | Libre [@esa2022glo30] |
+| SRTM v3 | 30 m | MDS | 2000 | Libre [@farr2007] |
+| ALOS AW3D30 | 30 m | MDS | 2006–2011 | Libre |
+| NASADEM | 30 m | MDS | 2000 (reprocesado) | Libre |
+| ASTER GDEM v3 | 30 m | MDS | 2000–2013 | Libre |
+
+: MDE globales {#tbl-mde-globales}
+
+::: {.callout-note}
+## Altura de referencia
+Copernicus DEM entrega alturas referidas a EGM2008; SRTM a EGM96. Antes de combinarlos con datos GNSS (alturas elipsoidales), revisa la @eq-alturas.
+:::
+
+Para escalas grandes se usan MDE de **LiDAR** o de **fotogrametría con drones** (ver @sec-rpas).
+
+## Interpolación
+
+| Método | Principio | Uso |
+|---|---|---|
+| IDW | Promedio ponderado por la inversa de la distancia | Rápido, datos densos |
+| Kriging | Geoestadística (variograma) | Estima también el error |
+| Spline / B-spline | Superficie suave de mínima curvatura | Terrenos suaves |
+| TIN lineal | Triangulación de Delaunay | Datos de levantamiento topográfico |
+| Topo to Raster (ANUDEM) | Interpolación hidrológicamente correcta | Cuencas |
+
+: Métodos de interpolación {#tbl-interpolacion}
+
+## Derivados topográficos
+
+- **Pendiente** (grados o %), **orientación** y **sombreado** (*hillshade*).
+- **Curvaturas** (perfil y plana).
+- **Rugosidad (TRI)** y **posición topográfica (TPI)**.
+- **Visibilidad** (cuencas visuales).
+
+## Análisis hidrológico
+
+```{mermaid}
+flowchart LR
+  A[MDE] --> B[Relleno de<br>depresiones]
+  B --> C[Dirección de flujo<br>D8]
+  C --> D[Acumulación<br>de flujo]
+  D --> E[Red de drenaje<br>umbral]
+  C --> F[Delimitación<br>de cuencas]
+  E --> G[Orden de Strahler]
+```
+
+El algoritmo **D8** asigna a cada celda la dirección hacia la vecina con mayor pendiente descendente [@ocallaghan1984; @jenson1988].
+
+## Exactitud de un MDE
+
+Se evalúa comparando con puntos de control GNSS de mayor exactitud:
+
+$$
+RMSE_z = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(z_{MDE,i} - z_{control,i})^2}
+$$ {#eq-rmsez}
+
+Reporta también el sesgo (error medio) y analiza el error por clase de pendiente y de cobertura: en bosques densos y laderas empinadas el error crece.
+
+La práctica @sec-p05 aplica estos conceptos en una cuenca chilena.

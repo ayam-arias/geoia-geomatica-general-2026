@@ -1,0 +1,55 @@
+# Versiones de software y estado de datos verificados {#sec-versiones}
+
+Fecha de verificación: **26 de octubre de 2026**. Revisa esta tabla al inicio de cada semestre.
+
+## Software
+
+| Software | Versión de referencia | Fecha | Fuente |
+|---|---|---|---|
+| QGIS | 4.2.x (LTR desde fines de oct-2026); 3.44 última LTR 3.x | jul–oct 2026 | [@qgis2026] |
+| ArcGIS Pro | 3.7 | may-2026 | [@esri2026] |
+| GDAL | 3.13.x | ago-2026 | PyPI |
+| PROJ | 9.9.0 | sep-2026 | GitHub OSGeo/PROJ |
+| Quarto | 1.9 estable (1.10 en PyPI) | 2026 | [@posit2026quarto] |
+| Google Earth Engine | Niveles no comerciales obligatorios desde el 27-abr-2026 | 2026 | [@google2026gee] |
+| segment-geospatial | Con soporte SAM 3 | 2026 | [@wu2026samgeo] |
+| Python | 3.12 o 3.13 recomendado para el curso | — | python.org |
+| Docker Desktop, GeoServer, PostGIS, QField | Última estable al momento de la clase | — | Sitios oficiales |
+
+: Versiones probadas {#tbl-versiones}
+
+## Marcos de referencia
+
+| Elemento | Estado |
+|---|---|
+| Marco oficial | SIRGAS-Chile época 2025.0, EPSG:11473 (geográficas) |
+| UTM SIRGAS-Chile 2025 | Sin código EPSG a oct-2026: usar SRC personalizado |
+| Modelo geoidal nacional | No publicado oficialmente: usar EGM2008 y declararlo |
+| Caster NTRIP público del IGM | No disponible |
+
+: Estado de la referencia geodésica {#tbl-estado-geodesia}
+
+## Satélites (resumen)
+
+| Misión | Estado |
+|---|---|
+| Landsat 8/9 | Operativos; Landsat 10 no antes de 2031 |
+| Sentinel-1C/1D | Operativos (1D desde nov-2025) |
+| Sentinel-2A/2B/2C | Operativos (2C desde ene-2025) |
+| NISAR | Datos públicos en banda L desde jul-2026 |
+| MODIS Terra / Aqua | Fin de ciencia proyectado feb-2027 / sep-2027 |
+| VIIRS Suomi NPP | Fin de entrega de datos nov-2026 |
+| CO2M (Sentinel-7A) | Lanzamiento previsto 2027 |
+| FASat-Delta | Contrato terminado por la FACh en nov-2024 |
+
+: Estado de misiones {#tbl-estado-misiones}
+
+## Normativa
+
+| Norma | Estado |
+|---|---|
+| DAN 151 Ed. 3 (mayo 2024) | Vigente |
+| DAN 151 Ed. 4 | En consulta, no vigente |
+| DAN 91 | Vigente |
+
+: Normativa RPAS {#tbl-estado-normativa}

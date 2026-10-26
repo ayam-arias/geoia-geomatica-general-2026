@@ -1,0 +1,152 @@
+# Geodesia y marcos de referencia en Chile {#sec-geodesia}
+
+::: {.callout-tip}
+## Pregunta central del capítulo
+**¿En qué época está tu coordenada?** En Chile, una coordenada sin época está incompleta: la corteza se mueve centímetros por año y hasta metros durante un gran terremoto.
+:::
+
+## Conceptos fundamentales
+
+### Forma de la Tierra: geoide y elipsoide
+
+- **Geoide:** superficie equipotencial del campo de gravedad que coincide aproximadamente con el nivel medio del mar. Es irregular y se usa como referencia de las alturas físicas.
+- **Elipsoide:** figura matemática que aproxima la Tierra y sirve para calcular coordenadas. SIRGAS usa el elipsoide **GRS80**.
+
+| Parámetro | GRS80 | WGS 84 |
+|---|---|---|
+| Semieje mayor *a* | 6.378.137,000 m | 6.378.137,000 m |
+| Achatamiento inverso 1/*f* | 298,257222101 | 298,257223563 |
+
+: Elipsoides de uso en Chile {#tbl-elipsoides}
+
+La diferencia entre ambos elipsoides es submilimétrica; en la práctica, lo que distingue a SIRGAS-Chile de "WGS 84" no es el elipsoide sino **el marco de referencia y la época**.
+
+### Sistema, marco y época
+
+- **Sistema de referencia:** definición teórica (origen, orientación, escala). Ejemplo: ITRS.
+- **Marco de referencia:** materialización del sistema mediante estaciones con coordenadas y velocidades. Ejemplos: ITRF2020, IGS20, SIRGAS.
+- **Época de referencia:** instante al que están referidas las coordenadas del marco, por ejemplo **2025.0** (1 de enero de 2025).
+
+### Tipos de altura
+
+$$
+h = H + N
+$$ {#eq-alturas}
+
+donde $h$ es la altura elipsoidal (la que entrega el GNSS), $H$ la altura ortométrica (sobre el nivel medio del mar) y $N$ la ondulación del geoide.
+
+::: {.callout-warning}
+## Limitación vigente en Chile
+A octubre de 2026 **no existe un modelo geoidal nacional oficial** publicado por el IGM; existen estudios y evaluaciones de modelos globales [@tarrio2017]. Para convertir alturas elipsoidales a ortométricas se recomienda usar el modelo global **EGM2008** y **declarar explícitamente esta limitación** en cualquier informe técnico. Para trabajos de precisión, vincúlate a puntos de nivelación del IGM.
+:::
+
+## Chile: un país que se mueve
+
+Chile está sobre el margen de subducción entre las placas de Nazca y Sudamericana. Esto produce dos tipos de deformación:
+
+1. **Intersísmica:** movimiento lento y continuo de varios centímetros por año en la costa.
+2. **Cosísmica:** saltos de decímetros a varios metros durante grandes terremotos (Maule 2010 Mw 8,8; Iquique 2014 Mw 8,2; Illapel 2015 Mw 8,3), seguidos de deformación postsísmica que dura años.
+
+Por eso el IGM actualiza periódicamente la época de la Red Geodésica Nacional. EPSG registra que SIRGAS-Chile 2021 fue reemplazado por SIRGAS-Chile 2025 "debido a una deformación tectónica significativa" [@epsg2026].
+
+## Evolución de SIRGAS-Chile
+
+| Época | Materialización | Estado |
+|---|---|---|
+| 2002.0 | Red pasiva; reemplazó a PSAD56 y SAD69 como marco oficial | Histórico |
+| 2013.0 | 130 vértices pasivos y 60 CORS | Histórico |
+| 2016.0 | 115 vértices pasivos y 78 CORS | Histórico |
+| 2021.0 | 111 CORS, ajustada a ITRF2014/IGb14 | Reemplazado |
+| **2025.0** | **136 CORS**, referida a SIRGAS/IGS20, elipsoide GRS80 | **Vigente desde mayo–junio de 2025** |
+
+: Realizaciones de SIRGAS-Chile [@igm2025sirgas; @ejercito2025] {#tbl-sirgas-epocas}
+
+El lanzamiento de la época 2025 incluyó 28 nuevas estaciones de primer orden, el sitio web renovado <https://www.sirgaschile.cl> y certificados digitales de coordenadas [@ejercito2025].
+
+## Códigos EPSG para Chile
+
+| Sistema | Geográficas 2D | UTM 18S | UTM 19S | Estado |
+|---|---|---|---|---|
+| **SIRGAS-Chile 2025** | **11473** | *sin código EPSG a oct-2026* | *sin código EPSG a oct-2026* | **Vigente** |
+| SIRGAS-Chile 2021 | 20041 | 20048 | 20049 | Reemplazado |
+| SIRGAS-Chile 2016 | verificar en epsg.org | verificar | verificar | Histórico |
+| SIRGAS-Chile 2002 | 5360 | 5362 | 5361 | Histórico |
+| SAD69 | 4618 | 29188 | 29189 | Datum heredado |
+| PSAD56 | 4248 | 24878 | 24879 | Datum heredado (cartografía IGM antigua) |
+| WGS 84 | 4326 | 32718 | 32719 | Genérico GNSS, **no es marco oficial** |
+
+: Códigos EPSG relevantes (verificados a octubre de 2026) {#tbl-epsg-chile}
+
+::: {.callout-important}
+## UTM con SIRGAS-Chile 2025: cómo trabajar mientras no exista código
+Mientras EPSG no publique las proyecciones UTM de SIRGAS-Chile 2025, define un **SRC personalizado** con el mismo datum y la proyección UTM (ver @sec-p02):
+
+```text
++proj=utm +zone=19 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs
+```
+
+Nómbralo `SIRGAS-Chile 2025 / UTM 19S (personalizado)` y **documenta en los metadatos** que la época es 2025.0. Cuando EPSG publique el código oficial, reproyecta sin cambios numéricos.
+:::
+
+### Isla de Pascua y Territorio Chileno Antártico
+
+No existen códigos EPSG de SIRGAS-Chile para UTM 12S (Rapa Nui) ni para zonas antárticas. Como alternativa pedagógica se usan WGS 84 / UTM 12S (EPSG:32712) para Rapa Nui y la proyección estereográfica polar antártica (EPSG:3031) para la Antártica. Es una recomendación práctica, no una norma oficial.
+
+## Transformaciones
+
+### Entre datums distintos (PSAD56, SAD69 → SIRGAS-Chile)
+
+Se usan transformaciones de 3 o 7 parámetros. El IGM publicó parámetros regionales por franjas de latitud hacia SIRGAS-Chile 2002. Estas transformaciones tienen **precisión métrica**: sirven para migrar cartografía heredada, nunca para geodesia de precisión.
+
+### Entre épocas del mismo marco
+
+La transformación correcta no es de 7 parámetros: consiste en **propagar las coordenadas en el tiempo** usando velocidades o un modelo de deformación:
+
+$$
+\mathbf{X}(t) = \mathbf{X}(t_0) + \mathbf{v}\,(t - t_0) + \sum \Delta\mathbf{X}_{\text{sísmicos}}
+$$ {#eq-propagacion}
+
+Los fabricantes ya implementan este concepto: Trimble, por ejemplo, reduce el posicionamiento RTX desde la época de observación a la época del marco chileno mediante un modelo de desplazamiento.
+
+```{mermaid}
+flowchart LR
+  A[Observación GNSS<br>época 2026.8<br>IGS20] -->|modelo de velocidades<br>y saltos sísmicos| B[Coordenada en<br>SIRGAS-Chile 2025.0]
+  C[Cartografía PSAD56] -->|parámetros regionales<br>precisión métrica| D[SIRGAS-Chile 2002]
+  D -->|propagación temporal| B
+```
+
+## Red Geodésica Nacional: servicios disponibles
+
+- **Descarga de observaciones RINEX** de las 136 CORS y visor de estaciones en <https://www.sirgaschile.cl>.
+- **Certificados de coordenadas** de las estaciones.
+- **NTRIP/RTK:** a octubre de 2026 **no hay un servidor NTRIP público del IGM**. En la práctica, el RTK en Chile se resuelve con redes comerciales, con una base propia vinculada a una CORS o con PPP.
+- **PPP:** Galileo HAS entrega gratuitamente correcciones con precisión del orden de 20 cm horizontal [@euspa2023has].
+
+## Ejercicio con PyProj
+
+```python
+from pyproj import CRS, Transformer
+
+sirgas2025 = CRS("EPSG:11473")
+print(sirgas2025.name, "| datum:", sirgas2025.datum.name)
+
+# Coordenada aproximada del Cerro Santa Lucía, Santiago
+lat, lon = -33.4405, -70.6440
+
+# UTM 19S personalizado sobre SIRGAS-Chile 2025
+utm19_2025 = CRS.from_proj4("+proj=utm +zone=19 +south +ellps=GRS80 +units=m +no_defs")
+t = Transformer.from_crs(sirgas2025, utm19_2025, always_xy=True)
+este, norte = t.transform(lon, lat)
+print(f"E = {este:,.2f} m   N = {norte:,.2f} m")
+
+# Comparación con un dato heredado en PSAD56 / UTM 19S
+t_psad = Transformer.from_crs("EPSG:24879", "EPSG:5361", always_xy=True)
+print(t_psad.transform(347000, 6298000))   # diferencias del orden de cientos de metros
+```
+
+## Preguntas de repaso
+
+1. ¿Qué diferencia hay entre un sistema y un marco de referencia?
+2. ¿Por qué SIRGAS-Chile se actualiza con nuevas épocas y no se mantiene fijo como PSAD56?
+3. Tienes un plano de 1990 en PSAD56 y un levantamiento RTK de 2026. Describe los pasos para integrarlos y la precisión esperada.
+4. Explica la @eq-alturas y por qué un levantamiento GNSS no entrega directamente cotas sobre el nivel del mar.

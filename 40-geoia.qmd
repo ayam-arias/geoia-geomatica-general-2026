@@ -1,0 +1,91 @@
+# GeoIA: inteligencia artificial geoespacial {#sec-geoia}
+
+::: {.callout-tip}
+## Lo que aprenderás
+- Qué es la GeoIA y cómo se diferencia del aprendizaje automático clásico.
+- Qué son los modelos fundacionales de observación de la Tierra y los *embeddings* satelitales.
+- Cómo usar segmentación automática (SAM) en datos geoespaciales.
+- Qué riesgos éticos y técnicos considerar.
+:::
+
+## Definición
+
+La **GeoIA** (*GeoAI*) es la aplicación de métodos de inteligencia artificial, en especial el aprendizaje profundo, a problemas y datos geoespaciales: imágenes satelitales y de drones, nubes de puntos, trayectorias GNSS, textos con referencias geográficas y redes.
+
+## Evolución
+
+| Etapa | Enfoque | Ejemplos |
+|---|---|---|
+| 2000–2015 | Aprendizaje automático con variables diseñadas a mano | Random Forest con bandas e índices |
+| 2015–2022 | Aprendizaje profundo supervisado | U-Net, Mask R-CNN entrenadas con miles de ejemplos |
+| 2023–2026 | **Modelos fundacionales** y ***embeddings*** | Prithvi-EO-2.0, TerraMind, AlphaEarth, SAM 3 |
+
+: Etapas de la GeoIA {#tbl-etapas-geoia}
+
+## Modelos fundacionales de observación de la Tierra
+
+Un **modelo fundacional** se preentrena de forma autosupervisada con enormes volúmenes de imágenes y luego se ajusta (*fine-tuning*) a tareas específicas con pocos ejemplos.
+
+| Modelo | Desarrollador | Características |
+|---|---|---|
+| **Prithvi-EO-2.0** | NASA e IBM | Multitemporal, entrenado con HLS; versiones *small* y *tiny* [@szwarcman2024; @ibm2025] |
+| **TerraMind** | ESA, IBM y Jülich Supercomputing Centre | Multimodal (óptico, SAR, MDE, texto), 2025 [@ibm2025] |
+| **AlphaEarth Foundations** | Google DeepMind | Genera el *Satellite Embedding dataset*: vectores anuales de 64 dimensiones a 10 m disponibles en Earth Engine [@brown2025; @deepmind2025] |
+| Clay | Clay Foundation | Abierto, multisensor |
+
+: Modelos fundacionales de observación de la Tierra {#tbl-modelos-fundacionales}
+
+### *Embeddings* satelitales
+
+Un *embedding* resume en un vector numérico la información espectral, temporal y espacial de un píxel. Dos píxeles con vectores parecidos tienen características parecidas. Esto permite:
+
+- **Clasificar con muy pocas muestras** (por ejemplo, 50 puntos de terreno).
+- **Buscar similitudes:** "encuéntrame otros lugares parecidos a este humedal".
+- **Detectar cambios** comparando los vectores de dos años.
+
+ArcGIS Pro 3.7 incorpora un conjunto de herramientas para este tipo de análisis, *Embeddings Based Analysis* [@esri2026].
+
+```python
+import ee
+ee.Initialize(project="geomatica-chile-tunombre")
+emb = (ee.ImageCollection("GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL")
+         .filterDate("2024-01-01", "2025-01-01")
+         .filterBounds(ee.Geometry.Point(-72.6, -38.7))   # Temuco
+         .mosaic())
+print(emb.bandNames().size().getInfo())   # 64 bandas A00 ... A63
+```
+
+## Segmentación con *Segment Anything*
+
+**SAM** (*Segment Anything Model*) de Meta segmenta objetos en imágenes a partir de puntos, cajas o texto [@kirillov2023]. La biblioteca **samgeo** (*segment-geospatial*) lo adapta a datos georreferenciados y, en 2026, soporta **SAM 3** mediante el módulo `samgeo3` [@wu2023samgeo; @wu2026samgeo]. Usos típicos:
+
+- Delimitar techos, piscinas, invernaderos o paneles solares en ortofotos.
+- Extraer cuerpos de agua o parcelas agrícolas.
+- Acelerar el etiquetado de datos de entrenamiento.
+
+La práctica @sec-p08 aplica samgeo en una ortofoto.
+
+## Otras aplicaciones
+
+- **Detección de objetos:** vehículos, embarcaciones, maquinaria minera.
+- **Nubes de puntos:** clasificación LiDAR (suelo, vegetación, edificios, cables de líneas eléctricas).
+- **Superresolución** de imágenes.
+- **Asistentes de lenguaje natural** que generan código de Earth Engine, consultas SQL espaciales o simbología.
+
+## Riesgos y buenas prácticas
+
+| Riesgo | Buena práctica |
+|---|---|
+| Sesgo geográfico (modelos entrenados fuera de Chile) | Validar con datos locales e independientes |
+| Alucinaciones de asistentes de IA | Revisar todo código y dato generado; citar fuentes |
+| Exactitud sobreestimada | Matriz de confusión con muestreo estratificado |
+| Privacidad | No identificar personas en imágenes de alta resolución |
+| Huella energética | Usar modelos pequeños y *embeddings* precalculados |
+| Reproducibilidad | Registrar versión del modelo, pesos y semillas |
+
+: Riesgos de la GeoIA {#tbl-riesgos-geoia}
+
+::: {.callout-important}
+## Criterio profesional
+La IA acelera el trabajo, pero no reemplaza el criterio geomático: el sistema de referencia, la escala, la exactitud y la validación de terreno siguen siendo responsabilidad del profesional.
+:::

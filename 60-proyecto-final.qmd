@@ -1,0 +1,69 @@
+# Proyecto final {#sec-proyecto-final}
+
+## Propósito
+
+El proyecto final integra las competencias del curso en un problema territorial real de Chile. Debe ser **reproducible**: cualquier persona debe poder repetir el análisis con el repositorio entregado.
+
+## Temas sugeridos
+
+| Línea | Ejemplo de pregunta |
+|---|---|
+| Riesgo de desastres | ¿Qué manzanas de la comuna X están expuestas a remoción en masa y cuál es su población (Censo 2024)? |
+| Incendios | ¿Cómo se ha recuperado la vegetación tras el incendio de 2024 en la comuna X? |
+| Agua | ¿Cuánto ha variado la superficie del embalse X entre 2016 y 2026? |
+| Minería y medio ambiente | ¿Hay deformación detectable con InSAR en el tranque de relaves X? |
+| Ciudad | ¿Cómo se relacionan las islas de calor con la cobertura vegetal en Santiago? |
+| GeoIA | ¿Qué exactitud alcanza la segmentación automática de techos frente a una digitalización manual? |
+| Geodesia | ¿Qué diferencia hay entre coordenadas de una red local en SIRGAS-Chile 2021 y 2025.0? |
+
+: Temas sugeridos {#tbl-temas}
+
+## Estructura del informe
+
+1. **Título, autor y resumen** (máximo 250 palabras).
+2. **Introducción:** problema, pregunta y objetivos (general y específicos).
+3. **Área de estudio:** mapa de ubicación y descripción.
+4. **Datos:** tabla con fuente, fecha, resolución o escala, SRC y época.
+5. **Metodología:** diagrama de flujo y descripción reproducible.
+6. **Resultados:** mapas, tablas y gráficos.
+7. **Validación:** exactitud posicional o temática.
+8. **Discusión:** interpretación, limitaciones y comparación con estudios previos.
+9. **Conclusiones y recomendaciones.**
+10. **Referencias** en APA 7.
+
+## Repositorio
+
+```text
+proyecto-final-apellido/
+├── README.md          # resumen, cómo reproducir, licencia
+├── informe.qmd        # informe en Quarto
+├── data/              # datos livianos o enlaces de descarga
+├── scripts/           # código numerado en orden de ejecución
+├── productos/         # mapas y tablas finales
+└── environment.yml    # dependencias
+```
+
+## Rúbrica
+
+| Criterio | Peso | Excelente (100 %) | Suficiente (60 %) | Insuficiente (< 40 %) |
+|---|---|---|---|---|
+| Pregunta y objetivos | 10 % | Clara, relevante y acotada | Clara pero amplia | Ambigua |
+| Datos y referencia espacial | 15 % | Fuentes, fechas, SRC y época completos | Falta algún elemento | Sin SRC o sin fuentes |
+| Metodología | 20 % | Correcta, justificada y reproducible | Correcta, poco documentada | Errores conceptuales |
+| Validación | 15 % | Indicadores cuantitativos adecuados | Validación cualitativa | Sin validación |
+| Cartografía | 15 % | Cumple todos los elementos y la jerarquía visual | Elementos incompletos | Mapas ilegibles |
+| Repositorio y reproducibilidad | 15 % | Se ejecuta de principio a fin | Se ejecuta con ajustes | No se ejecuta |
+| Defensa oral | 10 % | Domina el tema y responde con solidez | Responde parcialmente | No domina el tema |
+
+: Rúbrica del proyecto final {#tbl-rubrica}
+
+## Hitos
+
+| Semana | Hito |
+|---|---|
+| 6 | Anteproyecto (ficha técnica de @sec-sr-aplicaciones) |
+| 10 | Avance: datos procesados y metodología |
+| 14 | Entrega del informe y del repositorio |
+| 15 | Defensa (10 minutos + 5 de preguntas) |
+
+: Calendario sugerido {#tbl-hitos}

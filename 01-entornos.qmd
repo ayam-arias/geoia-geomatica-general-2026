@@ -1,0 +1,81 @@
+# Entornos de trabajo geomático {#sec-entornos}
+
+::: {.callout-tip}
+## Lo que aprenderás
+- Qué componentes forman un entorno de trabajo geomático moderno.
+- Cuándo usar software de escritorio, la nube o la programación.
+- Qué decisiones de configuración evitan problemas con los sistemas de referencia chilenos.
+:::
+
+## Tres formas de trabajar con datos espaciales
+
+Un profesional de la geomática en 2026 combina tres entornos complementarios:
+
+| Entorno | Herramientas | Fortalezas | Limitaciones |
+|---|---|---|---|
+| **Escritorio** | QGIS 4.2 LTR, ArcGIS Pro 3.7 | Edición, cartografía, análisis interactivo, control fino | Depende del hardware local; difícil de escalar |
+| **Nube** | Google Earth Engine, ArcGIS Online, Copernicus Data Space | Catálogos de petabytes, procesamiento masivo, colaboración | Cuotas, dependencia de conectividad y de términos de servicio |
+| **Código** | Python (GeoPandas, Rasterio, PyProj, xarray), R (sf, terra), Jupyter, Quarto | Reproducibilidad, automatización, integración con IA | Curva de aprendizaje |
+
+: Entornos de trabajo geomático {#tbl-entornos}
+
+```{mermaid}
+flowchart LR
+  A[Datos de campo<br>GNSS · RPAS · QField] --> D[(Repositorio<br>del proyecto)]
+  B[Datos abiertos<br>IDE Chile · INE · Copernicus] --> D
+  C[Catálogos en la nube<br>Earth Engine · ASF] --> E[Procesamiento<br>Python · GEE]
+  D --> F[SIG de escritorio<br>QGIS · ArcGIS Pro]
+  E --> F
+  F --> G[Productos<br>Mapas · Servicios OGC · Informes Quarto]
+```
+
+## El núcleo común: GDAL, PROJ y GEOS
+
+Casi todo el software geoespacial, libre o comercial, se apoya en tres bibliotecas de código abierto:
+
+- **GDAL/OGR** lee y escribe más de 200 formatos ráster y vectoriales.
+- **PROJ** transforma coordenadas entre sistemas de referencia, incluidas las transformaciones dependientes del tiempo.
+- **GEOS** ejecuta operaciones geométricas como intersección, *buffer* y unión.
+
+::: {.callout-warning}
+## Dato 2026: actualiza la base de datos de PROJ
+El código **EPSG:11473 (SIRGAS-Chile 2025)** solo aparece si tu instalación usa una versión reciente de la base de datos EPSG. PROJ 9.7 (septiembre de 2025) no lo incluía. En octubre de 2026 la versión vigente es **PROJ 9.9**. Antes de trabajar, verifica en QGIS *Configuración → Opciones → SRC y transformaciones* que el código esté disponible.
+:::
+
+## Decisiones de configuración recomendadas
+
+1. **Idioma y formato numérico.** Configura el separador decimal como punto en el software SIG para evitar errores al importar CSV con coordenadas.
+2. **SRC del proyecto.** Para proyectos nacionales usa coordenadas geográficas **SIRGAS-Chile 2025 (EPSG:11473)**. Para trabajo métrico regional usa **UTM 19S** al este del meridiano 72° O (la mayor parte del territorio continental) y **UTM 18S** al oeste de ese meridiano (costa de Biobío y La Araucanía, Chiloé, gran parte de Aysén y Magallanes occidental). Ver @sec-proyecciones.
+3. **Estructura de carpetas.** Separa datos crudos, datos procesados, scripts y productos:
+
+```text
+proyecto/
+├── 01_datos_crudos/     # nunca se modifican
+├── 02_datos_procesados/
+├── 03_scripts/
+├── 04_productos/        # mapas, informes, servicios
+└── README.md            # qué, quién, cuándo, SRC y época
+```
+
+4. **Metadatos mínimos.** Para cada capa registra la fuente, la fecha, el SRC, la **época de referencia** y la exactitud.
+
+## Requisitos de hardware sugeridos
+
+| Uso | CPU | RAM | Almacenamiento | GPU |
+|---|---|---|---|---|
+| Curso básico (QGIS + GEE) | 4 núcleos | 8–16 GB | SSD 256 GB | Integrada |
+| ArcGIS Pro + fotogrametría ligera | 6–8 núcleos | 32 GB | SSD 512 GB–1 TB | Dedicada 4 GB+ con DirectX 12 |
+| GeoIA local (SAM, modelos fundacionales) | 8+ núcleos | 32–64 GB | SSD NVMe 1 TB | NVIDIA con 8–16 GB VRAM (CUDA) |
+
+: Hardware orientativo (2026) {#tbl-hardware}
+
+::: {.callout-note}
+## Sin GPU no hay problema
+Las prácticas de GeoIA de este libro se pueden ejecutar en Google Colab o en el nivel gratuito de plataformas en la nube. No se requiere una estación de trabajo dedicada.
+:::
+
+## Actividad
+
+1. Elabora un inventario del software que tienes instalado: nombre, versión y fecha.
+2. Crea la estructura de carpetas del proyecto del curso y un `README.md` con tu nombre, el SRC que usarás y la fecha.
+3. Responde: ¿por qué una coordenada sin época está incompleta en Chile? (lo veremos en @sec-geodesia).

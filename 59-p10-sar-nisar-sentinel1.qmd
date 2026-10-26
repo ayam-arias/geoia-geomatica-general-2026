@@ -1,0 +1,78 @@
+# Práctica 10 · Radar: inundaciones con Sentinel-1 y exploración de NISAR {#sec-p10}
+
+::: {.geoia-card}
+**Duración:** 3 horas · **Software:** Google Earth Engine, NASA Earthdata / ASF Vertex · **Lectura previa:** @sec-sar
+:::
+
+## Parte A · Mapa de inundación con Sentinel-1 en Earth Engine
+
+Caso sugerido: desborde de ríos en la zona centro-sur durante un sistema frontal (ajusta fechas y área a un evento documentado por SENAPRED).
+
+```python
+import ee, geemap
+ee.Initialize(project="geomatica-chile-tunombre")
+
+aoi = ee.Geometry.Rectangle([-72.20, -36.70, -71.90, -36.50])   # ajusta tu área
+
+def s1(inicio, fin):
+    return (ee.ImageCollection("COPERNICUS/S1_GRD")
+            .filterBounds(aoi).filterDate(inicio, fin)
+            .filter(ee.Filter.eq("instrumentMode", "IW"))
+            .filter(ee.Filter.listContains("transmitterReceiverPolarisation", "VV"))
+            .select("VV").median().clip(aoi))
+
+antes   = s1("2023-05-01", "2023-06-10").focalMedian(30, "circle", "meters")
+despues = s1("2023-06-22", "2023-06-30").focalMedian(30, "circle", "meters")
+
+diferencia = despues.subtract(antes)          # en dB
+agua_nueva = diferencia.lt(-3).And(despues.lt(-16))
+
+# Excluir pendientes > 5° (sombra radar y layover)
+pendiente = ee.Terrain.slope(ee.ImageCollection("COPERNICUS/DEM/GLO30").select("DEM").mosaic())
+inundacion = agua_nueva.updateMask(pendiente.lt(5)).selfMask()
+
+m = geemap.Map(center=[-36.6, -72.05], zoom=11)
+m.addLayer(despues, {"min": -25, "max": 0}, "VV después (dB)")
+m.addLayer(inundacion, {"palette": ["#21A9D8"]}, "Inundación")
+m
+```
+
+### Superficie inundada
+
+```python
+ha = inundacion.multiply(ee.Image.pixelArea()).divide(1e4).reduceRegion(
+    ee.Reducer.sum(), aoi, 10, maxPixels=1e10)
+print(ha.getInfo())
+```
+
+## Parte B · Exploración de NISAR
+
+1. Crea una cuenta en **NASA Earthdata Login** (<https://urs.earthdata.nasa.gov>).
+2. Ingresa a **ASF Vertex** (<https://search.asf.alaska.edu>) y selecciona el conjunto de datos **NISAR**.
+3. Busca adquisiciones sobre tu región posteriores al 17 de junio de 2026.
+4. Registra en una tabla: fecha, órbita (ascendente/descendente), nivel de producto, polarizaciones y tamaño del archivo.
+
+```python
+# Búsqueda programática con asf_search
+# !pip install asf_search
+import asf_search as asf
+res = asf.search(platform="NISAR", intersectsWith="POINT(-72.6 -38.7)",
+                 start="2026-06-17", maxResults=10)
+for r in res:
+    p = r.properties
+    print(p["startTime"], p.get("flightDirection"), p.get("processingLevel"))
+```
+
+::: {.callout-note}
+## Dato 2026
+Los productos calibrados de NISAR en banda L son públicos desde el 20 de julio de 2026 [@asf2026nisar]. El identificador de plataforma en `asf_search` puede variar entre versiones de la biblioteca; si la búsqueda no devuelve resultados, usa la interfaz web de Vertex.
+:::
+
+## Preguntas
+
+1. ¿Por qué se aplica un filtro de pendiente al mapa de inundación?
+2. ¿Qué ventajas tendría la banda L de NISAR frente a la banda C para detectar inundación bajo el bosque?
+
+## Entregable
+
+Mapa de inundación con superficie estimada y tabla de adquisiciones NISAR disponibles para tu región.

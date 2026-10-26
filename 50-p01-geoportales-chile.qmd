@@ -1,0 +1,59 @@
+# Práctica 1 · Geoportales y servicios OGC de Chile {#sec-p01}
+
+::: {.geoia-card}
+**Duración:** 2 horas · **Software:** QGIS 4.2 · **Lectura previa:** @sec-ide
+**Producto:** proyecto QGIS con 5 servicios conectados y ficha de metadatos.
+:::
+
+## Objetivos
+
+1. Explorar el Geoportal de Chile y su catálogo.
+2. Conectar servicios WMS y WFS en QGIS.
+3. Evaluar la calidad y los metadatos de una capa.
+
+## Parte A · Exploración del geoportal
+
+1. Ingresa a <https://www.geoportal.cl> y abre el **catálogo**.
+2. Busca capas con las palabras clave `límites comunales`, `red hidrográfica` y `áreas protegidas`.
+3. Para cada capa, registra en la tabla:
+
+| Capa | Institución | Fecha | SRC | Escala o resolución | Servicio (WMS/WFS) | URL |
+|---|---|---|---|---|---|---|
+| | | | | | | |
+
+## Parte B · Conexión de servicios en QGIS
+
+1. En QGIS, abre el **Administrador de fuentes de datos** (`Ctrl+L`) → **WMS/WMTS** → **Nueva**.
+2. Pega la URL `GetCapabilities` del servicio encontrado en el catálogo.
+3. Conecta, selecciona una capa y agrégala al proyecto.
+4. Repite con un servicio **WFS** y verifica que puedes abrir la tabla de atributos.
+
+::: {.callout-tip}
+## Diferencia práctica entre WMS y WFS
+Con WMS solo ves una imagen; con WFS descargas las entidades y puedes analizarlas. Comprueba que con WMS no puedes calcular áreas.
+:::
+
+## Parte C · Servicios desde Python
+
+```python
+from owslib.wms import WebMapService
+
+url = "PEGA_AQUI_LA_URL_DEL_SERVICIO_WMS"
+wms = WebMapService(url, version="1.3.0")
+print(wms.identification.title)
+for nombre, capa in list(wms.contents.items())[:10]:
+    print(nombre, "→", capa.title, capa.crsOptions[:3])
+```
+
+## Parte D · Evaluación de calidad
+
+Elige una capa y responde:
+
+1. ¿Declara SRC y época? ¿Coincide con SIRGAS-Chile?
+2. ¿Cuál es su fecha de actualización?
+3. ¿Qué licencia o restricción de uso tiene?
+4. ¿La escala es adecuada para un análisis comunal?
+
+## Entregable
+
+Proyecto QGIS (`.qgz`) con al menos cinco servicios y una ficha de metadatos de una capa con los campos de la @sec-ide.

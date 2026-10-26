@@ -1,0 +1,82 @@
+# La geomática en 2026 {#sec-geomatica}
+
+## Definición
+
+La **geomática** es la disciplina que integra la adquisición, el modelamiento, el análisis, la gestión y la difusión de información referida a la superficie terrestre [@longley2015]. Reúne en un solo marco a la geodesia, la topografía, la fotogrametría, la teledetección, los sistemas de información geográfica (SIG), la cartografía y, desde la última década, la ciencia de datos y la inteligencia artificial.
+
+```{mermaid}
+mindmap
+  root((Geomática))
+    Geodesia
+      Marcos de referencia
+      Geoide y alturas
+    Posicionamiento
+      GNSS
+      Topografía
+    Observación de la Tierra
+      Satélites ópticos y SAR
+      RPAS y LiDAR
+      Fotogrametría
+    SIG
+      Bases de datos espaciales
+      Análisis espacial
+    Cartografía
+      Diseño
+      Geovisualización web
+    GeoIA
+      Modelos fundacionales
+      Segmentación
+```
+
+## Ciclo de vida del dato geoespacial
+
+1. **Referenciar.** Definir el sistema de referencia, el marco y la época.
+2. **Adquirir.** Medir con GNSS, estación total, drones, sensores satelitales o fuentes secundarias.
+3. **Procesar.** Corregir, transformar, clasificar e interpolar.
+4. **Analizar.** Superponer, medir, modelar y predecir.
+5. **Validar.** Estimar la exactitud posicional y temática.
+6. **Comunicar.** Publicar mapas, servicios web, tableros e informes.
+7. **Preservar.** Documentar con metadatos ISO 19115 y almacenar en repositorios.
+
+## Tendencias que definen la disciplina en 2026
+
+| Tendencia | Qué significa para el profesional |
+|---|---|
+| **Marcos de referencia dinámicos** | En países con alta deformación, como Chile, las coordenadas tienen época. SIRGAS-Chile 2025.0 es una red 100 % CORS [@igm2025sirgas]. |
+| **GNSS multiconstelación y multifrecuencia** | GPS, Galileo, GLONASS y BeiDou permiten precisiones centimétricas con receptores de bajo costo y servicios PPP gratuitos como Galileo HAS [@euspa2023has]. |
+| **Datos abiertos masivos** | Sentinel, Landsat, NISAR y HLS son gratuitos; el desafío ya no es conseguir datos sino procesarlos bien. |
+| **Computación en la nube** | Earth Engine, Copernicus Data Space y ArcGIS Online procesan petabytes sin descargarlos [@gorelick2017]. |
+| **GeoIA** | Modelos fundacionales de observación terrestre, *embeddings* satelitales y segmentación automática [@szwarcman2024; @brown2025]. |
+| **Gemelos digitales y 3D** | LiDAR, fotogrametría con drones y escenas 3D para ciudades, minería e infraestructura. |
+| **Ciencia abierta** | Código, datos y libros reproducibles (Git, Quarto, Docker). |
+
+: Tendencias geomáticas en 2026 {#tbl-tendencias}
+
+## El ecosistema institucional chileno
+
+| Institución | Rol geomático principal |
+|---|---|
+| **IGM** (Instituto Geográfico Militar) | Red Geodésica Nacional SIRGAS-Chile, cartografía base terrestre |
+| **SAF** (Servicio Aerofotogramétrico de la FACh) | Cartografía aeronáutica, aerofotogrametría y observación satelital |
+| **SHOA** (Servicio Hidrográfico y Oceanográfico de la Armada) | Cartografía náutica, batimetría, mareas |
+| **SNIT / IDE Chile** (Ministerio de Bienes Nacionales) | Coordinación de la información territorial del Estado [@idechile2026] |
+| **INE** | Cartografía censal y estadística [@ine2025] |
+| **CIREN** | Recursos naturales, suelos, catastros frutícolas |
+| **DGA** (MOP) | Recursos hídricos, glaciares, red hidrométrica |
+| **CONAF** | Catastro de vegetación, incendios forestales |
+| **SERNAGEOMIN** | Geología, peligros geológicos, catastro minero |
+| **DGAC** | Normativa de aeronaves pilotadas a distancia (RPAS) |
+| **CSN** (Universidad de Chile) | Sismología y red GNSS de deformación |
+| **SENAPRED** | Gestión del riesgo de desastres |
+
+: Instituciones geomáticas de Chile {#tbl-instituciones}
+
+## Campo laboral
+
+Los geomáticos chilenos trabajan en minería (control de producción, estabilidad de taludes, LiDAR), evaluación ambiental (SEIA, cartografía temática), planificación territorial (instrumentos de planificación, catastro), gestión del riesgo de desastres (amenaza, exposición, vulnerabilidad), agricultura de precisión, energía (líneas de transmisión, parques solares y eólicos) y defensa.
+
+## Preguntas de repaso
+
+1. ¿Qué diferencia hay entre un SIG y la geomática?
+2. Nombra tres instituciones chilenas que producen datos geoespaciales oficiales y el tipo de dato que entrega cada una.
+3. ¿Por qué el paso de datos escasos a datos masivos cambia las competencias del profesional?

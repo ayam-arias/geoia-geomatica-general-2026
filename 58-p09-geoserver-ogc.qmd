@@ -1,0 +1,78 @@
+# Práctica 9 · Publicación de servicios OGC con GeoServer y ArcGIS Online {#sec-p09}
+
+::: {.geoia-card}
+**Duración:** 3 horas · **Software:** Docker, GeoServer, QGIS 4.2, ArcGIS Online (comparación) · **Lectura previa:** @sec-ide
+:::
+
+## Objetivos
+
+1. Levantar un servidor GeoServer con Docker.
+2. Publicar una capa como WMS, WFS y OGC API – Features.
+3. Aplicar un estilo SLD con la paleta GeoIA.
+4. Consumir los servicios desde QGIS y comparar con una capa alojada en ArcGIS Online.
+
+## Parte A · GeoServer con Docker
+
+```bash
+docker run -d --name geoserver -p 8080:8080 \
+  -e GEOSERVER_ADMIN_PASSWORD=cambia_esta_clave \
+  -v "$PWD/geoserver_data:/opt/geoserver_data" \
+  docker.osgeo.org/geoserver:VERSION_ESTABLE
+```
+
+Reemplaza `VERSION_ESTABLE` por la versión estable vigente publicada en <https://geoserver.org/download/> (por ejemplo, `2.xx.y`).
+
+Abre <http://localhost:8080/geoserver> e ingresa como `admin`.
+
+::: {.callout-warning}
+## Seguridad
+Cambia la clave de administrador antes de exponer el servidor a internet y no publiques datos personales ni sensibles.
+:::
+
+## Parte B · Publicación
+
+1. **Espacio de trabajo:** `geomatica_chile`.
+2. **Almacén de datos:** GeoPackage con las capas de las prácticas anteriores (por ejemplo, la señalética de la @sec-p07).
+3. **Publicar capa:** declara el SRC nativo y calcula los límites.
+4. **Vista previa:** *Layer Preview* → OpenLayers.
+
+## Parte C · Estilo SLD con la paleta GeoIA
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<StyledLayerDescriptor version="1.0.0" xmlns="http://www.opengis.net/sld"
+  xmlns:ogc="http://www.opengis.net/ogc">
+  <NamedLayer><Name>senaletica</Name>
+    <UserStyle><FeatureTypeStyle><Rule>
+      <PointSymbolizer><Graphic>
+        <Mark><WellKnownName>circle</WellKnownName>
+          <Fill><CssParameter name="fill">#E8772A</CssParameter></Fill>
+          <Stroke><CssParameter name="stroke">#1B2A4A</CssParameter>
+                  <CssParameter name="stroke-width">1.5</CssParameter></Stroke>
+        </Mark><Size>10</Size>
+      </Graphic></PointSymbolizer>
+    </Rule></FeatureTypeStyle></UserStyle>
+  </NamedLayer>
+</StyledLayerDescriptor>
+```
+
+## Parte D · Consumo
+
+- **QGIS:** WMS `http://localhost:8080/geoserver/geomatica_chile/wms` y WFS equivalente.
+- **OGC API – Features:** `http://localhost:8080/geoserver/ogc/features/v1/collections`.
+- **Python:**
+
+```python
+import geopandas as gpd
+url = ("http://localhost:8080/geoserver/geomatica_chile/ows?service=WFS&version=2.0.0"
+       "&request=GetFeature&typeName=geomatica_chile:senaletica&outputFormat=application/json")
+print(gpd.read_file(url).head())
+```
+
+## Parte E · Comparación con ArcGIS Online
+
+Publica la misma capa como **capa de entidades alojada** desde ArcGIS Pro (*Share → Web Layer*) y compara facilidad, costo (créditos), control y estándares soportados.
+
+## Entregable
+
+Capturas de los servicios funcionando, URL `GetCapabilities` y la tabla comparativa.

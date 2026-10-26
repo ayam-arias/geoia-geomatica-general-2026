@@ -1,0 +1,76 @@
+# Práctica 3 · Formatos de datos espaciales y conversión con GDAL/OGR {#sec-p03}
+
+::: {.geoia-card}
+**Duración:** 2 horas · **Software:** QGIS 4.2, GDAL 3.13, Python · **Datos:** `data/puntos_control_santiago.csv`
+:::
+
+## Formatos más usados
+
+| Formato | Tipo | Ventajas | Limitaciones |
+|---|---|---|---|
+| **GeoPackage (.gpkg)** | Vectorial y ráster | Estándar OGC, un solo archivo, sin límite de 2 GB | — |
+| Shapefile (.shp) | Vectorial | Compatibilidad universal | Varios archivos, nombres de campo de 10 caracteres, límite de 2 GB |
+| GeoJSON | Vectorial | Web, legible | Solo WGS 84 según el estándar RFC 7946 |
+| KML/KMZ | Vectorial | Google Earth | Simbología mezclada con datos |
+| **GeoParquet** | Vectorial | Columnar, muy rápido, nube | Soporte creciente |
+| CSV con XY | Tabular | Simple | Requiere declarar SRC |
+| DXF/DWG | CAD | Planos de ingeniería | Sin SRC explícito |
+| **GeoTIFF / COG** | Ráster | Estándar, *Cloud Optimized* | — |
+| GPX | Vectorial | Receptores GPS | Solo WGS 84 |
+
+: Formatos geoespaciales {#tbl-formatos}
+
+## Parte A · Inspección con GDAL
+
+```bash
+ogrinfo --version
+ogrinfo -so data/puntos_control_santiago.csv
+gdalinfo --formats | head -30
+```
+
+## Parte B · Conversiones con `ogr2ogr`
+
+```bash
+# CSV con coordenadas -> GeoPackage en SIRGAS-Chile 2002 geográficas
+ogr2ogr -f GPKG puntos.gpkg data/puntos_control_santiago.csv \
+  -oo X_POSSIBLE_NAMES=lon -oo Y_POSSIBLE_NAMES=lat -a_srs EPSG:5360 -nln puntos
+
+# GeoPackage -> Shapefile reproyectado a UTM 19S
+ogr2ogr -f "ESRI Shapefile" puntos_utm19.shp puntos.gpkg -t_srs EPSG:5361
+
+# GeoPackage -> GeoJSON (WGS 84, como exige el estándar)
+ogr2ogr -f GeoJSON puntos.geojson puntos.gpkg -t_srs EPSG:4326
+
+# GeoPackage -> GeoParquet
+ogr2ogr -f Parquet puntos.parquet puntos.gpkg
+```
+
+## Parte C · Ráster: GeoTIFF a Cloud Optimized GeoTIFF
+
+```bash
+gdal_translate entrada.tif salida_cog.tif -of COG -co COMPRESS=DEFLATE
+gdalwarp -t_srs EPSG:5361 -tr 30 30 -r bilinear mde.tif mde_utm19.tif
+```
+
+## Parte D · Lo mismo con Python
+
+```python
+import geopandas as gpd
+import pandas as pd
+
+df = pd.read_csv("data/puntos_control_santiago.csv")
+gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df.lon, df.lat), crs="EPSG:5360")
+gdf.to_file("puntos.gpkg", layer="puntos", driver="GPKG")
+gdf.to_crs(5361).to_file("puntos_utm19.shp")
+gdf.to_parquet("puntos.parquet")
+```
+
+## Preguntas
+
+1. Compara el tamaño en disco de un mismo conjunto en Shapefile, GeoPackage y GeoParquet.
+2. ¿Qué información se pierde al exportar a Shapefile?
+3. ¿Por qué un archivo DXF de un contratista requiere confirmar el SRC por escrito?
+
+## Entregable
+
+Carpeta con los archivos convertidos y una tabla comparativa de tamaño, tiempo de lectura y atributos conservados.

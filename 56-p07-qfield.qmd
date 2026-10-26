@@ -1,0 +1,64 @@
+# Práctica 7 · Captura de datos en terreno con QField y formularios {#sec-p07}
+
+::: {.geoia-card}
+**Duración:** 3 horas · **Software:** QGIS 4.2, QField, QFieldCloud (opcional), ArcGIS Survey123 o Field Maps (comparación)
+:::
+
+## Objetivos
+
+1. Diseñar un modelo de datos con dominios y restricciones.
+2. Configurar formularios en QGIS y sincronizarlos con QField.
+3. Capturar datos con fotografías y ubicación GNSS.
+4. Comparar el flujo libre con el de ArcGIS Online.
+
+## Caso: catastro de señalética de evacuación de tsunami
+
+Diseña un levantamiento de la señalética de evacuación en una comuna costera.
+
+| Campo | Tipo | Dominio / restricción |
+|---|---|---|
+| `id` | Entero | Automático |
+| `tipo` | Texto | Ruta de evacuación · Zona segura · Punto de encuentro · Inicio zona de amenaza |
+| `estado` | Texto | Bueno · Regular · Malo · Ausente |
+| `legible` | Booleano | Sí/No |
+| `foto` | Adjunto | Obligatorio |
+| `fecha` | Fecha y hora | Por defecto: ahora |
+| `precision_m` | Decimal | Tomado de la posición GNSS |
+| `observacion` | Texto | Opcional |
+
+: Modelo de datos {#tbl-modelo-qfield}
+
+## Parte A · Preparación en QGIS
+
+1. Crea una capa de puntos en **GeoPackage** con SRC SIRGAS-Chile 2025 (EPSG:11473).
+2. En *Propiedades de la capa → Formulario de atributos*:
+   - `tipo` y `estado`: control **Mapa de valores**.
+   - `foto`: control **Adjunto** con ruta relativa al proyecto.
+   - `fecha`: valor por defecto `now()`.
+   - `precision_m`: valor por defecto `@position_horizontal_accuracy`.
+3. Agrega un mapa base liviano (teselas offline o una ortofoto recortada).
+
+## Parte B · Sincronización
+
+- **Cable o carpeta:** complemento *QField Sync* → *Empaquetar para QField* → copiar al teléfono.
+- **QFieldCloud:** subir el proyecto y sincronizar desde la app.
+
+## Parte C · Terreno
+
+Captura al menos 15 puntos con fotografía. Si dispones de un receptor GNSS externo con RTK, conéctalo por Bluetooth y compara la precisión reportada.
+
+## Parte D · Comparación con ArcGIS
+
+Replica el formulario en **Survey123** o **Field Maps** y completa:
+
+| Criterio | QField | Survey123 / Field Maps |
+|---|---|---|
+| Costo | | |
+| Trabajo sin conexión | | |
+| Soporte GNSS externo | | |
+| Control de calidad | | |
+| Integración con SIG | | |
+
+## Entregable
+
+Capa con los datos levantados, mapa de estado de la señalética y la tabla comparativa.

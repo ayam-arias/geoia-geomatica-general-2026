@@ -1,0 +1,70 @@
+# Práctica 8 · GeoIA: segmentación con SAM y clasificación con *embeddings* {#sec-p08}
+
+::: {.geoia-card}
+**Duración:** 3 horas · **Entorno:** Google Colab con GPU o equipo local con GPU NVIDIA · **Lectura previa:** @sec-geoia
+**Bibliotecas:** `segment-geospatial` (samgeo), `geemap`, `earthengine-api`
+:::
+
+## Parte A · Segmentación de techos y piscinas con samgeo
+
+```python
+# !pip install "segment-geospatial[samgeo3]" leafmap
+import leafmap
+from samgeo import tms_to_geotiff
+
+# Área residencial (ajusta las coordenadas a tu zona de estudio)
+bbox = [-70.585, -33.405, -70.578, -33.400]   # [oeste, sur, este, norte]
+tms_to_geotiff(output="ortho.tif", bbox=bbox, zoom=19, source="Satellite", overwrite=True)
+```
+
+Segmentación automática con indicaciones de texto (SAM 3):
+
+```python
+from samgeo.samgeo3 import SamGeo3   # módulo disponible en samgeo con SAM 3
+
+sam = SamGeo3()
+sam.set_image("ortho.tif")
+sam.generate_masks(prompt="swimming pool")
+sam.save_masks("piscinas.tif")
+sam.raster_to_vector("piscinas.tif", "piscinas.gpkg")
+```
+
+::: {.callout-note}
+## La API cambia rápido
+Los nombres de clases y métodos de samgeo se actualizan con frecuencia. Si un ejemplo falla, consulta los ejemplos oficiales en <https://samgeo.gishub.org> [@wu2026samgeo]. Si no tienes acceso a SAM 3, usa `from samgeo import SamGeo` con SAM 2.
+:::
+
+### Control de calidad
+
+1. Abre `piscinas.gpkg` en QGIS sobre la ortofoto.
+2. Cuenta los verdaderos positivos, falsos positivos y omisiones en una muestra de 50 objetos.
+3. Calcula precisión (*precision*), exhaustividad (*recall*) y F1.
+
+## Parte B · Clasificación con *embeddings* de AlphaEarth
+
+```python
+import ee, geemap
+ee.Initialize(project="geomatica-chile-tunombre")
+
+aoi = ee.Geometry.Rectangle([-72.75, -38.80, -72.50, -38.65])   # Temuco
+emb = (ee.ImageCollection("GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL")
+         .filterDate("2024-01-01", "2025-01-01").filterBounds(aoi).mosaic().clip(aoi))
+
+# Puntos de entrenamiento dibujados en el mapa: clase 0=urbano 1=bosque 2=agrícola 3=agua
+# entrenamiento = ee.FeatureCollection([...])
+# muestras = emb.sampleRegions(entrenamiento, properties=["clase"], scale=10)
+# modelo = ee.Classifier.smileKNN(5).train(muestras, "clase", emb.bandNames())
+# clasif = emb.classify(modelo)
+```
+
+Compara la exactitud obtenida con **50 puntos** usando *embeddings* frente a un Random Forest con bandas de Sentinel-2.
+
+## Preguntas
+
+1. ¿En qué casos SAM confunde objetos? (sombras, techos azules, cuerpos de agua).
+2. ¿Por qué los *embeddings* permiten clasificar con menos muestras?
+3. ¿Qué consideraciones de privacidad aplican al segmentar viviendas?
+
+## Entregable
+
+Capa de objetos segmentados con su evaluación (precisión, exhaustividad, F1) y un mapa de clasificación con *embeddings*.

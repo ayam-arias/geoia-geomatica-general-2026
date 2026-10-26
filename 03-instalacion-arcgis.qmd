@@ -1,0 +1,62 @@
+# Instalación y configuración de ArcGIS Pro 3.7 {#sec-arcgis}
+
+::: {.callout-important}
+## Dato 2026
+Esri lanzó **ArcGIS Pro 3.7** en mayo de 2026. Entre sus novedades destacan el conjunto de herramientas GeoAI **Embeddings Based Analysis**, que convierte imágenes, entidades y texto en vectores para buscar patrones y similitudes; la **búsqueda semántica de símbolos** en lenguaje natural; y los **grafos de conocimiento en archivo** sin necesidad de ArcGIS Enterprise [@esri2026].
+:::
+
+## Licenciamiento
+
+ArcGIS Pro funciona con licencias de **usuario designado** (*named user*) asociadas a una cuenta de ArcGIS Online o ArcGIS Enterprise. Para estudiantes existen tres caminos habituales:
+
+1. **Licencia institucional** de la universidad o del instituto.
+2. **Licencia de estudiante** gestionada por el docente a través del programa educativo de Esri o de su distribuidor en Chile.
+3. **Prueba gratuita** de 21 días en <https://www.esri.com/>.
+
+## Requisitos del sistema
+
+- Windows 10 u 11 de 64 bits (ArcGIS Pro no tiene versión nativa para macOS ni Linux).
+- Al menos 8 GB de RAM; se recomiendan 32 GB.
+- Tarjeta gráfica compatible con DirectX 12 o OpenGL 4.5.
+- El instalador verifica e instala el **.NET Desktop Runtime** requerido.
+
+Revisa siempre la página oficial *ArcGIS Pro system requirements* antes de una clase, porque los requisitos cambian entre versiones.
+
+## Instalación paso a paso
+
+1. Inicia sesión en <https://www.arcgis.com/> con tu cuenta institucional.
+2. Descarga el instalador desde **My Esri** o desde el enlace que entregue tu institución.
+3. Ejecuta `ArcGISPro.exe` y elige la instalación para todos los usuarios.
+4. Al abrir ArcGIS Pro, inicia sesión con tu usuario designado.
+5. Verifica la versión en *Project → About ArcGIS Pro*.
+
+## Configuración recomendada
+
+- **Opciones → Map and Scene**: SRC predeterminado para mapas nuevos. Si la versión instalada todavía no incluye SIRGAS-Chile 2025, usa SIRGAS-Chile 2021 (EPSG:20041) y documenta la época (ver @sec-geodesia).
+- **Opciones → Geoprocessing**: activa *Add output datasets to an open map* y *Display a warning if transformation is required*.
+- **Opciones → Regional settings**: idioma de la interfaz en español.
+- **Package Manager**: clona el entorno `arcgispro-py3` antes de instalar bibliotecas adicionales. Nunca modifiques el entorno por defecto.
+
+## Integración con ArcGIS Online
+
+ArcGIS Pro comparte capas, mapas web y aplicaciones con ArcGIS Online. Las prácticas de formularios y aplicaciones web (@sec-p07 y @sec-p09) usan esta integración.
+
+::: {.callout-tip}
+## Buenas prácticas de créditos
+Publicar capas alojadas, analizar en la nube y geocodificar consumen **créditos** de ArcGIS Online. En cuentas educativas, coordina con el administrador antes de ejecutar análisis masivos.
+:::
+
+## Verificación con Python (ArcPy)
+
+En la ventana *Python* de ArcGIS Pro:
+
+```python
+import arcpy
+print(arcpy.GetInstallInfo()["Version"])
+sr = arcpy.SpatialReference(20041)   # SIRGAS-Chile 2021
+print(sr.name)
+try:
+    print(arcpy.SpatialReference(11473).name)   # SIRGAS-Chile 2025
+except Exception as e:
+    print("EPSG:11473 aún no disponible en esta versión:", e)
+```
