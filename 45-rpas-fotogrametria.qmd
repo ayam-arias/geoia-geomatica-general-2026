@@ -78,7 +78,7 @@ Aunque uses RTK o PPK, mide siempre **puntos de verificación** (*checkpoints*) 
 ## Dato 2026: normativa DGAC vigente
 - **DAN 91**, numeral 91.102: reglas del aire aplicables a toda aeronave pilotada a distancia.
 - **DAN 151, Edición 3 (mayo de 2024):** operaciones sobre áreas pobladas [@dgac2024].
-- **DAN 119 y DAN 137:** operadores comerciales y trabajos aéreos.
+- Otras normas DAN pueden aplicar según el tipo de operación; confirma en el portal de la DGAC cuáles corresponden a tu caso.
 
 La **Edición 4 de la DAN 151** (que unificaría áreas pobladas y no pobladas y adoptaría las categorías OACI abierta, específica y certificada) estaba en consulta y **no vigente** a octubre de 2026. Verifica siempre en <https://www.dgac.gob.cl>.
 :::
@@ -87,11 +87,11 @@ La **Edición 4 de la DAN 151** (que unificaría áreas pobladas y no pobladas y
 
 - **Registro del RPA** en la DGAC antes de operar y tarjeta de registro.
 - **Credencial de operador RPAS** con examen teórico aprobado.
-- **Seguro** vigente.
+- **Seguro** (verifica en la DGAC su exigibilidad según el tipo de operación).
 - **Autorización** de la DGAC para operar sobre áreas pobladas.
 - Operación **VLOS** (con contacto visual), en condiciones meteorológicas visuales y de día, salvo autorización.
 - Uso máximo del 80 % de la autonomía de la batería.
-- Para fines comerciales se requiere certificado de operador (AOC).
+- Para operaciones comerciales o profesionales, revisa en la DGAC los requisitos adicionales que correspondan a tu operación.
 
 ## Control de calidad del producto
 

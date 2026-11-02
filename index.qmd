@@ -5,7 +5,7 @@
 
 ## Geomática General · Chile 2026
 
-Un libro-curso abierto para aprender a **medir, modelar, analizar y comunicar el territorio** con los marcos de referencia, los datos y las instituciones de Chile, y con las herramientas que se usan en 2026: QGIS 4.2, ArcGIS Pro 3.7, Google Earth Engine, Python y GeoIA.
+Un libro-curso abierto para aprender a **medir, modelar, analizar y comunicar el territorio** con los marcos de referencia, los datos y las instituciones de Chile, y con las herramientas que se usan en 2026: QGIS 4, ArcGIS Pro 3.7, Google Earth Engine, Python y GeoIA.
 :::
 
 Este recurso acompaña una asignatura de **Geomática General** de nivel técnico-profesional y universitario. Sirve también como material de autoestudio para profesionales de topografía, geomensura, medio ambiente, minería, planificación territorial y gestión del riesgo de desastres.
@@ -68,7 +68,7 @@ El curso combina clases expositivas breves, talleres prácticos guiados y un pro
 
 ## Herramientas {.unnumbered}
 
-- **SIG de escritorio:** QGIS 4.2 LTR (Qt6) y ArcGIS Pro 3.7.
+- **SIG de escritorio:** QGIS 4.4 (Qt6; pasa a LTR en marzo de 2027) o QGIS 3.44 LTR, y ArcGIS Pro 3.7.
 - **Nube:** Google Earth Engine (nivel no comercial *Community* o *Contributor*), ArcGIS Online.
 - **Programación:** Python 3 (GeoPandas, Rasterio, PyProj, geemap, samgeo), Jupyter y Quarto.
 - **Campo:** receptores GNSS multifrecuencia, QField/QFieldCloud, drones con credencial DGAC.
@@ -81,5 +81,5 @@ Las versiones de software, el estado de los satélites y los marcos geodésicos 
 ---
 
 **Autor:** Ian Arias Carrasco · Geomático y docente · RPAS DGAC
-**Marca:** GeoIA · [Instagram \@_geoia.n](https://www.instagram.com/_geoia.n/)
+**Marca:** Ian Arias · Análisis Geoespacial · GeoIA · [GitHub](https://github.com/ayam-arias) · [LinkedIn](https://www.linkedin.com/in/ian-arias/) · [Instagram \@_geoia.n](https://www.instagram.com/_geoia.n/)
 **Licencia:** contenido CC BY 4.0 · código MIT

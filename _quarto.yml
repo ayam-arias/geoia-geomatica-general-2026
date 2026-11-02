@@ -29,12 +29,12 @@ book:
     background: light
     logo: images/marca/geoia-logo.svg
   page-footer:
-    left: "© 2026 Ian Arias Carrasco · GeoIA · Contenido CC BY 4.0 · Código MIT"
+    left: "© 2026 Ian Arias · Análisis Geoespacial · GeoIA · Contenido CC BY 4.0 · Código MIT"
     right:
       - icon: github
-        href: https://github.com/ayam-arias/geoia-geomatica-general-2026
+        href: https://github.com/ayam-arias
       - icon: linkedin
-        href: https://www.linkedin.com/
+        href: https://www.linkedin.com/in/ian-arias/
       - icon: instagram
         href: https://www.instagram.com/_geoia.n/
 

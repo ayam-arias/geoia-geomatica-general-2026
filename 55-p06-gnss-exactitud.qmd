@@ -32,7 +32,7 @@ $$
 \text{Exactitud}_z^{95\%} = 1{,}9600 \cdot RMSE_z
 $$ {#eq-nssda-v}
 
-La fórmula horizontal supone $RMSE_x \approx RMSE_y$. Las normas ASPRS de exactitud posicional (edición 2, 2024) [@asprs2023] reportan además el RMSE por componente y exigen al menos 30 puntos de verificación para productos de gran extensión.
+La fórmula horizontal supone $RMSE_x \approx RMSE_y$. Las normas ASPRS de exactitud posicional (edición 2, 2024) [@asprs2024] reportan además el RMSE por componente y exigen al menos 30 puntos de verificación para productos de gran extensión.
 
 ```python
 import numpy as np, pandas as pd

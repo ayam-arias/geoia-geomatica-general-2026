@@ -1,7 +1,7 @@
 # Práctica 1 · Geoportales y servicios OGC de Chile {#sec-p01}
 
 ::: {.geoia-card}
-**Duración:** 2 horas · **Software:** QGIS 4.2 · **Lectura previa:** @sec-ide
+**Duración:** 2 horas · **Software:** QGIS 4.4 (o 3.44 LTR) · **Lectura previa:** @sec-ide
 **Producto:** proyecto QGIS con 5 servicios conectados y ficha de metadatos.
 :::
 

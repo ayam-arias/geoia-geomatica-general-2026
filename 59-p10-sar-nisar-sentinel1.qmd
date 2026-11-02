@@ -28,7 +28,10 @@ diferencia = despues.subtract(antes)          # en dB
 agua_nueva = diferencia.lt(-3).And(despues.lt(-16))
 
 # Excluir pendientes > 5° (sombra radar y layover)
-pendiente = ee.Terrain.slope(ee.ImageCollection("COPERNICUS/DEM/GLO30").select("DEM").mosaic())
+glo30 = ee.ImageCollection("COPERNICUS/DEM/GLO30").select("DEM")
+# mosaic() pierde la proyección nativa: se restablece antes de calcular la pendiente
+dem = glo30.mosaic().setDefaultProjection(glo30.first().projection())
+pendiente = ee.Terrain.slope(dem)
 inundacion = agua_nueva.updateMask(pendiente.lt(5)).selfMask()
 
 m = geemap.Map(center=[-36.6, -72.05], zoom=11)
@@ -49,7 +52,7 @@ print(ha.getInfo())
 
 1. Crea una cuenta en **NASA Earthdata Login** (<https://urs.earthdata.nasa.gov>).
 2. Ingresa a **ASF Vertex** (<https://search.asf.alaska.edu>) y selecciona el conjunto de datos **NISAR**.
-3. Busca adquisiciones sobre tu región posteriores al 17 de junio de 2026.
+3. Busca adquisiciones sobre tu región desde el 17 de junio de 2026 (fecha de inicio usada en el ejemplo; los productos calibrados se liberaron al público el 20 de julio de 2026).
 4. Registra en una tabla: fecha, órbita (ascendente/descendente), nivel de producto, polarizaciones y tamaño del archivo.
 
 ```python

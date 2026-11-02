@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "Si utilizas este material, cítalo así:"
 title: "Geomática General · Chile 2026"
-type: book
+type: software
 authors:
   - family-names: "Arias Carrasco"
     given-names: "Ian"
@@ -10,3 +10,12 @@ version: "2026.1"
 license: CC-BY-4.0
 repository-code: "https://github.com/ayam-arias/geoia-geomatica-general-2026"
 keywords: [geomática, SIRGAS-Chile, GNSS, teledetección, cartografía, GeoIA, Quarto, Chile]
+url: "https://ayam-arias.github.io/geoia-geomatica-general-2026"
+preferred-citation:
+  type: book
+  title: "Geomática General · Chile 2026"
+  authors:
+    - family-names: "Arias Carrasco"
+      given-names: "Ian"
+  year: 2026
+  url: "https://ayam-arias.github.io/geoia-geomatica-general-2026"

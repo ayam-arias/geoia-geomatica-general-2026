@@ -67,9 +67,11 @@ El lanzamiento de la época 2025 incluyó 28 nuevas estaciones de primer orden, 
 
 | Sistema | Geográficas 2D | UTM 18S | UTM 19S | Estado |
 |---|---|---|---|---|
-| **SIRGAS-Chile 2025** | **11473** | *sin código EPSG a oct-2026* | *sin código EPSG a oct-2026* | **Vigente** |
+| **SIRGAS-Chile 2025** | **11473** | **11475** | **11476** | **Vigente** |
 | SIRGAS-Chile 2021 | 20041 | 20048 | 20049 | Reemplazado |
-| SIRGAS-Chile 2016 | verificar en epsg.org | verificar | verificar | Histórico |
+| SIRGAS-Chile 2016 | 9153 | 9154 | 9155 | Histórico |
+| SIRGAS-Chile 2013 | 9148 | 9149 | 9150 | Histórico |
+| SIRGAS-Chile 2010 | 8949 | 8950 | 8951 | Histórico |
 | SIRGAS-Chile 2002 | 5360 | 5362 | 5361 | Histórico |
 | SAD69 | 4618 | 29188 | 29189 | Datum heredado |
 | PSAD56 | 4248 | 24878 | 24879 | Datum heredado (cartografía IGM antigua) |
@@ -78,19 +80,13 @@ El lanzamiento de la época 2025 incluyó 28 nuevas estaciones de primer orden, 
 : Códigos EPSG relevantes (verificados a octubre de 2026) {#tbl-epsg-chile}
 
 ::: {.callout-important}
-## UTM con SIRGAS-Chile 2025: cómo trabajar mientras no exista código
-Mientras EPSG no publique las proyecciones UTM de SIRGAS-Chile 2025, define un **SRC personalizado** con el mismo datum y la proyección UTM (ver @sec-p02):
-
-```text
-+proj=utm +zone=19 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs
-```
-
-Nómbralo `SIRGAS-Chile 2025 / UTM 19S (personalizado)` y **documenta en los metadatos** que la época es 2025.0. Cuando EPSG publique el código oficial, reproyecta sin cambios numéricos.
+## Proyecciones UTM de SIRGAS-Chile 2025
+EPSG registra las proyecciones UTM de la época 2025.0: **EPSG:11474** (UTM 12S, Rapa Nui), **EPSG:11475** (UTM 18S) y **EPSG:11476** (UTM 19S) [@epsg2026]. Ya **no es necesario** definir un SRC personalizado. Si tu software usa una base EPSG antigua y no los reconoce, actualízalo; como último recurso usa SIRGAS-Chile 2021 (EPSG:20048/20049) y declara la época en los metadatos.
 :::
 
 ### Isla de Pascua y Territorio Chileno Antártico
 
-No existen códigos EPSG de SIRGAS-Chile para UTM 12S (Rapa Nui) ni para zonas antárticas. Como alternativa pedagógica se usan WGS 84 / UTM 12S (EPSG:32712) para Rapa Nui y la proyección estereográfica polar antártica (EPSG:3031) para la Antártica. Es una recomendación práctica, no una norma oficial.
+Para Rapa Nui existe **SIRGAS-Chile 2025 / UTM 12S (EPSG:11474)** (y su antecesor de 2021, EPSG:20042). Para el Territorio Chileno Antártico no hay proyección SIRGAS-Chile en EPSG; como alternativa práctica, no normativa, se usa la estereográfica polar antártica (EPSG:3031).
 
 ## Transformaciones
 
@@ -133,8 +129,8 @@ print(sirgas2025.name, "| datum:", sirgas2025.datum.name)
 # Coordenada aproximada del Cerro Santa Lucía, Santiago
 lat, lon = -33.4405, -70.6440
 
-# UTM 19S personalizado sobre SIRGAS-Chile 2025
-utm19_2025 = CRS.from_proj4("+proj=utm +zone=19 +south +ellps=GRS80 +units=m +no_defs")
+# UTM 19S oficial sobre SIRGAS-Chile 2025
+utm19_2025 = CRS("EPSG:11476")
 t = Transformer.from_crs(sirgas2025, utm19_2025, always_xy=True)
 este, norte = t.transform(lon, lat)
 print(f"E = {este:,.2f} m   N = {norte:,.2f} m")

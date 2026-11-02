@@ -13,7 +13,7 @@
   <img src="https://img.shields.io/badge/GIS-1B2A4A?style=for-the-badge" alt="GIS">
   <img src="https://img.shields.io/badge/GeoIA-E8772A?style=for-the-badge" alt="GeoIA">
   <img src="https://img.shields.io/badge/Python-21A9D8?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/QGIS_4.2-1B2A4A?style=for-the-badge&logo=qgis&logoColor=white" alt="QGIS 4.2">
+  <img src="https://img.shields.io/badge/QGIS_4.4_%7C_3.44_LTR-1B2A4A?style=for-the-badge&logo=qgis&logoColor=white" alt="QGIS 4.4 | 3.44 LTR">
   <img src="https://img.shields.io/badge/SIRGAS--Chile_2025-E8772A?style=for-the-badge" alt="SIRGAS-Chile 2025">
   <img src="https://img.shields.io/badge/Quarto-21A9D8?style=for-the-badge&logo=quarto&logoColor=white" alt="Quarto">
 </p>
@@ -26,8 +26,8 @@ Material docente teórico-práctico para una asignatura de **Geomática General*
 
 | Bloque | Contenido |
 |---|---|
-| **Entorno** | QGIS 4.2 LTR, ArcGIS Pro 3.7, Python + Docker, Google Earth Engine (niveles no comerciales 2026) |
-| **Fundamentos** | Geomática hoy, geodesia y **SIRGAS-Chile 2025.0** (EPSG:11473), proyecciones UTM 18S/19S, GNSS multiconstelación |
+| **Entorno** | QGIS 4.4 (LTR desde mar-2027) y 3.44 LTR, ArcGIS Pro 3.7, Python + Docker, Google Earth Engine (niveles no comerciales 2026) |
+| **Fundamentos** | Geomática hoy, geodesia y **SIRGAS-Chile 2025.0** (EPSG:11473), proyecciones UTM 18S/19S (EPSG:11475/11476), GNSS multiconstelación |
 | **Sensores remotos** | Física de la radiación, satélites vigentes (Landsat, Sentinel, NISAR, VIIRS), SAR, procesamiento, aplicaciones en Chile, glosario |
 | **Cartografía** | Fundamentos, cartografía temática, diseño de mapas |
 | **IDE y relieve** | IDE Chile / geoportal.cl, proveedores de datos, MDE (Copernicus GLO-30, SRTM, ALOS) |
@@ -82,6 +82,6 @@ Activa: **Settings → Pages → Source: Deploy from a branch → `gh-pages` / r
 ## ✍️ Autor
 
 **Ian Arias Carrasco** — Geomático y docente · RPAS DGAC · GeoIA
-[LinkedIn](https://www.linkedin.com/) · [Instagram @_geoia.n](https://www.instagram.com/_geoia.n/)
+Ian Arias · Análisis Geoespacial · [GitHub](https://github.com/ayam-arias) · [LinkedIn](https://www.linkedin.com/in/ian-arias/) · [Instagram @_geoia.n](https://www.instagram.com/_geoia.n/)
 
 > Cómo citar: Arias Carrasco, I. (2026). *Geomática General · Chile 2026* [Libro en línea]. GitHub. https://github.com/ayam-arias/geoia-geomatica-general-2026

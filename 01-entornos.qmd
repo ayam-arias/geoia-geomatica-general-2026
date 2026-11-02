@@ -13,7 +13,7 @@ Un profesional de la geomática en 2026 combina tres entornos complementarios:
 
 | Entorno | Herramientas | Fortalezas | Limitaciones |
 |---|---|---|---|
-| **Escritorio** | QGIS 4.2 LTR, ArcGIS Pro 3.7 | Edición, cartografía, análisis interactivo, control fino | Depende del hardware local; difícil de escalar |
+| **Escritorio** | QGIS 4.4 / 3.44 LTR, ArcGIS Pro 3.7 | Edición, cartografía, análisis interactivo, control fino | Depende del hardware local; difícil de escalar |
 | **Nube** | Google Earth Engine, ArcGIS Online, Copernicus Data Space | Catálogos de petabytes, procesamiento masivo, colaboración | Cuotas, dependencia de conectividad y de términos de servicio |
 | **Código** | Python (GeoPandas, Rasterio, PyProj, xarray), R (sf, terra), Jupyter, Quarto | Reproducibilidad, automatización, integración con IA | Curva de aprendizaje |
 

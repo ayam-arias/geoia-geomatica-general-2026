@@ -22,7 +22,8 @@ Incendio de **Viña del Mar y Valparaíso (febrero de 2024)**. Ajusta las fechas
 import ee, geemap
 ee.Initialize(project="geomatica-chile-tunombre")
 
-aoi = ee.Geometry.Rectangle([-71.60, -33.12, -71.40, -33.00])
+# Cubre Viña del Mar, Quilpué, Villa Alemana y el sector de Peñuelas; contrástalo con el perímetro oficial de CONAF
+aoi = ee.Geometry.Rectangle([-71.62, -33.18, -71.33, -32.98])
 
 def mascara_nubes(img):
     scl = img.select("SCL")
@@ -40,9 +41,15 @@ post = coleccion("2024-02-10", "2024-03-05")
 
 def nbr(img):  return img.normalizedDifference(["B8", "B12"]).rename("NBR")
 def ndvi(img): return img.normalizedDifference(["B8", "B4"]).rename("NDVI")
+def ndwi(img): return img.normalizedDifference(["B3", "B8"]).rename("NDWI")   # McFeeters
+
+# Índices de la escena post-incendio
+indices = ndvi(post).addBands(ndwi(post)).addBands(nbr(post))
 
 dnbr = nbr(pre).subtract(nbr(post)).rename("dNBR")
 
+# Clases según Key y Benson (2006): 0 = no quemado o rebrote, 1 = baja,
+# 2 = moderada-baja, 3 = moderada-alta, 4 = alta
 severidad = (dnbr.where(dnbr.lt(0.10), 0)
                  .where(dnbr.gte(0.10).And(dnbr.lt(0.27)), 1)
                  .where(dnbr.gte(0.27).And(dnbr.lt(0.44)), 2)
@@ -51,6 +58,8 @@ severidad = (dnbr.where(dnbr.lt(0.10), 0)
 
 m = geemap.Map(center=[-33.05, -71.5], zoom=12)
 m.addLayer(post, {"bands": ["B12", "B8", "B4"], "min": 0, "max": 0.35}, "Post (SWIR)")
+m.addLayer(indices.select("NDVI"), {"min": -0.2, "max": 0.8,
+           "palette": ["#8B1E1E", "#FFE08A", "#1E7B3A"]}, "NDVI post")
 m.addLayer(severidad, {"min": 0, "max": 4,
            "palette": ["#EEF1F5", "#FFE08A", "#F5A35C", "#E8772A", "#8B1E1E"]}, "Severidad")
 m
@@ -66,22 +75,23 @@ stats = area.reduceRegion(
 print(stats.getInfo())
 ```
 
-### Exportar a Drive en UTM 19S (SIRGAS-Chile 2002)
+### Exportar a Drive en UTM 19S (SIRGAS-Chile 2025)
 
 ```python
 ee.batch.Export.image.toDrive(
     image=dnbr, description="dNBR_Valparaiso_2024",
-    region=aoi, scale=20, crs="EPSG:5361", maxPixels=1e9).start()
+    region=aoi, scale=20, crs="EPSG:11476", maxPixels=1e9).start()
+# Si Earth Engine rechaza EPSG:11476, usa "EPSG:5361" (SIRGAS-Chile 2002 / UTM 19S)
 ```
 
 ::: {.callout-note}
-## ¿Por qué EPSG:5361 y no SIRGAS-Chile 2025?
-Earth Engine solo acepta SRC presentes en su versión de la base EPSG. A escala de 20 m, la diferencia entre épocas de SIRGAS-Chile es despreciable; documenta igualmente el SRC usado.
+## SRC de exportación
+EPSG:11476 es SIRGAS-Chile 2025 / UTM 19S. Earth Engine solo acepta los SRC presentes en su versión de la base EPSG; si el código aún no está disponible, exporta en EPSG:5361. A 20 m de resolución la diferencia entre épocas de SIRGAS-Chile es despreciable, pero documenta siempre el SRC usado.
 :::
 
 ## Preguntas
 
-1. ¿Qué superficie (ha) tiene severidad alta?
+1. ¿Qué superficie (ha) tiene cada clase de severidad? ¿Cuánta corresponde a severidad alta (clase 4, dNBR ≥ 0,66)?
 2. ¿Por qué se usa la mediana y no una sola imagen?
 3. ¿Qué limitaciones tiene el dNBR en zonas urbanas?
 

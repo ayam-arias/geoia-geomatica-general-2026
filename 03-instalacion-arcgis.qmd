@@ -32,7 +32,7 @@ Revisa siempre la página oficial *ArcGIS Pro system requirements* antes de una 
 
 ## Configuración recomendada
 
-- **Opciones → Map and Scene**: SRC predeterminado para mapas nuevos. Si la versión instalada todavía no incluye SIRGAS-Chile 2025, usa SIRGAS-Chile 2021 (EPSG:20041) y documenta la época (ver @sec-geodesia).
+- **Opciones → Map and Scene**: SRC predeterminado para mapas nuevos. Usa SIRGAS-Chile 2025 (EPSG:11473) o sus proyecciones UTM 18S/19S (EPSG:11475/11476). Si tu versión aún no las incluye, usa SIRGAS-Chile 2021 (EPSG:20041/20048/20049) y documenta la época (ver @sec-geodesia).
 - **Opciones → Geoprocessing**: activa *Add output datasets to an open map* y *Display a warning if transformation is required*.
 - **Opciones → Regional settings**: idioma de la interfaz en español.
 - **Package Manager**: clona el entorno `arcgispro-py3` antes de instalar bibliotecas adicionales. Nunca modifiques el entorno por defecto.
@@ -55,8 +55,9 @@ import arcpy
 print(arcpy.GetInstallInfo()["Version"])
 sr = arcpy.SpatialReference(20041)   # SIRGAS-Chile 2021
 print(sr.name)
-try:
-    print(arcpy.SpatialReference(11473).name)   # SIRGAS-Chile 2025
-except Exception as e:
-    print("EPSG:11473 aún no disponible en esta versión:", e)
+for wkid in (11473, 11476):   # SIRGAS-Chile 2025 geográficas y UTM 19S
+    try:
+        print(arcpy.SpatialReference(wkid).name)
+    except Exception as e:
+        print(f"EPSG:{wkid} aún no disponible en esta versión:", e)
 ```

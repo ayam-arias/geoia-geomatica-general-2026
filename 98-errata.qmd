@@ -5,5 +5,10 @@ Registro de correcciones. Si detectas un error, abre un *issue* en el repositori
 | Fecha | Capítulo | Corrección |
 |---|---|---|
 | 2026-10-26 | — | Versión inicial publicada |
+| 2026-11-02 | 2, 3, 11, 30, P2, Ap. C | Se agregan los códigos EPSG oficiales de SIRGAS-Chile 2025 UTM (11474, 11475, 11476) y se elimina el SRC personalizado; se completan los códigos de las épocas 2010, 2013 y 2016; Rapa Nui usa EPSG:11474 |
+| 2026-11-02 | Prefacio, 1, 2, prácticas, Ap. C | QGIS 4.2 no será LTR: LTR vigente 3.44; LR 4.4, que pasa a LTR con la 4.4.4 (mar-2027) |
+| 2026-11-02 | P4 | Se agrega NDWI, se nombran las clases de severidad, se amplía el AOI y se exporta en EPSG:11476 |
+| 2026-11-02 | P10 | Proyección del MDE restablecida antes de calcular la pendiente |
+| 2026-11-02 | 21, 45, P6 | Cita de la cancelación de FASat-Delta; requisitos DGAC no confirmados se reformulan; clave ASPRS corregida |
 
 : Registro de erratas {#tbl-errata}

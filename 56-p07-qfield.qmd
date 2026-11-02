@@ -1,7 +1,7 @@
 # Práctica 7 · Captura de datos en terreno con QField y formularios {#sec-p07}
 
 ::: {.geoia-card}
-**Duración:** 3 horas · **Software:** QGIS 4.2, QField, QFieldCloud (opcional), ArcGIS Survey123 o Field Maps (comparación)
+**Duración:** 3 horas · **Software:** QGIS 4.4 (o 3.44 LTR), QField, QFieldCloud (opcional), ArcGIS Survey123 o Field Maps (comparación)
 :::
 
 ## Objetivos

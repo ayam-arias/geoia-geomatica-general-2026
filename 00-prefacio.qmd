@@ -9,7 +9,7 @@ Chile es un laboratorio natural excepcional para aprender geomática. Tiene más
 Entre 2024 y 2026 cambiaron varias piezas fundamentales del trabajo geomático en Chile y el mundo:
 
 - El IGM puso en vigencia **SIRGAS-Chile época 2025.0**, una red íntegramente formada por estaciones de operación continua (CORS), registrada en EPSG con el código **11473** [@igm2025sirgas; @epsg2026].
-- **QGIS 4** (basado en Qt6) se lanzó en marzo de 2026 y la versión 4.2 pasa a ser la versión de largo plazo (LTR) [@qgis2026].
+- **QGIS 4** (basado en Qt6) se lanzó en marzo de 2026. La primera LTR de la serie 4 será la 4.4.4 (marzo de 2027); mientras tanto, la LTR vigente es la 3.44 [@qgis2026; @qgis2026ltr].
 - **Google Earth Engine** exige desde abril de 2026 un nivel de cuota para uso no comercial [@google2026gee].
 - **NISAR** (NASA–ISRO) libera datos de radar en banda L a todo público desde julio de 2026 [@asf2026nisar], y MODIS se acerca al fin de su vida científica [@nasa2026terra].
 - La **GeoIA** se volvió práctica gracias a los modelos fundacionales y a la segmentación automática [@szwarcman2024; @brown2025; @wu2023samgeo].

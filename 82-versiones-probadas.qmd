@@ -1,12 +1,12 @@
 # Versiones de software y estado de datos verificados {#sec-versiones}
 
-Fecha de verificación: **26 de octubre de 2026**. Revisa esta tabla al inicio de cada semestre.
+Fecha de verificación: **2 de noviembre de 2026**. Revisa esta tabla al inicio de cada semestre.
 
 ## Software
 
 | Software | Versión de referencia | Fecha | Fuente |
 |---|---|---|---|
-| QGIS | 4.2.x (LTR desde fines de oct-2026); 3.44 última LTR 3.x | jul–oct 2026 | [@qgis2026] |
+| QGIS | 4.4.0 LR (30-oct-2026); 3.44.x LTR vigente; 4.4.4 pasa a LTR el 5-mar-2027 (la 4.2 no será LTR) | oct-2026 | [@qgis2026ltr] |
 | ArcGIS Pro | 3.7 | may-2026 | [@esri2026] |
 | GDAL | 3.13.x | ago-2026 | PyPI |
 | PROJ | 9.9.0 | sep-2026 | GitHub OSGeo/PROJ |
@@ -23,7 +23,7 @@ Fecha de verificación: **26 de octubre de 2026**. Revisa esta tabla al inicio d
 | Elemento | Estado |
 |---|---|
 | Marco oficial | SIRGAS-Chile época 2025.0, EPSG:11473 (geográficas) |
-| UTM SIRGAS-Chile 2025 | Sin código EPSG a oct-2026: usar SRC personalizado |
+| UTM SIRGAS-Chile 2025 | EPSG:11474 (12S), 11475 (18S), 11476 (19S) |
 | Modelo geoidal nacional | No publicado oficialmente: usar EGM2008 y declararlo |
 | Caster NTRIP público del IGM | No disponible |
 

@@ -1,7 +1,7 @@
 # Práctica 9 · Publicación de servicios OGC con GeoServer y ArcGIS Online {#sec-p09}
 
 ::: {.geoia-card}
-**Duración:** 3 horas · **Software:** Docker, GeoServer, QGIS 4.2, ArcGIS Online (comparación) · **Lectura previa:** @sec-ide
+**Duración:** 3 horas · **Software:** Docker, GeoServer, QGIS 4.4 (o 3.44 LTR), ArcGIS Online (comparación) · **Lectura previa:** @sec-ide
 :::
 
 ## Objetivos

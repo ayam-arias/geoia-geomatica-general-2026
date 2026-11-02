@@ -1,7 +1,7 @@
 # Práctica 5 · MDE, interpolación y análisis hidrológico {#sec-p05}
 
 ::: {.geoia-card}
-**Duración:** 4 horas · **Software:** QGIS 4.2 (GRASS / SAGA / WhiteboxTools) o ArcGIS Pro 3.7 · **Lectura previa:** @sec-mde
+**Duración:** 4 horas · **Software:** QGIS 4.4 (o 3.44 LTR) (GRASS / SAGA / WhiteboxTools) o ArcGIS Pro 3.7 · **Lectura previa:** @sec-mde
 **Área sugerida:** subcuenca del estero Yerba Loca o del río Mapocho alto (Región Metropolitana).
 :::
 

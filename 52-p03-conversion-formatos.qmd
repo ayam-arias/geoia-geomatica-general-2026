@@ -1,7 +1,7 @@
 # Práctica 3 · Formatos de datos espaciales y conversión con GDAL/OGR {#sec-p03}
 
 ::: {.geoia-card}
-**Duración:** 2 horas · **Software:** QGIS 4.2, GDAL 3.13, Python · **Datos:** `data/puntos_control_santiago.csv`
+**Duración:** 2 horas · **Software:** QGIS 4.4 (o 3.44 LTR), GDAL 3.13, Python · **Datos:** `data/puntos_control_santiago.csv`
 :::
 
 ## Formatos más usados

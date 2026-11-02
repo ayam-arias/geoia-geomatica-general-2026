@@ -56,7 +56,7 @@ Jacques Bertin propuso las variables con que se codifica la información en un m
 3. **Leyenda** con las unidades.
 4. **Escala** gráfica (siempre) y numérica (opcional).
 5. **Orientación** (norte), si no es evidente.
-6. **Sistema de referencia** y **época**: por ejemplo, "SIRGAS-Chile 2025 / UTM 19S (personalizado)".
+6. **Sistema de referencia** y **época**: por ejemplo, "SIRGAS-Chile 2025 / UTM 19S (EPSG:11476), época 2025.0".
 7. **Fuentes** de datos y fecha.
 8. **Autor**, institución y fecha de elaboración.
 9. **Mapa de ubicación** (*inset*) cuando el área no es reconocible.

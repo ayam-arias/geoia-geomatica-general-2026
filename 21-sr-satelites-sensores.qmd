@@ -67,7 +67,7 @@ Esta tabla resume el estado de las principales misiones a octubre de 2026. Las f
 ## El programa espacial chileno
 
 - **FASat-Charlie** (2011): primer satélite de observación de la FACh.
-- **FASat-Delta:** lanzado el 12 de junio de 2023 [@infodefensa2024]. En noviembre de 2024 la FACh puso término al contrato con el proveedor por incumplimiento de los objetivos de puesta en operación; no debe presentarse como fuente operativa de imágenes.
+- **FASat-Delta:** lanzado el 12 de junio de 2023 [@infodefensa2024]. En noviembre de 2024 la FACh puso término al contrato con el proveedor por incumplimiento de los objetivos de puesta en operación [@infodefensa2024cancel]; no debe presentarse como fuente operativa de imágenes.
 - **Sistema Nacional Satelital (SNSat):** contempla satélites de clase FASat-Echo y microsatélites SNSAT construidos en el **Centro Espacial Nacional**. Los primeros lanzamientos se proyectan para 2027 [@infodefensa2026snsat].
 
 ::: {.callout-note}
