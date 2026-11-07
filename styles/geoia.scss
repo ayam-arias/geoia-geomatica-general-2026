@@ -3,55 +3,65 @@
 //  Tema GeoIAN — Ian Franco Arias Carrasco
 //  Paleta oficial de marca (LinkedIn · Instagram · GitHub · web)
 // =====================================================
-$geoia-navy:  #1B2A4A;   // títulos / texto principal
-$geoia-amber: #E8772A;   // acento principal: enlaces, botones, CTA
-$geoia-cyan:  #21A9D8;   // acento técnico: código, datos, íconos
-$geoia-bg:    #EEF1F5;   // fondo gris perla azulado
-$geoia-card:  #FFFFFF;   // tarjetas
-$geoia-muted: #5A6780;   // texto secundario
+$geoia-navy:  #1B2A4A !default;   // títulos / texto principal
+$geoia-amber: #E8772A !default;   // acento principal: enlaces, botones, CTA
+$geoia-cyan:  #21A9D8 !default;   // acento técnico: código, datos, íconos
+$geoia-bg:    #EEF1F5 !default;   // fondo gris perla azulado
+$geoia-card:  #FFFFFF !default;   // tarjetas
+$geoia-muted: #5A6780 !default;   // texto secundario
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
 
-$font-family-sans-serif: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-$font-family-monospace: "JetBrains Mono", ui-monospace, monospace;
+$font-family-sans-serif: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif !default;
+$font-family-monospace: "JetBrains Mono", ui-monospace, monospace !default;
 
-$body-bg:      $geoia-bg;
-$body-color:   $geoia-navy;
-$primary:      $geoia-amber;
-$secondary:    $geoia-muted;
-$info:         $geoia-cyan;
-$link-color:   darken($geoia-amber, 8%);
-$headings-color: $geoia-navy;
-$headings-font-weight: 700;
+$body-bg:      $geoia-bg !default;
+$body-color:   $geoia-navy !default;
+$primary:      $geoia-amber !default;
+$secondary:    $geoia-muted !default;
+$info:         $geoia-cyan !default;
+$link-color:   darken($geoia-amber, 8%) !default;
+$headings-color: $geoia-navy !default;
+$headings-font-weight: 700 !default;
 
-$navbar-bg: $geoia-navy;
-$navbar-fg: #ffffff;
-$sidebar-bg: $geoia-card;
-$sidebar-fg: $geoia-navy;
-$sidebar-hl: $geoia-amber;
-$footer-bg: $geoia-navy;
-$footer-fg: #dfe6f0;
+$navbar-bg: $geoia-navy !default;
+$navbar-fg: #ffffff !default;
+$sidebar-bg: $geoia-card !default;
+$sidebar-fg: $geoia-navy !default;
+$sidebar-hl: $geoia-amber !default;
+$footer-bg: $geoia-navy !default;
+$footer-fg: #dfe6f0 !default;
 
-$code-color: darken($geoia-cyan, 18%);
-$code-bg: #e7f5fb;
-$code-block-bg: #f6f9fc;
-$code-block-border-color: $geoia-cyan;
-$code-block-border-left: 4px;
+$code-color: darken($geoia-cyan, 18%) !default;
+$code-bg: #e7f5fb !default;
+$code-block-bg: #f6f9fc !default;
+$code-block-border-color: $geoia-cyan !default;
+$code-block-border-left: 4px !default;
 
-$callout-color-note: $geoia-cyan;
-$callout-color-tip: #2E9E6B;
-$callout-color-warning: $geoia-amber;
-$callout-color-important: $geoia-navy;
-$callout-color-caution: #C8463C;
+$callout-color-note: $geoia-cyan !default;
+$callout-color-tip: #2E9E6B !default;
+$callout-color-warning: $geoia-amber !default;
+$callout-color-important: $geoia-navy !default;
+$callout-color-caution: #C8463C !default;
 
-$border-radius: 12px;
+$border-radius: 12px !default;
+
+// Variables semánticas (el tema oscuro las redefine)
+$geoia-heading: $geoia-navy !default;
+$geoia-text:    $geoia-navy !default;
+$geoia-link:    darken($geoia-amber, 8%) !default;
+$geoia-tag-fg:  darken($geoia-cyan, 20%) !default;
+$geoia-shadow:  rgba(27, 42, 74, 0.10) !default;
+$geoia-texture: "%231B2A4A" !default;
+$geoia-texture-opacity: 0.045 !default;
+$geoia-zebra:   rgba($geoia-bg, .6) !default;
 
 /*-- scss:rules --*/
 
 // Textura sutil de curvas de nivel (SVG en línea) — identidad GeoIA
 body {
   background-color: $geoia-bg;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='%231B2A4A' stroke-opacity='0.045' stroke-width='1.2'%3E%3Cpath d='M-20 120 C120 60 220 180 360 110 S560 40 640 120'/%3E%3Cpath d='M-20 170 C110 110 230 230 370 160 S560 90 640 170'/%3E%3Cpath d='M-20 220 C100 160 240 280 380 210 S560 140 640 220'/%3E%3Cpath d='M-20 330 C140 290 200 400 340 350 S540 260 640 330'/%3E%3Cpath d='M-20 380 C130 340 210 450 350 400 S540 310 640 380'/%3E%3Cpath d='M-20 490 C150 450 260 560 400 500 S560 450 640 490'/%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='#{$geoia-texture}' stroke-opacity='#{$geoia-texture-opacity}' stroke-width='1.2'%3E%3Cpath d='M-20 120 C120 60 220 180 360 110 S560 40 640 120'/%3E%3Cpath d='M-20 170 C110 110 230 230 370 160 S560 90 640 170'/%3E%3Cpath d='M-20 220 C100 160 240 280 380 210 S560 140 640 220'/%3E%3Cpath d='M-20 330 C140 290 200 400 340 350 S540 260 640 330'/%3E%3Cpath d='M-20 380 C130 340 210 450 350 400 S540 310 640 380'/%3E%3Cpath d='M-20 490 C150 450 260 560 400 500 S560 450 640 490'/%3E%3C/g%3E%3C/svg%3E");
   background-attachment: fixed;
 }
 
@@ -59,7 +69,7 @@ body {
 main.content, #quarto-content main {
   background: $geoia-card;
   border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(27, 42, 74, 0.10);
+  box-shadow: 0 4px 16px $geoia-shadow;
   padding: 1.5rem 2rem 2rem;
   margin-top: 1rem;
   margin-bottom: 2rem;
@@ -68,25 +78,25 @@ main.content, #quarto-content main {
   main.content, #quarto-content main { padding: 1rem; border-radius: 10px; }
 }
 
-h1, .h1, .title { color: $geoia-navy; letter-spacing: -0.01em; font-weight: 800; }
+h1, .h1, .title { color: $geoia-heading; letter-spacing: -0.01em; font-weight: 800; }
 h2, .h2 {
-  color: $geoia-navy;
+  color: $geoia-heading;
   border-bottom: 2px solid rgba($geoia-amber, .35);
   padding-bottom: .25rem;
 }
-h3, .h3 { color: $geoia-navy; }
+h3, h4, h5, h6, .h3 { color: $geoia-heading; }
 .subtitle { color: $geoia-muted; }
 .chapter-number { color: $geoia-amber; }
 
-a { color: darken($geoia-amber, 8%); text-decoration-color: rgba($geoia-amber, .4); }
+a { color: $geoia-link; text-decoration-color: rgba($geoia-amber, .4); }
 a:hover { color: $geoia-amber; }
 
 // Barra lateral
-.sidebar-navigation .sidebar-item-text { color: $geoia-navy; }
+.sidebar-navigation .sidebar-item-text { color: $geoia-text; }
 .sidebar nav[role=doc-toc] ul > li > a.active,
 .sidebar-navigation .sidebar-link.active .menu-text { color: $geoia-amber !important; font-weight: 600; }
 .sidebar-item-section > .sidebar-item-container .menu-text { font-weight: 700; }
-.sidebar-title { color: $geoia-navy; font-weight: 800; }
+.sidebar-title { color: $geoia-heading; font-weight: 800; }
 
 // Código: acento técnico cian
 div.sourceCode { border-radius: 10px; }
@@ -95,13 +105,13 @@ pre.sourceCode { border-left: 4px solid $geoia-cyan; }
 // Tablas
 table { font-size: .93rem; }
 thead th { background: $geoia-navy; color: #fff; border-color: $geoia-navy !important; }
-tbody tr:nth-child(even) { background: rgba($geoia-bg, .6); }
+tbody tr:nth-child(even) { background: $geoia-zebra; }
 
 // Tarjetas utilitarias para usar en el texto: ::: {.geoia-card}
 .geoia-card {
   background: $geoia-card;
   border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(27, 42, 74, 0.10);
+  box-shadow: 0 4px 16px $geoia-shadow;
   padding: 1rem 1.25rem;
   border-top: 4px solid $geoia-amber;
   margin: 1rem 0;
@@ -109,7 +119,7 @@ tbody tr:nth-child(even) { background: rgba($geoia-bg, .6); }
 .geoia-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
 .geoia-tag {
   display: inline-block; padding: .1rem .55rem; border-radius: 999px;
-  background: rgba($geoia-cyan, .12); color: darken($geoia-cyan, 20%);
+  background: rgba($geoia-cyan, .12); color: $geoia-tag-fg;
   font-size: .8rem; font-weight: 600; margin-right: .25rem;
 }
 .geoia-cta {
