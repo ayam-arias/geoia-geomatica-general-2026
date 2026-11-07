@@ -33,5 +33,5 @@ Entre 2024 y 2026 cambiaron varias piezas fundamentales del trabajo geomático e
 Este libro no reproduce textos de terceros. Las obras clásicas, como *Teledetección ambiental* de Chuvieco [-@chuvieco2010] o *Remote Sensing and Image Interpretation* de Lillesand et al. [-@lillesand2015], se citan y recomiendan en el [Apéndice D](83-lecturas-recomendadas.qmd) para que el estudiante las consulte en la biblioteca o adquiera una copia legal.
 :::
 
-*Ian Arias Carrasco*
+*Ian Franco Arias Carrasco*
 *Santiago de Chile, octubre de 2026*

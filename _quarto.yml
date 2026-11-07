@@ -1,6 +1,6 @@
 # =====================================================================
-#  Geomática General · Chile 2026 — GeoIA
-#  Autor: Ian Arias Carrasco
+#  Geomática General · Chile 2026 — GeoIAN
+#  Autor: Ian Franco Arias Carrasco
 #  Quarto book · publicado en GitHub Pages mediante GitHub Actions
 # =====================================================================
 project:
@@ -12,13 +12,17 @@ project:
 
 lang: es
 
+language:
+  title-block-author-single: "Autor"
+  title-block-author-plural: "Autor"
+
 book:
   title: "Geomática General · Chile 2026"
   subtitle: "Geodesia, GNSS, teledetección, cartografía y GeoIA con datos y marcos de referencia chilenos"
-  author: "Ian Arias Carrasco"
+  author: "Ian Franco Arias Carrasco"
   date: today
   date-format: "D [de] MMMM [de] YYYY"
-  favicon: images/marca/geoia-favicon.svg
+  favicon: images/marca/geoian-favicon.svg
   repo-url: https://github.com/ayam-arias/geoia-geomatica-general-2026
   repo-actions: [edit, issue, source]
   site-url: https://ayam-arias.github.io/geoia-geomatica-general-2026
@@ -27,9 +31,9 @@ book:
   sidebar:
     style: docked
     background: light
-    logo: images/marca/geoia-logo.svg
+    logo: images/marca/geoian-logo.svg
   page-footer:
-    left: "© 2026 Ian Arias · Análisis Geoespacial · GeoIA · Contenido CC BY 4.0 · Código MIT"
+    left: "© 2026 Ian Franco Arias Carrasco · Análisis Geoespacial · GeoIAN · Contenido CC BY 4.0 · Código MIT"
     right:
       - icon: github
         href: https://github.com/ayam-arias

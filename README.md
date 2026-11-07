@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/marca/geoia-portada.svg" alt="Geomática General · Chile 2026 — GeoIA" width="760">
+  <img src="images/marca/geoia-portada.svg" alt="Geomática General · Chile 2026 — GeoIAN" width="760">
 </p>
 
 <h1 align="center">Geomática General · Chile 2026</h1>
@@ -81,7 +81,7 @@ Activa: **Settings → Pages → Source: Deploy from a branch → `gh-pages` / r
 
 ## ✍️ Autor
 
-**Ian Arias Carrasco** — Geomático y docente · RPAS DGAC · GeoIA
-Ian Arias · Análisis Geoespacial · [GitHub](https://github.com/ayam-arias) · [LinkedIn](https://www.linkedin.com/in/ian-arias/) · [Instagram @_geoia.n](https://www.instagram.com/_geoia.n/)
+**Ian Franco Arias Carrasco** — Geomático y docente · RPAS DGAC
+GeoIAN · Análisis Geoespacial · [GitHub](https://github.com/ayam-arias) · [LinkedIn](https://www.linkedin.com/in/ian-arias/) · [Instagram @_geoia.n](https://www.instagram.com/_geoia.n/)
 
 > Cómo citar: Arias Carrasco, I. (2026). *Geomática General · Chile 2026* [Libro en línea]. GitHub. https://github.com/ayam-arias/geoia-geomatica-general-2026

@@ -80,6 +80,6 @@ Las versiones de software, el estado de los satélites y los marcos geodésicos 
 
 ---
 
-**Autor:** Ian Arias Carrasco · Geomático y docente · RPAS DGAC
-**Marca:** Ian Arias · Análisis Geoespacial · GeoIA · [GitHub](https://github.com/ayam-arias) · [LinkedIn](https://www.linkedin.com/in/ian-arias/) · [Instagram \@_geoia.n](https://www.instagram.com/_geoia.n/)
+**Autor:** Ian Franco Arias Carrasco · Geomático y docente · RPAS DGAC
+**Marca:** GeoIAN · Análisis Geoespacial · [GitHub](https://github.com/ayam-arias) · [LinkedIn](https://www.linkedin.com/in/ian-arias/) · [Instagram \@_geoia.n](https://www.instagram.com/_geoia.n/)
 **Licencia:** contenido CC BY 4.0 · código MIT

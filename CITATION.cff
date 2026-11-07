@@ -4,7 +4,7 @@ title: "Geomática General · Chile 2026"
 type: software
 authors:
   - family-names: "Arias Carrasco"
-    given-names: "Ian"
+    given-names: "Ian Franco"
 date-released: 2026-10-26
 version: "2026.1"
 license: CC-BY-4.0
@@ -16,6 +16,6 @@ preferred-citation:
   title: "Geomática General · Chile 2026"
   authors:
     - family-names: "Arias Carrasco"
-      given-names: "Ian"
+      given-names: "Ian Franco"
   year: 2026
   url: "https://ayam-arias.github.io/geoia-geomatica-general-2026"
